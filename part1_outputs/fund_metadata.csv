@@ -1,0 +1,11 @@
+index,display_name,short_name,source_file,date_format,price_column,raw_rows,usable_rows,raw_start,raw_end,common_sample_start,common_sample_end,common_price_observations,common_return_observations
+1,Nikko AM Singapore STI ETF,Nikko STI ETF,1 Nikko AM Singapore STI ETF Stock Price History.csv,MM/DD/YYYY,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+2,Lion-OCBC Hang Seng TECH ETF,Lion-OCBC HSTECH ETF,2 Lion-OCBC Hang Seng TECH ETFStock Price History.csv,MM/DD/YYYY,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+3,ABF SG Bond Index Fund,ABF SG Bond,3 ABF SG Bond Index FundPrice History.csv,MM/DD/YYYY,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+4,Fidelity Global Technology A-ACC-USD,Fidelity Global Tech,4 Fidelity Global Technology A-ACC-USD Historical Data.csv,YY-Mon,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+5,PIMCO Income Fund Cl E Inc SGD-H,PIMCO Income SGD-H,5 PIMCO Income Fund Cl E Inc SGD-H Historical Data.csv,Mon YY,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+6,JPMorgan US Technology A (acc) SGD,JPM US Tech SGD,6 JPMorgan US Technology A (acc) SGD Historical Data.csv,D-Mon-YY,Close,49,49,2022-03,2026-03,2022-03,2026-03,49,48
+7,Schroder Asian Growth A Dis SGD,Schroder Asian Growth,7 Schroder Asian Growth A Dis SGD Historical Data.csv,YY-Mon,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48
+8,BlackRock World Gold Fund A2 SGD-H,BlackRock World Gold,8 BlackRock World Gold Fund A2 SGD-H Historical Data.csv,D-Mon-YY,Close,49,49,2022-03,2026-03,2022-03,2026-03,49,48
+9,FTIF - Franklin India A (acc) SGD,Franklin India SGD,9 FTIF - Franklin India A (acc) SGD Historical Data.csv,D-Mon-YY,Close,49,49,2022-03,2026-03,2022-03,2026-03,49,48
+10,United SGD Fund - Class A SGD Acc,United SGD Fund,10 United SGD Fund - Class A SGD Acc Historical Data.csv,YY-Mon,Price,60,60,2021-04,2026-03,2022-03,2026-03,49,48

@@ -1,0 +1,9 @@
+id,dimension,weight,selected_score,selected_label,weighted_contribution
+investment_horizon,Time horizon,1,4,5 to 10 years,4
+income_resilience,Financial resilience,1,4,Stable income and at least 6 months of reserves,4
+liquidity_need,Liquidity,1,3,Possible but not planned,3
+loss_tolerance,Loss tolerance,2,3,10% to 20%,6
+drawdown_reaction,Behavior under stress,2,3,Hold and review carefully,6
+return_objective,Investment objective,1,4,Seek long-term growth and accept sizable swings,4
+investment_experience,Investment experience,1,3,Some experience across several products,3
+balance_sheet_strength,Balance sheet strength,1,4,Low debt relative to income,4

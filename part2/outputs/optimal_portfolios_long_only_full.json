@@ -1,0 +1,3622 @@
+[
+  {
+    "risk_aversion_a": 1.0,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703624,
+    "variance": 0.1125925845329328,
+    "risk": 0.335548185113454,
+    "utility": 0.23577058800389597,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.4467950042543356e-16,
+      "Fidelity Global Tech": 1.942890293094024e-16,
+      "PIMCO Income SGD-H": 1.1054232161342511e-16,
+      "JPM US Tech SGD": 2.529510901494291e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.05,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703623,
+    "variance": 0.1125925845329328,
+    "risk": 0.335548185113454,
+    "utility": 0.2329557733905726,
+    "weights": {
+      "Nikko STI ETF": 9.48954592859588e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.0,
+      "PIMCO Income SGD-H": 1.0954177278785747e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 4.687044543029283e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.1,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.29206688027036226,
+    "variance": 0.11259258453293278,
+    "risk": 0.33554818511345397,
+    "utility": 0.23014095877724922,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 6.053252803862342e-17,
+      "Fidelity Global Tech": 1.8041124150158794e-16,
+      "PIMCO Income SGD-H": 1.0873043262223944e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 9.57089881273105e-18,
+      "BlackRock World Gold": 0.9999999999999999,
+      "Franklin India SGD": 4.5751214530301266e-17,
+      "United SGD Fund": 9.538024470306682e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.15,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703623,
+    "variance": 0.1125925845329328,
+    "risk": 0.335548185113454,
+    "utility": 0.22732614416392596,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.4362375410347898e-16,
+      "ABF SG Bond": 4.2426492725606795e-17,
+      "Fidelity Global Tech": 0.0,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 4.9783669474629974e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.2,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703623,
+    "variance": 0.11259258453293278,
+    "risk": 0.33554818511345397,
+    "utility": 0.22451132955060266,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 3.593936992923061e-17,
+      "ABF SG Bond": 1.5400353841168691e-18,
+      "Fidelity Global Tech": 1.6653345369377348e-16,
+      "PIMCO Income SGD-H": 5.445159890521331e-17,
+      "JPM US Tech SGD": 2.849410737106301e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.9999999999999999,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.25,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703623,
+    "variance": 0.1125925845329328,
+    "risk": 0.335548185113454,
+    "utility": 0.22169651493727932,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.0,
+      "PIMCO Income SGD-H": 9.347747164917907e-17,
+      "JPM US Tech SGD": 1.5654034137035065e-16,
+      "Schroder Asian Growth": 1.7923233825823203e-17,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.7913531825705523e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.3,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703623,
+    "variance": 0.1125925845329328,
+    "risk": 0.335548185113454,
+    "utility": 0.21888170032395599,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.398420800220276e-17,
+      "Fidelity Global Tech": 0.0,
+      "PIMCO Income SGD-H": 1.012690459170648e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 7.983481720477453e-17,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 6.485014370413159e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.35,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2920668802703624,
+    "variance": 0.11259258453293282,
+    "risk": 0.335548185113454,
+    "utility": 0.2160668857106327,
+    "weights": {
+      "Nikko STI ETF": 8.933825554132095e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 4.718447854656915e-16,
+      "PIMCO Income SGD-H": 1.1633910620984042e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 1.0,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.4,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2911057444438032,
+    "variance": 0.11121398133530706,
+    "risk": 0.33348760297094565,
+    "utility": 0.21325595750908827,
+    "weights": {
+      "Nikko STI ETF": 6.299543771959401e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.423845151222526e-17,
+      "Fidelity Global Tech": 0.007041422810500707,
+      "PIMCO Income SGD-H": 6.664830307925802e-18,
+      "JPM US Tech SGD": 2.7031742583751254e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.9929585771894993,
+      "Franklin India SGD": 1.6024717063150352e-17,
+      "United SGD Fund": 1.4728448894939808e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.45,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.28700753742446117,
+    "variance": 0.10546034097706979,
+    "risk": 0.3247465796233577,
+    "utility": 0.21054879021608558,
+    "weights": {
+      "Nikko STI ETF": 4.4190191971886694e-17,
+      "Lion-OCBC HSTECH ETF": 2.3016920241666907e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.03706549182419892,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 8.540790665314017e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.9629345081758008,
+      "Franklin India SGD": 7.746134156059095e-17,
+      "United SGD Fund": 2.97516448947851e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.5,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2831825392168504,
+    "variance": 0.10027241267332862,
+    "risk": 0.31665819533580464,
+    "utility": 0.20797822971185392,
+    "weights": {
+      "Nikko STI ETF": 1.5892701858937317e-17,
+      "Lion-OCBC HSTECH ETF": 2.449240610105922e-16,
+      "ABF SG Bond": 7.049336103294142e-17,
+      "Fidelity Global Tech": 0.06508799279122342,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 7.26822969869003e-17,
+      "BlackRock World Gold": 0.9349120072087763,
+      "Franklin India SGD": 3.778278954955595e-17,
+      "United SGD Fund": 5.708439661444631e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.55,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2796043345118725,
+    "variance": 0.09557842390618619,
+    "risk": 0.30915760366872136,
+    "utility": 0.20553105598457821,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.1965346441851835e-18,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.09130244816167175,
+      "PIMCO Income SGD-H": 5.2708372835339515e-17,
+      "JPM US Tech SGD": 3.254068408573414e-17,
+      "Schroder Asian Growth": 3.2236683571108324e-17,
+      "BlackRock World Gold": 0.9086975518383283,
+      "Franklin India SGD": 2.4533101046769275e-17,
+      "United SGD Fund": 1.3995350489998873e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.6,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.27624975344334585,
+    "variance": 0.09131756489928573,
+    "risk": 0.30218796286299315,
+    "utility": 0.20319570152391725,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.1991661367223962e-16,
+      "Fidelity Global Tech": 0.11587860379220417,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 4.2571093493216994e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.8841213962077961,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 3.491232178618582e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.65,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2730984949107066,
+    "variance": 0.08743817450752664,
+    "risk": 0.29569946653236734,
+    "utility": 0.20096200094199712,
+    "weights": {
+      "Nikko STI ETF": 1.0389356156042549e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.13896518853949125,
+      "PIMCO Income SGD-H": 5.560399466218756e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.8610348114605089,
+      "Franklin India SGD": 3.260350858006473e-17,
+      "United SGD Fund": 7.423295212826784e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.7,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2701325840543036,
+    "variance": 0.08389599914749804,
+    "risk": 0.28964806083849076,
+    "utility": 0.1988209847789303,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.1606938888762102,
+      "PIMCO Income SGD-H": 1.3090723152833904e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.277532407843891e-17,
+      "BlackRock World Gold": 0.8393061111237899,
+      "Franklin India SGD": 1.8876395630305342e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.75,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2673361605095037,
+    "variance": 0.08065308783262551,
+    "risk": 0.28399487289848296,
+    "utility": 0.19676470865595638,
+    "weights": {
+      "Nikko STI ETF": 5.056480336396957e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.1685363668726733e-16,
+      "Fidelity Global Tech": 0.18118090017269686,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.818819099827303,
+      "Franklin India SGD": 1.7089587288781726e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.8,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.26469509767338556,
+    "variance": 0.07767665196701912,
+    "risk": 0.27870531384783304,
+    "utility": 0.19478611090306835,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 8.355165380981089e-17,
+      "Fidelity Global Tech": 0.2005297160052989,
+      "PIMCO Income SGD-H": 1.121262395867717e-16,
+      "JPM US Tech SGD": 2.7756493988249086e-18,
+      "Schroder Asian Growth": 1.2438613415787869e-17,
+      "BlackRock World Gold": 0.799470283994701,
+      "Franklin India SGD": 1.2086332083829202e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 1.85,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.26219679478846714,
+    "variance": 0.0749382719074856,
+    "risk": 0.273748555991599,
+    "utility": 0.19287889327404295,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.21883265138164829,
+      "PIMCO Income SGD-H": 4.335681368115476e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.7811673486183522,
+      "Franklin India SGD": 9.447897328329847e-18,
+      "United SGD Fund": 4.3461940865465404e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.9,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2598299775070431,
+    "variance": 0.07241321790642069,
+    "risk": 0.26909704180169036,
+    "utility": 0.19103742049594347,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.23617230383573398,
+      "PIMCO Income SGD-H": 6.381109231332489e-17,
+      "JPM US Tech SGD": 1.773766667158726e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.7638276961642663,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.2966460196632615e-17
+    }
+  },
+  {
+    "risk_aversion_a": 1.95,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2575845365039358,
+    "variance": 0.07007989869886244,
+    "risk": 0.26472608239246553,
+    "utility": 0.18925663527254494,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.1082079796011306e-16,
+      "ABF SG Bond": 6.705428506791666e-17,
+      "Fidelity Global Tech": 0.25262273577469996,
+      "PIMCO Income SGD-H": 9.226732743390584e-18,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 5.2708077452317153e-17,
+      "BlackRock World Gold": 0.7473772642252998,
+      "Franklin India SGD": 1.3184558590596598e-17,
+      "United SGD Fund": 1.0579391035005104e-16
+    }
+  },
+  {
+    "risk_aversion_a": 2.0,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.255451370476505,
+    "variance": 0.06791938443926007,
+    "risk": 0.26061347708677707,
+    "utility": 0.18753198603724494,
+    "weights": {
+      "Nikko STI ETF": 5.049597964775032e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.2682506246839193,
+      "PIMCO Income SGD-H": 2.991346361685564e-17,
+      "JPM US Tech SGD": 4.7882072594169023e-17,
+      "Schroder Asian Growth": 4.229418914028921e-17,
+      "BlackRock World Gold": 0.7317493753160805,
+      "Franklin India SGD": 4.548127591003461e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.05,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.25342226083732367,
+    "variance": 0.06591502005717523,
+    "risk": 0.25673920631094743,
+    "utility": 0.18585936527871905,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.227614904733265e-16,
+      "Fidelity Global Tech": 0.28311618114693177,
+      "PIMCO Income SGD-H": 8.233921334787144e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.9406891344784344e-17,
+      "BlackRock World Gold": 0.7168838188530682,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 1.2280945591339424e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.1,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2514897731418661,
+    "variance": 0.06405211091873185,
+    "risk": 0.2530851851032214,
+    "utility": 0.18423505667719764,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.29727387100073915,
+      "PIMCO Income SGD-H": 7.847378294355164e-17,
+      "JPM US Tech SGD": 1.0942689302189783e-16,
+      "Schroder Asian Growth": 1.325557465625974e-17,
+      "BlackRock World Gold": 0.7027261289992608,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.15,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.249647170210203,
+    "variance": 0.062317656365699615,
+    "risk": 0.24963504634906458,
+    "utility": 0.1826556896170759,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 6.804449805864633e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3107730518190818,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.6892269481809186,
+      "Franklin India SGD": 5.57104592405468e-17,
+      "United SGD Fund": 4.985396832157964e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.2,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2478883225551925,
+    "variance": 0.06070011150258484,
+    "risk": 0.24637392618250992,
+    "utility": 0.18111819990234918,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 8.497219162691015e-17,
+      "Fidelity Global Tech": 0.32365862912871557,
+      "PIMCO Income SGD-H": 1.3233599464496672e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.6763413708712847,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.25,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2462076450391291,
+    "variance": 0.05918919940367815,
+    "risk": 0.24328830511078445,
+    "utility": 0.17961979570999118,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.230455933321605e-17,
+      "ABF SG Bond": 5.47237635402632e-18,
+      "Fidelity Global Tech": 0.3359715204721501,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.3940887236747075e-17,
+      "BlackRock World Gold": 0.6640284795278502,
+      "Franklin India SGD": 1.483297945035556e-17,
+      "United SGD Fund": 6.239768772503676e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.3,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.24460003985180917,
+    "variance": 0.05777574945009907,
+    "risk": 0.24036586581729752,
+    "utility": 0.17815792798419525,
+    "weights": {
+      "Nikko STI ETF": 3.3604416768042466e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 4.548949176136078e-17,
+      "Fidelity Global Tech": 0.3477490731587446,
+      "PIMCO Income SGD-H": 7.787547849750879e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 5.0500562964909034e-17,
+      "BlackRock World Gold": 0.6522509268412555,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.35,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.24306084607460196,
+    "variance": 0.05645155869321492,
+    "risk": 0.2375953675752432,
+    "utility": 0.1767302646100744,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.2948750128202018e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.359025433765765,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.1628251675338341e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.6409745662342349,
+      "Franklin India SGD": 9.047832502353391e-17,
+      "United SGD Fund": 1.063796097282346e-16
+    }
+  },
+  {
+    "risk_aversion_a": 2.4,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2415857822642861,
+    "variance": 0.05520926204053085,
+    "risk": 0.23496651259388188,
+    "utility": 0.17533466781564908,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 5.053289942393551e-17,
+      "ABF SG Bond": 1.788928920293472e-16,
+      "Fidelity Global Tech": 0.36983196877766444,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 3.78498295139869e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.6301680312223352,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 6.971578130882446e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.45,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.24017092588037517,
+    "variance": 0.054042246154642766,
+    "risk": 0.23246988225282597,
+    "utility": 0.17396917434093778,
+    "weights": {
+      "Nikko STI ETF": 3.2344420428321974e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.0991705791839016e-17,
+      "Fidelity Global Tech": 0.38019741530453005,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.3383714751471338e-17,
+      "BlackRock World Gold": 0.61980258469547,
+      "Franklin India SGD": 9.743864936547992e-17,
+      "United SGD Fund": 1.255567123196309e-16
+    }
+  },
+  {
+    "risk_aversion_a": 2.5,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.23881266234603268,
+    "variance": 0.052944547487419974,
+    "risk": 0.2300968219846158,
+    "utility": 0.17263197798675772,
+    "weights": {
+      "Nikko STI ETF": 1.0077219165670827e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3901482542693314,
+      "PIMCO Income SGD-H": 1.2506371433445923e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.8186325921741706e-18,
+      "BlackRock World Gold": 0.6098517457306689,
+      "Franklin India SGD": 2.4521250798902487e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.55,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2375076667637791,
+    "variance": 0.05191078631150749,
+    "risk": 0.22783938709430265,
+    "utility": 0.17132141421660707,
+    "weights": {
+      "Nikko STI ETF": 9.237753856068354e-17,
+      "Lion-OCBC HSTECH ETF": 3.856942225192702e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.39970884436134685,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 2.411058585125054e-16,
+      "Schroder Asian Growth": 3.820151776284883e-18,
+      "BlackRock World Gold": 0.600291155638653,
+      "Franklin India SGD": 2.773141772423212e-17,
+      "United SGD Fund": 3.0200029022783957e-18
+    }
+  },
+  {
+    "risk_aversion_a": 2.6,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.23625285894498355,
+    "variance": 0.050936086469023374,
+    "risk": 0.225690244514519,
+    "utility": 0.17003594653525317,
+    "weights": {
+      "Nikko STI ETF": 6.688369710039234e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.2499929313010084e-16,
+      "Fidelity Global Tech": 0.4089017514967441,
+      "PIMCO Income SGD-H": 9.669952150054147e-17,
+      "JPM US Tech SGD": 1.782608397162125e-16,
+      "Schroder Asian Growth": 7.97545578475647e-17,
+      "BlackRock World Gold": 0.5910982485032555,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.65,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.23504540857863504,
+    "variance": 0.050016040882465404,
+    "risk": 0.22364266337723981,
+    "utility": 0.16877415440936838,
+    "weights": {
+      "Nikko STI ETF": 1.461139074959088e-16,
+      "Lion-OCBC HSTECH ETF": 6.707373102435541e-17,
+      "ABF SG Bond": 7.176342453996599e-18,
+      "Fidelity Global Tech": 0.4177477109513942,
+      "PIMCO Income SGD-H": 2.6554338239103846e-17,
+      "JPM US Tech SGD": 5.312802365149346e-17,
+      "Schroder Asian Growth": 4.494865482596045e-17,
+      "BlackRock World Gold": 0.5822522890486054,
+      "Franklin India SGD": 2.6769325336518848e-17,
+      "United SGD Fund": 1.3647741012575703e-18
+    }
+  },
+  {
+    "risk_aversion_a": 2.7,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2338826778393691,
+    "variance": 0.04914663356226211,
+    "risk": 0.22169040024832404,
+    "utility": 0.16753472253031526,
+    "weights": {
+      "Nikko STI ETF": 1.132848284201613e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4262660478229371,
+      "PIMCO Income SGD-H": 8.28552302242067e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5737339521770634,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.75,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2327622278492691,
+    "variance": 0.04832421570982014,
+    "risk": 0.2198276955022277,
+    "utility": 0.1663164312482664,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4344746296906628,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 3.0455594264921576e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5655253703093371,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 3.0636178115884874e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.8,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2316817882922014,
+    "variance": 0.04754545732925836,
+    "risk": 0.218049208504086,
+    "utility": 0.1651181480312397,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4423900892253887,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 6.440920575108046e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5576099107746115,
+      "Franklin India SGD": 5.028165818316517e-17,
+      "United SGD Fund": 3.7377562692312405e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.85,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.23063926384040628,
+    "variance": 0.0468073291348947,
+    "risk": 0.21635001533370574,
+    "utility": 0.16393881982318131,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.450027777107294,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 5.1986031514107754e-17,
+      "BlackRock World Gold": 0.5499722228927066,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 2.9,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.22963268744720314,
+    "variance": 0.046107049141110565,
+    "risk": 0.21472552046999574,
+    "utility": 0.1627774661925928,
+    "weights": {
+      "Nikko STI ETF": 2.916282948295678e-16,
+      "Lion-OCBC HSTECH ETF": 1.4657345321517607e-16,
+      "ABF SG Bond": 6.002622053191689e-17,
+      "Fidelity Global Tech": 0.4574021042104522,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5425978957895479,
+      "Franklin India SGD": 9.954890826724263e-17,
+      "United SGD Fund": 4.7966703352918317e-17
+    }
+  },
+  {
+    "risk_aversion_a": 2.95,
+    "profile_label": "Aggressive Growth",
+    "expected_return": 0.2286602326492217,
+    "variance": 0.04544207421783979,
+    "risk": 0.2131714667065923,
+    "utility": 0.16163317317790798,
+    "weights": {
+      "Nikko STI ETF": 8.561580532561251e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.46452645147487726,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 6.444150342156718e-17,
+      "Schroder Asian Growth": 5.3833061918711745e-17,
+      "BlackRock World Gold": 0.5354735485251227,
+      "Franklin India SGD": 2.5253911097955395e-17,
+      "United SGD Fund": 4.714099759698851e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.0,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22772019489639947,
+    "variance": 0.044810071432045226,
+    "risk": 0.21168389507009083,
+    "utility": 0.16050508774833164,
+    "weights": {
+      "Nikko STI ETF": 1.5293671085601538e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 8.683620426325885e-17,
+      "Fidelity Global Tech": 0.471413306685707,
+      "PIMCO Income SGD-H": 3.444354243549647e-17,
+      "JPM US Tech SGD": 7.617045537282691e-17,
+      "Schroder Asian Growth": 2.1590461863308594e-17,
+      "BlackRock World Gold": 0.5285866933142929,
+      "Franklin India SGD": 1.590730166216854e-17,
+      "United SGD Fund": 9.717242461171303e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.05,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22681097183677448,
+    "variance": 0.04420889116541663,
+    "risk": 0.21025910483357582,
+    "utility": 0.1593924128095141,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 1.0771924168492484e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4780744089097256,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 8.792379539223112e-17,
+      "Schroder Asian Growth": 1.0418062049501094e-17,
+      "BlackRock World Gold": 0.5219255910902745,
+      "Franklin India SGD": 5.964723325437935e-19,
+      "United SGD Fund": 1.875244365574505e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.1,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22593108551767094,
+    "variance": 0.043636569564595516,
+    "risk": 0.2088936800494345,
+    "utility": 0.15829440269254788,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 2.4116727734837376e-16,
+      "ABF SG Bond": 5.455302956851186e-17,
+      "Fidelity Global Tech": 0.4845205858461978,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5154794141538019,
+      "Franklin India SGD": 5.89569968849996e-17,
+      "United SGD Fund": 6.262712785140373e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.15,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22507912848337486,
+    "variance": 0.04309128216558223,
+    "risk": 0.2075843976930401,
+    "utility": 0.15721035907258285,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4907621487232542,
+      "PIMCO Income SGD-H": 1.592964473288402e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5092378512767463,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.2,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22425379633977238,
+    "variance": 0.042571355668562794,
+    "risk": 0.20632827161725267,
+    "utility": 0.1561396272700719,
+    "weights": {
+      "Nikko STI ETF": 5.155233782428429e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4968086537245369,
+      "PIMCO Income SGD-H": 4.548883955740608e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.5031913462754635,
+      "Franklin India SGD": 1.875225280484789e-17,
+      "United SGD Fund": 2.6097049428488987e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.25,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22345385648273003,
+    "variance": 0.04207523913187057,
+    "risk": 0.20512249786864084,
+    "utility": 0.15508159289344037,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 2.1343020560894948e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5026691310897095,
+      "PIMCO Income SGD-H": 1.221221811313568e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.310694543347722e-17,
+      "BlackRock World Gold": 0.4973308689102906,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.3,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22267815882734987,
+    "variance": 0.04160150305477786,
+    "risk": 0.2039644651766034,
+    "utility": 0.1540356787869664,
+    "weights": {
+      "Nikko STI ETF": 2.419913035270405e-16,
+      "Lion-OCBC HSTECH ETF": 3.684247853237253e-17,
+      "ABF SG Bond": 1.9081632073404455e-17,
+      "Fidelity Global Tech": 0.5083520065103446,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.9807436621736695e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.49164799348965477,
+      "Franklin India SGD": 4.220507962012272e-17,
+      "United SGD Fund": 5.207737801448829e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.35,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2219256185918277,
+    "variance": 0.04114882169542763,
+    "risk": 0.20285172342237476,
+    "utility": 0.15300134225198642,
+    "weights": {
+      "Nikko STI ETF": 2.7723779084887685e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.8452040093549085e-17,
+      "Fidelity Global Tech": 0.5138652272579225,
+      "PIMCO Income SGD-H": 1.859662206698742e-18,
+      "JPM US Tech SGD": 4.6355076803737297e-17,
+      "Schroder Asian Growth": 2.419607534461941e-18,
+      "BlackRock World Gold": 0.4861347727420773,
+      "Franklin India SGD": 1.2534617479866742e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.4,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22119520991510827,
+    "variance": 0.0407159631775418,
+    "risk": 0.20178196940644078,
+    "utility": 0.1519780725132872,
+    "weights": {
+      "Nikko STI ETF": 1.883733500061518e-16,
+      "Lion-OCBC HSTECH ETF": 2.723753365312549e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5192163089418216,
+      "PIMCO Income SGD-H": 1.2302335408777344e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.2207583498304204e-16,
+      "BlackRock World Gold": 0.48078369105817825,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.45,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.22048597099506048,
+    "variance": 0.040301787008259315,
+    "risk": 0.20075304981060516,
+    "utility": 0.15096538840581314,
+    "weights": {
+      "Nikko STI ETF": 1.3295777828623284e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5244122978662987,
+      "PIMCO Income SGD-H": 7.474146595406757e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 8.30592940338661e-17,
+      "BlackRock World Gold": 0.4755877021337011,
+      "Franklin India SGD": 1.3286694967576572e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.5,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21979699940638842,
+    "variance": 0.039905236083847793,
+    "risk": 0.1997629497275403,
+    "utility": 0.14996283625965479,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 2.3560343995187137e-17,
+      "ABF SG Bond": 7.427077339099924e-18,
+      "Fidelity Global Tech": 0.5294598053321593,
+      "PIMCO Income SGD-H": 1.0825103220878594e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.4705401946678409,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 8.077143322002764e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.55,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2191274335880748,
+    "variance": 0.039525321478481396,
+    "risk": 0.19880976203014125,
+    "utility": 0.1489699879637703,
+    "weights": {
+      "Nikko STI ETF": 4.995697870946066e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5343651432624743,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.834938609592616e-17,
+      "BlackRock World Gold": 0.465634856737526,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.6,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21847646516614513,
+    "variance": 0.03916112554171113,
+    "risk": 0.19789170154837502,
+    "utility": 0.14798643919106508,
+    "weights": {
+      "Nikko STI ETF": 1.936294897608098e-16,
+      "Lion-OCBC HSTECH ETF": 3.6899223725537877e-17,
+      "ABF SG Bond": 8.461423695142732e-17,
+      "Fidelity Global Tech": 0.5391342339241971,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 2.126789594724348e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.46086576607580254,
+      "Franklin India SGD": 2.5120162285239555e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.65,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2178433345540389,
+    "variance": 0.03881179549845758,
+    "risk": 0.19700709504598451,
+    "utility": 0.14701180776935382,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.543772642160494,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 6.500759171553234e-17,
+      "Schroder Asian Growth": 2.167471905933958e-17,
+      "BlackRock World Gold": 0.4562273578395061,
+      "Franklin India SGD": 1.7028057064362592e-17,
+      "United SGD Fund": 1.0885172773549657e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.7,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21722731470977508,
+    "variance": 0.03847653109479365,
+    "risk": 0.19615435527867756,
+    "utility": 0.1460457321844068,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.128805732665937e-18,
+      "Fidelity Global Tech": 0.5482856943881368,
+      "PIMCO Income SGD-H": 5.615766844127758e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.3937683940733845e-17,
+      "BlackRock World Gold": 0.4517143056118632,
+      "Franklin India SGD": 4.423615901684959e-19,
+      "United SGD Fund": 7.038344061438984e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.75,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21662772190670715,
+    "variance": 0.03815458757544188,
+    "risk": 0.19533199322036798,
+    "utility": 0.14508787020275363,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5526783996893735,
+      "PIMCO Income SGD-H": 1.2043608048413652e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 6.547117678325727e-17,
+      "BlackRock World Gold": 0.44732160031062657,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 3.8,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2160439080576444,
+    "variance": 0.037845268660227825,
+    "risk": 0.194538604549914,
+    "utility": 0.14413789760321155,
+    "weights": {
+      "Nikko STI ETF": 1.7378267372321497e-17,
+      "Lion-OCBC HSTECH ETF": 4.728644365243398e-17,
+      "ABF SG Bond": 2.736358981438164e-17,
+      "Fidelity Global Tech": 0.55695550604654,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.841434138886263e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.44304449395345996,
+      "Franklin India SGD": 8.885600907131402e-18,
+      "United SGD Fund": 4.207588740281671e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.85,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2154753757428558,
+    "variance": 0.0375479837588364,
+    "risk": 0.19377302123576542,
+    "utility": 0.14319550700709574,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.1255067992603542e-16,
+      "Fidelity Global Tech": 0.5611206576299445,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.43887934237005566,
+      "Franklin India SGD": 6.716640615571294e-17,
+      "United SGD Fund": 5.132912889354864e-17
+    }
+  },
+  {
+    "risk_aversion_a": 3.9,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21492118491173737,
+    "variance": 0.037261937493523446,
+    "risk": 0.19303351391280077,
+    "utility": 0.14226040679936663,
+    "weights": {
+      "Nikko STI ETF": 2.886847840440797e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5651807413889472,
+      "PIMCO Income SGD-H": 8.758249532089356e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.4348192586110532,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.9694168996757654e-18
+    }
+  },
+  {
+    "risk_aversion_a": 3.95,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21438114478971143,
+    "variance": 0.0369867466634682,
+    "risk": 0.19231938712326482,
+    "utility": 0.14133232012936175,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 6.063175144826031e-17,
+      "ABF SG Bond": 8.181453628731511e-17,
+      "Fidelity Global Tech": 0.5691371549662371,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 6.665808860722634e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.43086284503376293,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.0,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21385460448806928,
+    "variance": 0.03672181024924909,
+    "risk": 0.19162935643906204,
+    "utility": 0.1404109839895711,
+    "weights": {
+      "Nikko STI ETF": 5.811089478793894e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5729946668684871,
+      "PIMCO Income SGD-H": 1.5595482627767013e-16,
+      "JPM US Tech SGD": 4.570151612669796e-17,
+      "Schroder Asian Growth": 8.626326430382393e-17,
+      "BlackRock World Gold": 0.42700533313151284,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.05,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2133410628524186,
+    "variance": 0.036466624440524106,
+    "risk": 0.190962363937306,
+    "utility": 0.13949614836035729,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.169031672625221e-17,
+      "Fidelity Global Tech": 0.5767569486266841,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.3811713865233885e-17,
+      "BlackRock World Gold": 0.4232430513733161,
+      "Franklin India SGD": 3.2943029420252404e-17,
+      "United SGD Fund": 5.713389800436405e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.1,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2128400508279879,
+    "variance": 0.0362207197121099,
+    "risk": 0.19031741830980656,
+    "utility": 0.13858757541816263,
+    "weights": {
+      "Nikko STI ETF": 8.853251820849821e-17,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5804274366052578,
+      "PIMCO Income SGD-H": 1.2018272227888992e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.4195725633947424,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.15,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2123511047379986,
+    "variance": 0.03598364623479183,
+    "risk": 0.1896935587593628,
+    "utility": 0.13768503880080551,
+    "weights": {
+      "Nikko STI ETF": 1.1618369610307825e-16,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5840095277686689,
+      "PIMCO Income SGD-H": 4.30256180753272e-17,
+      "JPM US Tech SGD": 2.958875459189516e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.415990472231331,
+      "Franklin India SGD": 1.974368054125984e-17,
+      "United SGD Fund": 2.875447953798466e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.2,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21187380361076946,
+    "variance": 0.03575499080262533,
+    "risk": 0.18908990137663442,
+    "utility": 0.13678832292525628,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 4.845317279716983e-17,
+      "Fidelity Global Tech": 0.5875063062175396,
+      "PIMCO Income SGD-H": 7.343846132048633e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.4124936937824607,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.25,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21140773455390216,
+    "variance": 0.035534358682509856,
+    "risk": 0.188505593239325,
+    "utility": 0.13589722235356871,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 2.494522208038157e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5909207968624701,
+      "PIMCO Income SGD-H": 5.126721854825352e-17,
+      "JPM US Tech SGD": 5.954021867948888e-17,
+      "Schroder Asian Growth": 4.4710647386860463e-17,
+      "BlackRock World Gold": 0.4090792031375299,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.3,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21095250374422514,
+    "variance": 0.03532137792612804,
+    "risk": 0.1879398252796039,
+    "utility": 0.13501154120304987,
+    "weights": {
+      "Nikko STI ETF": 1.3930381321675638e-16,
+      "Lion-OCBC HSTECH ETF": 9.217606092990185e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5942558849100955,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 5.5251827569366094e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.40574411508990427,
+      "Franklin India SGD": 3.5844785469186716e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.35,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2105077369591906,
+    "variance": 0.03511569855727946,
+    "risk": 0.18739183161834846,
+    "utility": 0.13413109259710776,
+    "weights": {
+      "Nikko STI ETF": 0.0,
+      "Lion-OCBC HSTECH ETF": 9.880903624230165e-19,
+      "ABF SG Bond": 1.0974198248351214e-17,
+      "Fidelity Global Tech": 0.5975143119699918,
+      "PIMCO Income SGD-H": 1.4554454886356867e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.40248568803000834,
+      "Franklin India SGD": 1.1235955612078187e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.4,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.21007308070984534,
+    "variance": 0.034916992071047454,
+    "risk": 0.1868608896239324,
+    "utility": 0.13325569815354094,
+    "weights": {
+      "Nikko STI ETF": 6.061059695835763e-17,
+      "Lion-OCBC HSTECH ETF": 1.502997431150236e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.6006986677543594,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.1466891511898246e-16,
+      "Schroder Asian Growth": 5.4360745119520617e-17,
+      "BlackRock World Gold": 0.39930133224564074,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.45,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.2091591748332639,
+    "variance": 0.03450449716820211,
+    "risk": 0.18575386178543396,
+    "utility": 0.13238666863401422,
+    "weights": {
+      "Nikko STI ETF": 0.005587032213304752,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5992957672326099,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.0507443710689596e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.39511720055408545,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.5,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20784668997061667,
+    "variance": 0.033917893427215726,
+    "risk": 0.18416811186309026,
+    "utility": 0.13153142975938129,
+    "weights": {
+      "Nikko STI ETF": 0.015838061008949963,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 6.884853201872404e-17,
+      "Fidelity Global Tech": 0.5940525301003517,
+      "PIMCO Income SGD-H": 1.153658874160357e-17,
+      "JPM US Tech SGD": 4.332912338384648e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3901094088906983,
+      "Franklin India SGD": 2.55465136891897e-18,
+      "United SGD Fund": 1.6105484459093267e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.55,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20656306531034885,
+    "variance": 0.033350528221375145,
+    "risk": 0.1826212699040699,
+    "utility": 0.1306906136067204,
+    "weights": {
+      "Nikko STI ETF": 0.02586448127414389,
+      "Lion-OCBC HSTECH ETF": 4.1131919918668824e-17,
+      "ABF SG Bond": 9.173112708879896e-17,
+      "Fidelity Global Tech": 0.5889234251777001,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 4.918550918116271e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.38521209354815594,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.6,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20530734806464396,
+    "variance": 0.03280156443265056,
+    "risk": 0.18111202177837493,
+    "utility": 0.12986374986954768,
+    "weights": {
+      "Nikko STI ETF": 0.03567173014083044,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 7.49674980296891e-17,
+      "Fidelity Global Tech": 0.5839075516968927,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3804207181622769,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.65,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20407863575263535,
+    "variance": 0.03227021388494662,
+    "risk": 0.17963912125410383,
+    "utility": 0.12905038847013445,
+    "weights": {
+      "Nikko STI ETF": 0.045268122250386296,
+      "Lion-OCBC HSTECH ETF": 1.7548828601214594e-17,
+      "ABF SG Bond": 1.393572486140665e-16,
+      "Fidelity Global Tech": 0.5789994694322357,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3757324083173781,
+      "Franklin India SGD": 7.994127549596636e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.7,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20287609783482002,
+    "variance": 0.03175574440520088,
+    "risk": 0.17820141527272135,
+    "utility": 0.12825009848259794,
+    "weights": {
+      "Nikko STI ETF": 0.05465950627906604,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 6.340549829966791e-17,
+      "Fidelity Global Tech": 0.5741967854801971,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.220608358311337e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3711437082407369,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 5.244489196219726e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.75,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20169881323750294,
+    "variance": 0.03125740888893444,
+    "risk": 0.17679764955715457,
+    "utility": 0.12746246712628365,
+    "weights": {
+      "Nikko STI ETF": 0.06385577516282209,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 8.97958685625597e-17,
+      "Fidelity Global Tech": 0.5694919081172942,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.3554591798877738e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3666523167198835,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 5.651245005403082e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.8,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.20054608766657134,
+    "variance": 0.030774578686858435,
+    "risk": 0.17542684710972387,
+    "utility": 0.12668709881811108,
+    "weights": {
+      "Nikko STI ETF": 0.07285887098622051,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.510206805395214e-17,
+      "Fidelity Global Tech": 0.5648871088254919,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 3.188316716759912e-17,
+      "Schroder Asian Growth": 2.8043990334169e-17,
+      "BlackRock World Gold": 0.36225402018828756,
+      "Franklin India SGD": 1.0963920353876779e-16,
+      "United SGD Fund": 9.679924284957666e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.85,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.1994171259975815,
+    "variance": 0.030306602766486633,
+    "risk": 0.17408791677335517,
+    "utility": 0.1259236142888514,
+    "weights": {
+      "Nikko STI ETF": 0.08167638245423167,
+      "Lion-OCBC HSTECH ETF": 3.96792584141277e-18,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5603772131027882,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.3190441746941273e-16,
+      "Schroder Asian Growth": 6.061590116700427e-17,
+      "BlackRock World Gold": 0.35794640444298,
+      "Franklin India SGD": 2.3650853953234574e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 4.9,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.19831120992592122,
+    "variance": 0.02985288170472112,
+    "risk": 0.17277986487065303,
+    "utility": 0.12517164974935446,
+    "weights": {
+      "Nikko STI ETF": 0.09031390218960496,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5559593769415642,
+      "PIMCO Income SGD-H": 4.8874224573046757e-17,
+      "JPM US Tech SGD": 2.87552862516258e-17,
+      "Schroder Asian Growth": 6.307441429640988e-17,
+      "BlackRock World Gold": 0.35372672086883084,
+      "Franklin India SGD": 3.821516196479864e-17,
+      "United SGD Fund": 1.2980038762843305e-17
+    }
+  },
+  {
+    "risk_aversion_a": 4.95,
+    "profile_label": "Moderate Growth",
+    "expected_return": 0.19722765172557388,
+    "variance": 0.0294128467138996,
+    "risk": 0.1715017396818458,
+    "utility": 0.12443085610867237,
+    "weights": {
+      "Nikko STI ETF": 0.09877541691413967,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 3.448101721682806e-17,
+      "Fidelity Global Tech": 0.5516328600374691,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.34959172304839164,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.0,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.19616571531547722,
+    "variance": 0.02898592682984208,
+    "risk": 0.17025253839470963,
+    "utility": 0.12370089824087202,
+    "weights": {
+      "Nikko STI ETF": 0.1070707491683052,
+      "Lion-OCBC HSTECH ETF": 1.7860536725804177e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5473888174207826,
+      "PIMCO Income SGD-H": 3.7871266588213395e-17,
+      "JPM US Tech SGD": 5.535021497127951e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3455404334109122,
+      "Franklin India SGD": 7.564004218980902e-19,
+      "United SGD Fund": 6.073268583460696e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.05,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1951248451085431,
+    "variance": 0.02857163992801713,
+    "risk": 0.16903147614576738,
+    "utility": 0.12298145429029986,
+    "weights": {
+      "Nikko STI ETF": 0.11520032941137158,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5432306954609396,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.341568975127689,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.1,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.19410438379609585,
+    "variance": 0.0281694779496785,
+    "risk": 0.16783765355151536,
+    "utility": 0.12227221502441568,
+    "weights": {
+      "Nikko STI ETF": 0.12317024617205517,
+      "Lion-OCBC HSTECH ETF": 1.0910250228756378e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5391544844776864,
+      "PIMCO Income SGD-H": 5.189813219474461e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 7.96892831941582e-17,
+      "BlackRock World Gold": 0.3376752693502586,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 4.848840106557242e-18
+    }
+  },
+  {
+    "risk_aversion_a": 5.15,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.19310372855854044,
+    "variance": 0.027778969063752684,
+    "risk": 0.16667024048627482,
+    "utility": 0.12157288321937727,
+    "weights": {
+      "Nikko STI ETF": 0.13098536710314185,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5351575452349738,
+      "PIMCO Income SGD-H": 1.3550833090174297e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.70009402349096e-17,
+      "BlackRock World Gold": 0.33385708766188466,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.2,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.19212231979222297,
+    "variance": 0.027399671811190844,
+    "risk": 0.16552846223894804,
+    "utility": 0.12088317308312677,
+    "weights": {
+      "Nikko STI ETF": 0.1386505815496216,
+      "Lion-OCBC HSTECH ETF": 1.1078513323728445e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5312368904479067,
+      "PIMCO Income SGD-H": 5.888234236132994e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 6.692407316256227e-17,
+      "BlackRock World Gold": 0.3301125280024718,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.25,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.19115972768156558,
+    "variance": 0.027031206846049708,
+    "risk": 0.164411699237158,
+    "utility": 0.1202028097106851,
+    "weights": {
+      "Nikko STI ETF": 0.14616864012995237,
+      "Lion-OCBC HSTECH ETF": 4.396948029197073e-17,
+      "ABF SG Bond": 4.0078210932284475e-17,
+      "Fidelity Global Tech": 0.5273916820333449,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.2051584773534185e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.32643967783670286,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.3,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1902150571352581,
+    "variance": 0.02667302964678031,
+    "risk": 0.16331879759164378,
+    "utility": 0.11953152857129028,
+    "weights": {
+      "Nikko STI ETF": 0.1535471924011972,
+      "Lion-OCBC HSTECH ETF": 7.552103406071979e-17,
+      "ABF SG Bond": 3.479611347320666e-18,
+      "Fidelity Global Tech": 0.5236173896572022,
+      "PIMCO Income SGD-H": 2.8238384395563865e-17,
+      "JPM US Tech SGD": 3.595231344620878e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3228354179416005,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.35,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18928826437053098,
+    "variance": 0.026324930597383386,
+    "risk": 0.1622495935199327,
+    "utility": 0.11886907502253043,
+    "weights": {
+      "Nikko STI ETF": 0.16078544177744888,
+      "Lion-OCBC HSTECH ETF": 2.1994057508405163e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5199154887164568,
+      "PIMCO Income SGD-H": 3.389063525259181e-17,
+      "JPM US Tech SGD": 7.817182366915212e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3192990695060943,
+      "Franklin India SGD": 6.68029474511049e-17,
+      "United SGD Fund": 5.91703335633964e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.4,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18837845919723484,
+    "variance": 0.025986390867914322,
+    "risk": 0.16120294931518567,
+    "utility": 0.11821520385386616,
+    "weights": {
+      "Nikko STI ETF": 0.16789140516401557,
+      "Lion-OCBC HSTECH ETF": 1.2928602687121288e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5162808805052579,
+      "PIMCO Income SGD-H": 8.079254360795693e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 6.775331841792423e-17,
+      "BlackRock World Gold": 0.3158277143307265,
+      "Franklin India SGD": 3.946411204552511e-17,
+      "United SGD Fund": 6.991579353226446e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.45,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18748538798245734,
+    "variance": 0.02565714096500609,
+    "risk": 0.16017846598405822,
+    "utility": 0.11756967885281575,
+    "weights": {
+      "Nikko STI ETF": 0.17486666899422912,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5127131236671449,
+      "PIMCO Income SGD-H": 8.153115633796268e-18,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.2918099478575334e-17,
+      "BlackRock World Gold": 0.3124202073386263,
+      "Franklin India SGD": 5.274241228492033e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.5,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18660860946040858,
+    "variance": 0.025336849841362655,
+    "risk": 0.1591755315410087,
+    "utility": 0.11693227239666128,
+    "weights": {
+      "Nikko STI ETF": 0.1817144919892928,
+      "Lion-OCBC HSTECH ETF": 1.1962535140998157e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.509210727518485,
+      "PIMCO Income SGD-H": 3.830923556150307e-17,
+      "JPM US Tech SGD": 9.517230431613797e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.30907478049222203,
+      "Franklin India SGD": 5.061821247188416e-17,
+      "United SGD Fund": 7.772326678402177e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.55,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1857475822670019,
+    "variance": 0.025025159351965726,
+    "risk": 0.1581934238581545,
+    "utility": 0.116302765065297,
+    "weights": {
+      "Nikko STI ETF": 0.188439420175782,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.085864474644491e-16,
+      "Fidelity Global Tech": 0.5057710687829262,
+      "PIMCO Income SGD-H": 3.3072401425544157e-17,
+      "JPM US Tech SGD": 7.924353210566563e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.3057895110412915,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 3.594701949028844e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.6,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18490212265203124,
+    "variance": 0.02472184906329698,
+    "risk": 0.1572318322201232,
+    "utility": 0.1156809452747997,
+    "weights": {
+      "Nikko STI ETF": 0.19504224953431737,
+      "Lion-OCBC HSTECH ETF": 7.203761106513648e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.5023943398809797,
+      "PIMCO Income SGD-H": 5.0882116174513076e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 6.093046802779084e-17,
+      "BlackRock World Gold": 0.302563410584703,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.65,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18407128842013726,
+    "variance": 0.02442643521711548,
+    "risk": 0.1562895876797795,
+    "utility": 0.11506660893178602,
+    "weights": {
+      "Nikko STI ETF": 0.20153175720968358,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.49907472115022605,
+      "PIMCO Income SGD-H": 4.3722146671372475e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2993935216400904,
+      "Franklin India SGD": 1.926872900061445e-17,
+      "United SGD Fund": 9.77171089270451e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.7,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18325520649751736,
+    "variance": 0.02413882364726401,
+    "risk": 0.15536673919235097,
+    "utility": 0.11445955910281494,
+    "weights": {
+      "Nikko STI ETF": 0.20790555778673375,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.2367019843091687e-16,
+      "Fidelity Global Tech": 0.4958147403299855,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.0520996237845665e-17,
+      "BlackRock World Gold": 0.2962797018832808,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.75,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1824534891911478,
+    "variance": 0.023858742082187794,
+    "risk": 0.15446275305777699,
+    "utility": 0.11385960570485788,
+    "weights": {
+      "Nikko STI ETF": 0.21416669556726337,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4926128250519875,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2932204793807494,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.8,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1816652482902436,
+    "variance": 0.023585752786191093,
+    "risk": 0.15357653722555115,
+    "utility": 0.11326656521028944,
+    "weights": {
+      "Nikko STI ETF": 0.22032354515517039,
+      "Lion-OCBC HSTECH ETF": 3.0249240612345574e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4894633436311427,
+      "PIMCO Income SGD-H": 4.3274913275222204e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.417763747114248e-17,
+      "BlackRock World Gold": 0.2902131112136871,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 6.463369607318664e-17
+    }
+  },
+  {
+    "risk_aversion_a": 5.85,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18089062511055315,
+    "variance": 0.02331978281918886,
+    "risk": 0.15270816225463804,
+    "utility": 0.11268026036442574,
+    "weights": {
+      "Nikko STI ETF": 0.22637366152303884,
+      "Lion-OCBC HSTECH ETF": 6.04462828193166e-17,
+      "ABF SG Bond": 1.1107169507125242e-16,
+      "Fidelity Global Tech": 0.4863688047937856,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 9.993453530383846e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2872575336831756,
+      "Franklin India SGD": 2.47650199162292e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 5.9,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.18012923783785123,
+    "variance": 0.0230605823443181,
+    "risk": 0.1518571116027106,
+    "utility": 0.11210051992211283,
+    "weights": {
+      "Nikko STI ETF": 0.23231979812502665,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.48332801468148695,
+      "PIMCO Income SGD-H": 3.5405977195229754e-18,
+      "JPM US Tech SGD": 6.885361421640757e-17,
+      "Schroder Asian Growth": 6.584834131954931e-17,
+      "BlackRock World Gold": 0.28435218719348615,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 1.1421731073955887e-16
+    }
+  },
+  {
+    "risk_aversion_a": 5.95,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17938062721081416,
+    "variance": 0.022807881955156695,
+    "risk": 0.15102278621173923,
+    "utility": 0.11152717839422299,
+    "weights": {
+      "Nikko STI ETF": 0.2381664155782439,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 7.771527291058206e-17,
+      "Fidelity Global Tech": 0.48033787232053515,
+      "PIMCO Income SGD-H": 1.260215618924948e-17,
+      "JPM US Tech SGD": 8.340564025023645e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2814957121012207,
+      "Franklin India SGD": 1.0880815833839291e-16,
+      "United SGD Fund": 1.230840516314169e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.0,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17864429456337724,
+    "variance": 0.02256140625168609,
+    "risk": 0.1502045480392857,
+    "utility": 0.11096007580831897,
+    "weights": {
+      "Nikko STI ETF": 0.24391815921999332,
+      "Lion-OCBC HSTECH ETF": 6.525573589382652e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.47739529767333133,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.128735163210598e-17,
+      "Schroder Asian Growth": 9.446873757432486e-17,
+      "BlackRock World Gold": 0.27868654310667496,
+      "Franklin India SGD": 9.588169440946344e-17,
+      "United SGD Fund": 1.3020198712455e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.05,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17792027403961508,
+    "variance": 0.0223210633257256,
+    "risk": 0.14940235381588068,
+    "utility": 0.11039905747929514,
+    "weights": {
+      "Nikko STI ETF": 0.24957298709157427,
+      "Lion-OCBC HSTECH ETF": 1.5479527111072339e-19,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4745030003803363,
+      "PIMCO Income SGD-H": 1.7470689811830385e-17,
+      "JPM US Tech SGD": 4.342568513983347e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2759240125280894,
+      "Franklin India SGD": 8.349627277559266e-17,
+      "United SGD Fund": 1.460070925247232e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.1,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1772081960622955,
+    "variance": 0.0220866302517521,
+    "risk": 0.1486157133406562,
+    "utility": 0.10984397379445159,
+    "weights": {
+      "Nikko STI ETF": 0.2551346266317282,
+      "Lion-OCBC HSTECH ETF": 6.501655496534559e-17,
+      "ABF SG Bond": 3.8043637792979645e-17,
+      "Fidelity Global Tech": 0.47165828515874,
+      "PIMCO Income SGD-H": 1.7255755201464607e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.096583048572271e-17,
+      "BlackRock World Gold": 0.27320708820953205,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.15,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17650774494317661,
+    "variance": 0.021857907296563457,
+    "risk": 0.14784419940113802,
+    "utility": 0.10929468000624398,
+    "weights": {
+      "Nikko STI ETF": 0.26060531910500284,
+      "Lion-OCBC HSTECH ETF": 1.0793910253451e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4688602161116792,
+      "PIMCO Income SGD-H": 1.0426975580700437e-17,
+      "JPM US Tech SGD": 1.0772565023180192e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2705344647833178,
+      "Franklin India SGD": 2.954789733201901e-17,
+      "United SGD Fund": 6.58856107692285e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.2,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17581825412841373,
+    "variance": 0.021634586481034515,
+    "risk": 0.1470870031003233,
+    "utility": 0.10875103603720673,
+    "weights": {
+      "Nikko STI ETF": 0.26599033243038656,
+      "Lion-OCBC HSTECH ETF": 4.4872205655507e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4661060407504516,
+      "PIMCO Income SGD-H": 7.950950045110348e-17,
+      "JPM US Tech SGD": 8.803552233992845e-17,
+      "Schroder Asian Growth": 5.207156219069493e-17,
+      "BlackRock World Gold": 0.2679036268191611,
+      "Franklin India SGD": 7.235747188184339e-17,
+      "United SGD Fund": 1.8517993111551124e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.25,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17514000581008562,
+    "variance": 0.02141667184613824,
+    "risk": 0.14634436048627988,
+    "utility": 0.10821290629090362,
+    "weights": {
+      "Nikko STI ETF": 0.27128764409533473,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 8.125025903682947e-17,
+      "Fidelity Global Tech": 0.463396623292383,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.683435864543758e-18,
+      "Schroder Asian Growth": 1.5251145852668898e-17,
+      "BlackRock World Gold": 0.26531573261228225,
+      "Franklin India SGD": 1.6051486108705805e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.3,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1744725231295371,
+    "variance": 0.02120392496918933,
+    "risk": 0.14561567556135338,
+    "utility": 0.10768015947659071,
+    "weights": {
+      "Nikko STI ETF": 0.2765008878633689,
+      "Lion-OCBC HSTECH ETF": 5.845861412946598e-17,
+      "ABF SG Bond": 3.135885377324871e-17,
+      "Fidelity Global Tech": 0.4607301901948501,
+      "PIMCO Income SGD-H": 9.982876206455008e-17,
+      "JPM US Tech SGD": 4.1715631498445444e-17,
+      "Schroder Asian Growth": 7.028266467754398e-17,
+      "BlackRock World Gold": 0.26276892194178086,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.35,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17381555833282958,
+    "variance": 0.02099618579352307,
+    "risk": 0.14490060660163942,
+    "utility": 0.10715266843839383,
+    "weights": {
+      "Nikko STI ETF": 0.28163196928891415,
+      "Lion-OCBC HSTECH ETF": 3.1098814658441637e-18,
+      "ABF SG Bond": 5.339907457727923e-18,
+      "Fidelity Global Tech": 0.45810579447047706,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.0436314118943916e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2602622362406088,
+      "Franklin India SGD": 4.168249133438412e-17,
+      "United SGD Fund": 2.5388965561000398e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.4,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17316885813904867,
+    "variance": 0.020793296295308926,
+    "risk": 0.1441988082312365,
+    "utility": 0.1066303099940601,
+    "weights": {
+      "Nikko STI ETF": 0.28668289495953986,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.0336046593812688e-16,
+      "Fidelity Global Tech": 0.4555223831774724,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 8.341008717320953e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.25779472186298774,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.1660750043660595e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.45,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17253217744091362,
+    "variance": 0.020595104700765702,
+    "risk": 0.14350994634786016,
+    "utility": 0.10611296478094423,
+    "weights": {
+      "Nikko STI ETF": 0.2916555442825978,
+      "Lion-OCBC HSTECH ETF": 1.1601196179655392e-16,
+      "ABF SG Bond": 1.29949253668913e-16,
+      "Fidelity Global Tech": 0.4529790278383983,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.655730672878516e-17,
+      "BlackRock World Gold": 0.2553654278790039,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.724947342964447e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.5,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17190535621995157,
+    "variance": 0.020401488957199933,
+    "risk": 0.1428337808685324,
+    "utility": 0.10560051710905179,
+    "weights": {
+      "Nikko STI ETF": 0.2965511243793184,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.45047515107015157,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2529737245505304,
+      "Franklin India SGD": 7.085261197192771e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.55,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1712880732291551,
+    "variance": 0.020212280429973528,
+    "risk": 0.14216989987326265,
+    "utility": 0.10509285482099179,
+    "weights": {
+      "Nikko STI ETF": 0.3013722609120383,
+      "Lion-OCBC HSTECH ETF": 5.2664273495536124e-17,
+      "ABF SG Bond": 8.191570929601613e-17,
+      "Fidelity Global Tech": 0.44800930052203874,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.25061843856592314,
+      "Franklin India SGD": 1.4619788669609224e-18,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.6,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17068011980575853,
+    "variance": 0.020027348681118506,
+    "risk": 0.14151801539421935,
+    "utility": 0.10458986915806746,
+    "weights": {
+      "Nikko STI ETF": 0.30612057403133563,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.44558065650708795,
+      "PIMCO Income SGD-H": 5.3860284017059196e-17,
+      "JPM US Tech SGD": 1.4577691132130685e-16,
+      "Schroder Asian Growth": 7.619908393499686e-18,
+      "BlackRock World Gold": 0.24829876946157628,
+      "Franklin India SGD": 2.53203558922728e-17,
+      "United SGD Fund": 1.275767143836537e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.65,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.17008123102278738,
+    "variance": 0.01984654929029522,
+    "risk": 0.14087778139328863,
+    "utility": 0.10409145463255577,
+    "weights": {
+      "Nikko STI ETF": 0.31079814123573923,
+      "Lion-OCBC HSTECH ETF": 1.4153920548619359e-18,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.44318814862001393,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.24601371014424692,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.7,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16949153944346002,
+    "variance": 0.01966985986221857,
+    "risk": 0.14024927758180636,
+    "utility": 0.10359750890502781,
+    "weights": {
+      "Nikko STI ETF": 0.3154035552244258,
+      "Lion-OCBC HSTECH ETF": 9.459663954936026e-18,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.44083284554213403,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.24376359923344026,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.75,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16891014533527512,
+    "variance": 0.019496951900807875,
+    "risk": 0.13963148606531364,
+    "utility": 0.10310793267004854,
+    "weights": {
+      "Nikko STI ETF": 0.3199445221960216,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4385101688404155,
+      "PIMCO Income SGD-H": 1.12334991772523e-16,
+      "JPM US Tech SGD": 5.327667831640098e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.24154530896356285,
+      "Franklin India SGD": 1.4128011928345218e-16,
+      "United SGD Fund": 3.4109699148575454e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.8,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16833755398293782,
+    "variance": 0.019327918953621903,
+    "risk": 0.1390248860946194,
+    "utility": 0.10262262954062334,
+    "weights": {
+      "Nikko STI ETF": 0.3244164803349092,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4362230290000357,
+      "PIMCO Income SGD-H": 3.115768344827581e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.458463680229817e-17,
+      "BlackRock World Gold": 0.2393604906650552,
+      "Franklin India SGD": 2.8282853625294715e-17,
+      "United SGD Fund": 8.070445218144248e-17
+    }
+  },
+  {
+    "risk_aversion_a": 6.85,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16777331845540472,
+    "variance": 0.019162572995592694,
+    "risk": 0.13842894565658115,
+    "utility": 0.10214150594549974,
+    "weights": {
+      "Nikko STI ETF": 0.32882342568944806,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4339689080984645,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.345575597707699e-17,
+      "Schroder Asian Growth": 1.2564886739570291e-17,
+      "BlackRock World Gold": 0.23720766621208758,
+      "Franklin India SGD": 8.801095838445808e-18,
+      "United SGD Fund": 1.2268446383854967e-16
+    }
+  },
+  {
+    "risk_aversion_a": 6.9,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16721730255272038,
+    "variance": 0.019000820732616247,
+    "risk": 0.13784346459885666,
+    "utility": 0.10166447102519433,
+    "weights": {
+      "Nikko STI ETF": 0.3331659806039053,
+      "Lion-OCBC HSTECH ETF": 6.606772285288817e-17,
+      "ABF SG Bond": 1.2591822387292978e-16,
+      "Fidelity Global Tech": 0.4317479018790534,
+      "PIMCO Income SGD-H": 4.5926126400128164e-17,
+      "JPM US Tech SGD": 2.837983889775533e-17,
+      "Schroder Asian Growth": 2.3172280338035894e-17,
+      "BlackRock World Gold": 0.23508611751704103,
+      "Franklin India SGD": 1.2732599263126643e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 6.95,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16666920860532447,
+    "variance": 0.018842524336788808,
+    "risk": 0.13726807471800867,
+    "utility": 0.10119143653498336,
+    "weights": {
+      "Nikko STI ETF": 0.3374467743638019,
+      "Lion-OCBC HSTECH ETF": 7.719307709859978e-17,
+      "ABF SG Bond": 2.1915283444310513e-17,
+      "Fidelity Global Tech": 0.42955838000751445,
+      "PIMCO Income SGD-H": 3.5676180705403876e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.23299484562868375,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.0,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16612898130737108,
+    "variance": 0.018687618444584213,
+    "risk": 0.13670266436534517,
+    "utility": 0.10072231675132634,
+    "weights": {
+      "Nikko STI ETF": 0.3416663188615875,
+      "Lion-OCBC HSTECH ETF": 5.871555628005965e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.427400005683083,
+      "PIMCO Income SGD-H": 7.275613323242454e-17,
+      "JPM US Tech SGD": 4.5370022800476115e-17,
+      "Schroder Asian Growth": 6.02513064227705e-18,
+      "BlackRock World Gold": 0.23093367545532933,
+      "Franklin India SGD": 2.8781835440566303e-17,
+      "United SGD Fund": 1.7639143489215584e-17
+    }
+  },
+  {
+    "risk_aversion_a": 7.05,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16559640495978256,
+    "variance": 0.018535993355229808,
+    "risk": 0.13614695499800872,
+    "utility": 0.1002570283825975,
+    "weights": {
+      "Nikko STI ETF": 0.3458258463577066,
+      "Lion-OCBC HSTECH ETF": 6.5865281978494394e-18,
+      "ABF SG Bond": 5.19603891163678e-17,
+      "Fidelity Global Tech": 0.4252725730081096,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 3.962758940434519e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.22890158063418373,
+      "Franklin India SGD": 7.085261197192771e-17,
+      "United SGD Fund": 3.1929753979698106e-17
+    }
+  },
+  {
+    "risk_aversion_a": 7.1,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1650713360056198,
+    "variance": 0.018387562118931146,
+    "risk": 0.13560074527424673,
+    "utility": 0.09979549048341423,
+    "weights": {
+      "Nikko STI ETF": 0.34992677044358933,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.4246416546459528e-16,
+      "Fidelity Global Tech": 0.423175084724764,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 6.142005307130383e-17,
+      "BlackRock World Gold": 0.22689814483164664,
+      "Franklin India SGD": 1.9681657562400923e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.15,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16455354077482545,
+    "variance": 0.01824221437835108,
+    "risk": 0.13506374190859322,
+    "utility": 0.09933762437222034,
+    "weights": {
+      "Nikko STI ETF": 0.35397209217037306,
+      "Lion-OCBC HSTECH ETF": 4.3244684786917066e-17,
+      "ABF SG Bond": 3.367411245544993e-17,
+      "Fidelity Global Tech": 0.4211049027609145,
+      "PIMCO Income SGD-H": 1.366428256554717e-17,
+      "JPM US Tech SGD": 7.969309484242085e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2249230050687124,
+      "Franklin India SGD": 3.6898343369173425e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.2,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1640432034465918,
+    "variance": 0.018099958303405897,
+    "risk": 0.13453608550647628,
+    "utility": 0.09888335355433056,
+    "weights": {
+      "Nikko STI ETF": 0.3579575280946817,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 2.115867126417561e-17,
+      "Fidelity Global Tech": 0.41906688657217217,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.0226969926030016e-17,
+      "BlackRock World Gold": 0.22297558533314635,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 1.3041872167992869e-17
+    }
+  },
+  {
+    "risk_aversion_a": 7.25,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16353946742627423,
+    "variance": 0.01796051414689062,
+    "risk": 0.13401684277317766,
+    "utility": 0.09843260364379573,
+    "weights": {
+      "Nikko STI ETF": 0.3618913911573284,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.41705526222855016,
+      "PIMCO Income SGD-H": 1.6424815880208138e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.6129343332184927e-17,
+      "BlackRock World Gold": 0.2210533466141216,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 8.692082698134179e-17
+    }
+  },
+  {
+    "risk_aversion_a": 7.3,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16304295111015354,
+    "variance": 0.01782401337448717,
+    "risk": 0.13350660423547284,
+    "utility": 0.09798530229327537,
+    "weights": {
+      "Nikko STI ETF": 0.3657691040885258,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4150721339437021,
+      "PIMCO Income SGD-H": 6.444523124242256e-17,
+      "JPM US Tech SGD": 7.155861393346417e-17,
+      "Schroder Asian Growth": 3.9128686998412404e-18,
+      "BlackRock World Gold": 0.21915876196777206,
+      "Franklin India SGD": 2.4475440527386635e-17,
+      "United SGD Fund": 1.0803481725754974e-17
+    }
+  },
+  {
+    "risk_aversion_a": 7.35,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16255312864388416,
+    "variance": 0.017690271978234712,
+    "risk": 0.13300478178710234,
+    "utility": 0.09754137912387159,
+    "weights": {
+      "Nikko STI ETF": 0.36959471850231085,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.4955340771664015e-16,
+      "Fidelity Global Tech": 0.4131154814573294,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 6.199857657427851e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.21728980004035972,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 1.8738528727280622e-16
+    }
+  },
+  {
+    "risk_aversion_a": 7.4,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.16206989789671114,
+    "variance": 0.017559224929104764,
+    "risk": 0.13251122567203416,
+    "utility": 0.09710076565902351,
+    "weights": {
+      "Nikko STI ETF": 0.3733689062380465,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 6.297944072719899e-17,
+      "Fidelity Global Tech": 0.4111850791744832,
+      "PIMCO Income SGD-H": 1.5018741187766e-17,
+      "JPM US Tech SGD": 1.2245343560218606e-16,
+      "Schroder Asian Growth": 1.4551814275592066e-16,
+      "BlackRock World Gold": 0.2154460145874699,
+      "Franklin India SGD": 1.1075506356765692e-16,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.45,
+    "profile_label": "Moderately Conservative",
+    "expected_return": 0.1615931082164113,
+    "variance": 0.0174307954244487,
+    "risk": 0.13202573773491555,
+    "utility": 0.09666339526033987,
+    "weights": {
+      "Nikko STI ETF": 0.3770928540806789,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.7096513007380798e-17,
+      "Fidelity Global Tech": 0.40928031057063885,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.21362683534868213,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.2427907783988815e-16
+    }
+  },
+  {
+    "risk_aversion_a": 7.5,
+    "profile_label": "Conservative",
+    "expected_return": 0.1611228365408535,
+    "variance": 0.017304968926434974,
+    "risk": 0.13154835204758353,
+    "utility": 0.09622920306672234,
+    "weights": {
+      "Nikko STI ETF": 0.38076565006736224,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.5721217374659513e-16,
+      "Fidelity Global Tech": 0.40740193386251394,
+      "PIMCO Income SGD-H": 9.569502952371228e-17,
+      "JPM US Tech SGD": 1.2495345334600713e-16,
+      "Schroder Asian Growth": 2.246183145352635e-17,
+      "BlackRock World Gold": 0.2118324160701237,
+      "Franklin India SGD": 1.0252656200155502e-16,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.55,
+    "profile_label": "Conservative",
+    "expected_return": 0.16065854363841098,
+    "variance": 0.01718156760365972,
+    "risk": 0.13107847879671064,
+    "utility": 0.09579812593459554,
+    "weights": {
+      "Nikko STI ETF": 0.3843919783855218,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 4.008075203112624e-17,
+      "Fidelity Global Tech": 0.40554710988919773,
+      "PIMCO Income SGD-H": 6.357829302090778e-18,
+      "JPM US Tech SGD": 1.4087259055670445e-16,
+      "Schroder Asian Growth": 6.690628547066993e-17,
+      "BlackRock World Gold": 0.21006091172528027,
+      "Franklin India SGD": 1.117998787080951e-16,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.6,
+    "profile_label": "Conservative",
+    "expected_return": 0.16020063930931577,
+    "variance": 0.01706066761216314,
+    "risk": 0.13061649058278646,
+    "utility": 0.09537010238309584,
+    "weights": {
+      "Nikko STI ETF": 0.3879682575386307,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.4037180277130728,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 8.260985279629103e-17,
+      "Schroder Asian Growth": 3.781896230372044e-17,
+      "BlackRock World Gold": 0.20831371474829663,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.65,
+    "profile_label": "Conservative",
+    "expected_return": 0.15974844358668933,
+    "variance": 0.01694205779067172,
+    "risk": 0.13016166021786799,
+    "utility": 0.09494507253737,
+    "weights": {
+      "Nikko STI ETF": 0.3915000610849669,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.2420382918768708e-16,
+      "Fidelity Global Tech": 0.40191159009225985,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 4.581940024877412e-17,
+      "Schroder Asian Growth": 3.359332668810555e-18,
+      "BlackRock World Gold": 0.20658834882277358,
+      "Franklin India SGD": 4.8756910509852036e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.7,
+    "profile_label": "Conservative",
+    "expected_return": 0.15930224941001142,
+    "variance": 0.016825784761298455,
+    "risk": 0.12971424270795576,
+    "utility": 0.09452297807901237,
+    "weights": {
+      "Nikko STI ETF": 0.3949849507880372,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.3535247683944818e-16,
+      "Fidelity Global Tech": 0.4001291850919468,
+      "PIMCO Income SGD-H": 4.5028271476038606e-17,
+      "JPM US Tech SGD": 1.0484912634292631e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.204885864120016,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.75,
+    "profile_label": "Conservative",
+    "expected_return": 0.1588619003375365,
+    "variance": 0.016711777585400482,
+    "risk": 0.12927404064776687,
+    "utility": 0.09410376219410962,
+    "weights": {
+      "Nikko STI ETF": 0.3984241365703377,
+      "Lion-OCBC HSTECH ETF": 4.3995738313335614e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.39837020506501103,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.9257294055826518e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.2032056583646511,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 2.0724185713881516e-16
+    }
+  },
+  {
+    "risk_aversion_a": 7.8,
+    "profile_label": "Conservative",
+    "expected_return": 0.1584272014412786,
+    "variance": 0.01659995690155491,
+    "risk": 0.12884082001273864,
+    "utility": 0.09368736952521443,
+    "weights": {
+      "Nikko STI ETF": 0.40181927461920164,
+      "Lion-OCBC HSTECH ETF": 6.643957031673281e-17,
+      "ABF SG Bond": 1.3047610816210517e-16,
+      "Fidelity Global Tech": 0.39663367746678524,
+      "PIMCO Income SGD-H": 4.4874111479638323e-17,
+      "JPM US Tech SGD": 1.1946129171601025e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.20154704791401304,
+      "Franklin India SGD": 1.6242534389959012e-16,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.85,
+    "profile_label": "Conservative",
+    "expected_return": 0.15799799312000662,
+    "variance": 0.016490254011334207,
+    "risk": 0.12841438397365854,
+    "utility": 0.09327374612551986,
+    "weights": {
+      "Nikko STI ETF": 0.4051715679983772,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.39491902773864296,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.19990940426298023,
+      "Franklin India SGD": 9.588952946422554e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.9,
+    "profile_label": "Conservative",
+    "expected_return": 0.15757396575932658,
+    "variance": 0.016382563631824457,
+    "risk": 0.12799438906383537,
+    "utility": 0.09286283941361997,
+    "weights": {
+      "Nikko STI ETF": 0.4084834439979394,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3932250058449255,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.1982915501571357,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 7.95,
+    "profile_label": "Conservative",
+    "expected_return": 0.15715568429059168,
+    "variance": 0.016277002807075565,
+    "risk": 0.12758135760006462,
+    "utility": 0.09245459813246631,
+    "weights": {
+      "Nikko STI ETF": 0.4117502325639994,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 2.8228220000196813e-17,
+      "Fidelity Global Tech": 0.3915542421802324,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.0130585024445702e-17,
+      "BlackRock World Gold": 0.19669552525576828,
+      "Franklin India SGD": 3.094719576088312e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.0,
+    "profile_label": "Conservative",
+    "expected_return": 0.1567424272552025,
+    "variance": 0.016173363737796514,
+    "risk": 0.12717454044657098,
+    "utility": 0.09204897230401643,
+    "weights": {
+      "Nikko STI ETF": 0.41497820440263034,
+      "Lion-OCBC HSTECH ETF": 8.69957893971738e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.38990293297308526,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.0201664816730793e-17,
+      "BlackRock World Gold": 0.19511886262428468,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 1.7579237084021024e-16
+    }
+  },
+  {
+    "risk_aversion_a": 8.05,
+    "profile_label": "Conservative",
+    "expected_return": 0.15633435847793054,
+    "variance": 0.016071663424672082,
+    "risk": 0.12677406447957754,
+    "utility": 0.0916459131936254,
+    "weights": {
+      "Nikko STI ETF": 0.41816514483695577,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.38827308815613853,
+      "PIMCO Income SGD-H": 1.0352097868163157e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 9.032759349519859e-18,
+      "BlackRock World Gold": 0.19356176700690597,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 7.250602028496811e-18
+    }
+  },
+  {
+    "risk_aversion_a": 8.1,
+    "profile_label": "Conservative",
+    "expected_return": 0.15593130499013025,
+    "variance": 0.015971834992781837,
+    "risk": 0.12637972540238343,
+    "utility": 0.09124537326936381,
+    "weights": {
+      "Nikko STI ETF": 0.42131299495959107,
+      "Lion-OCBC HSTECH ETF": 4.046276389033793e-18,
+      "ABF SG Bond": 2.1302455106972026e-17,
+      "Fidelity Global Tech": 0.3866631613419162,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.3596996385799656e-17,
+      "Schroder Asian Growth": 4.9144851599694506e-17,
+      "BlackRock World Gold": 0.1920238436984927,
+      "Franklin India SGD": 7.331917191433224e-18,
+      "United SGD Fund": 1.1946467984779927e-16
+    }
+  },
+  {
+    "risk_aversion_a": 8.15,
+    "profile_label": "Conservative",
+    "expected_return": 0.15553313398829088,
+    "variance": 0.015873822778514887,
+    "risk": 0.12599135993596897,
+    "utility": 0.09084730616584272,
+    "weights": {
+      "Nikko STI ETF": 0.4244230596891293,
+      "Lion-OCBC HSTECH ETF": 4.062115905147448e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3850722340108481,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.463503759789179e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.19050470630002259,
+      "Franklin India SGD": 8.584255403948707e-18,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.2,
+    "profile_label": "Conservative",
+    "expected_return": 0.15513991065467347,
+    "variance": 0.015777620489278638,
+    "risk": 0.12560899844071138,
+    "utility": 0.09045166664863107,
+    "weights": {
+      "Nikko STI ETF": 0.4274941581554776,
+      "Lion-OCBC HSTECH ETF": 7.29659591753272e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.38350154027952604,
+      "PIMCO Income SGD-H": 6.439652684795544e-17,
+      "JPM US Tech SGD": 1.4557108231512406e-17,
+      "Schroder Asian Growth": 5.956081575208064e-17,
+      "BlackRock World Gold": 0.18900430156499623,
+      "Franklin India SGD": 4.814069404072453e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.25,
+    "profile_label": "Conservative",
+    "expected_return": 0.15475136094214398,
+    "variance": 0.015683139481918674,
+    "risk": 0.1252323419964614,
+    "utility": 0.09005841057922945,
+    "weights": {
+      "Nikko STI ETF": 0.43053000017576626,
+      "Lion-OCBC HSTECH ETF": 4.387630666777276e-19,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3819477105397846,
+      "PIMCO Income SGD-H": 2.119954060388063e-17,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 1.25076273123359e-16,
+      "BlackRock World Gold": 0.18752228928444917,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 8.091028118762528e-17
+    }
+  },
+  {
+    "risk_aversion_a": 8.3,
+    "profile_label": "Conservative",
+    "expected_return": 0.15436759924706048,
+    "variance": 0.015590386593328863,
+    "risk": 0.12486146961064035,
+    "utility": 0.0896674948847457,
+    "weights": {
+      "Nikko STI ETF": 0.43352611027355153,
+      "Lion-OCBC HSTECH ETF": 1.1314729636893988e-16,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3804163938352889,
+      "PIMCO Income SGD-H": 3.057640708822255e-17,
+      "JPM US Tech SGD": 6.405686663610646e-19,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.18605749589115975,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 6.83580999422638e-17
+    }
+  },
+  {
+    "risk_aversion_a": 8.35,
+    "profile_label": "Conservative",
+    "expected_return": 0.15398837615608849,
+    "variance": 0.015499281110181028,
+    "risk": 0.12449610881542052,
+    "utility": 0.0892788775210827,
+    "weights": {
+      "Nikko STI ETF": 0.43648797478997525,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3789014650451799,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.18461056016484492,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 3.6167671573048184e-16
+    }
+  },
+  {
+    "risk_aversion_a": 8.4,
+    "profile_label": "Conservative",
+    "expected_return": 0.1536136592431005,
+    "variance": 0.015409795665713839,
+    "risk": 0.1241361980476035,
+    "utility": 0.08889251744710237,
+    "weights": {
+      "Nikko STI ETF": 0.439414558143823,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3774046627857018,
+      "PIMCO Income SGD-H": 6.391117696917872e-17,
+      "JPM US Tech SGD": 1.0673462168351439e-17,
+      "Schroder Asian Growth": 6.63286090006425e-17,
+      "BlackRock World Gold": 0.18318077907047542,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.45,
+    "profile_label": "Conservative",
+    "expected_return": 0.15324340299041014,
+    "variance": 0.015321900212540634,
+    "risk": 0.1237816634746061,
+    "utility": 0.08850837459242597,
+    "weights": {
+      "Nikko STI ETF": 0.44230696480799864,
+      "Lion-OCBC HSTECH ETF": 5.226362691148484e-17,
+      "ABF SG Bond": 5.342236798332872e-17,
+      "Fidelity Global Tech": 0.37592471961113444,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.18176831558086698,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 3.065022600957576e-16
+    }
+  },
+  {
+    "risk_aversion_a": 8.5,
+    "profile_label": "Conservative",
+    "expected_return": 0.15287746109915762,
+    "variance": 0.015235541475080286,
+    "risk": 0.12343233561381023,
+    "utility": 0.08812640983006641,
+    "weights": {
+      "Nikko STI ETF": 0.4451644099603631,
+      "Lion-OCBC HSTECH ETF": 2.3141998910171553e-18,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3744638449150656,
+      "PIMCO Income SGD-H": 1.720323915873484e-18,
+      "JPM US Tech SGD": 4.3098942180430123e-17,
+      "Schroder Asian Growth": 3.309114202950216e-17,
+      "BlackRock World Gold": 0.18037174512457135,
+      "Franklin India SGD": 2.4389360804121917e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.55,
+    "profile_label": "Conservative",
+    "expected_return": 0.15251583179624148,
+    "variance": 0.015150701017257427,
+    "risk": 0.12308818390591937,
+    "utility": 0.08774658494746597,
+    "weights": {
+      "Nikko STI ETF": 0.44798892657600614,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.21285800684396e-16,
+      "Fidelity Global Tech": 0.3730191049241065,
+      "PIMCO Income SGD-H": 9.525880755587631e-17,
+      "JPM US Tech SGD": 6.882968553564763e-17,
+      "Schroder Asian Growth": 1.0491837128636435e-16,
+      "BlackRock World Gold": 0.1789919684998876,
+      "Franklin India SGD": 7.715453709949971e-17,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.6,
+    "profile_label": "Conservative",
+    "expected_return": 0.15215839945884035,
+    "variance": 0.015067334148270425,
+    "risk": 0.12274906984686453,
+    "utility": 0.08736886262127752,
+    "weights": {
+      "Nikko STI ETF": 0.4507806546467439,
+      "Lion-OCBC HSTECH ETF": 4.236011769218756e-18,
+      "ABF SG Bond": 3.4673293695854784e-18,
+      "Fidelity Global Tech": 0.371591143792301,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.17762820156095574,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0
+    }
+  },
+  {
+    "risk_aversion_a": 8.65,
+    "profile_label": "Conservative",
+    "expected_return": 0.15150269312555095,
+    "variance": 0.014915332100808225,
+    "risk": 0.12212834274159387,
+    "utility": 0.08699388178955537,
+    "weights": {
+      "Nikko STI ETF": 0.4493844966989611,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.01562214991106e-16,
+      "Fidelity Global Tech": 0.36948671677177997,
+      "PIMCO Income SGD-H": 7.817859993273016e-17,
+      "JPM US Tech SGD": 8.138419612161406e-17,
+      "Schroder Asian Growth": 5.84058863284994e-17,
+      "BlackRock World Gold": 0.17649361766352795,
+      "Franklin India SGD": 9.995327590779646e-17,
+      "United SGD Fund": 0.004635168865730602
+    }
+  },
+  {
+    "risk_aversion_a": 8.7,
+    "profile_label": "Conservative",
+    "expected_return": 0.15076500584829247,
+    "variance": 0.01474525902579566,
+    "risk": 0.12143005816434273,
+    "utility": 0.08662312908608136,
+    "weights": {
+      "Nikko STI ETF": 0.4467725961534823,
+      "Lion-OCBC HSTECH ETF": 9.794241969101475e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.36720156767507905,
+      "PIMCO Income SGD-H": 5.60083595712961e-17,
+      "JPM US Tech SGD": 9.891566054740994e-17,
+      "Schroder Asian Growth": 3.405411261141189e-17,
+      "BlackRock World Gold": 0.17543555295674446,
+      "Franklin India SGD": 3.147405025407529e-17,
+      "United SGD Fund": 0.010590283214693972
+    }
+  },
+  {
+    "risk_aversion_a": 8.75,
+    "profile_label": "Conservative",
+    "expected_return": 0.15003577436173474,
+    "variance": 0.01457809891281428,
+    "risk": 0.12073979837988086,
+    "utility": 0.08625659161817226,
+    "weights": {
+      "Nikko STI ETF": 0.44419079631258146,
+      "Lion-OCBC HSTECH ETF": 8.034361614591215e-17,
+      "ABF SG Bond": 7.869529003055528e-17,
+      "Fidelity Global Tech": 0.3649426182714531,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 2.4597836788264882e-17,
+      "BlackRock World Gold": 0.17438957344623254,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.016477011969732915
+    }
+  },
+  {
+    "risk_aversion_a": 8.8,
+    "profile_label": "Conservative",
+    "expected_return": 0.14931485676958875,
+    "variance": 0.014413786189618995,
+    "risk": 0.12005742871484044,
+    "utility": 0.08589419753526517,
+    "weights": {
+      "Nikko STI ETF": 0.44163851777896646,
+      "Lion-OCBC HSTECH ETF": 5.386113105000645e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3627095380766086,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 4.739996372835065e-18,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.17335544221925944,
+      "Franklin India SGD": 2.72405795836983e-18,
+      "United SGD Fund": 0.02229650192516559
+    }
+  },
+  {
+    "risk_aversion_a": 8.85,
+    "profile_label": "Conservative",
+    "expected_return": 0.14860208492845925,
+    "variance": 0.014252250467356656,
+    "risk": 0.11938278966147782,
+    "utility": 0.08553587661040604,
+    "weights": {
+      "Nikko STI ETF": 0.439115128718347,
+      "Lion-OCBC HSTECH ETF": 3.1402052453558676e-17,
+      "ABF SG Bond": 1.5699755677358457e-16,
+      "Fidelity Global Tech": 0.3605017246592559,
+      "PIMCO Income SGD-H": 7.756280698007628e-17,
+      "JPM US Tech SGD": 2.4936649967166602e-17,
+      "Schroder Asian Growth": 4.39144231503992e-17,
+      "BlackRock World Gold": 0.1723329663911943,
+      "Franklin India SGD": 6.508516463407318e-17,
+      "United SGD Fund": 0.028050180231202267
+    }
+  },
+  {
+    "risk_aversion_a": 8.9,
+    "profile_label": "Conservative",
+    "expected_return": 0.1478972861020741,
+    "variance": 0.014093421552214654,
+    "risk": 0.11871571737649002,
+    "utility": 0.08518156019471887,
+    "weights": {
+      "Nikko STI ETF": 0.4366199872335076,
+      "Lion-OCBC HSTECH ETF": 9.655836785520122e-17,
+      "ABF SG Bond": 1.7670801345619214e-16,
+      "Fidelity Global Tech": 0.3583184419824739,
+      "PIMCO Income SGD-H": 1.6826478903796127e-16,
+      "JPM US Tech SGD": 1.343919414772618e-16,
+      "Schroder Asian Growth": 1.5302158411917288e-16,
+      "BlackRock World Gold": 0.1713220023814226,
+      "Franklin India SGD": 6.76389689700449e-17,
+      "United SGD Fund": 0.03373956840259521
+    }
+  },
+  {
+    "risk_aversion_a": 8.95,
+    "profile_label": "Conservative",
+    "expected_return": 0.14720039083551542,
+    "variance": 0.013937253555712912,
+    "risk": 0.11805614577696881,
+    "utility": 0.08483118117370014,
+    "weights": {
+      "Nikko STI ETF": 0.43415297070778486,
+      "Lion-OCBC HSTECH ETF": 7.144553503500572e-17,
+      "ABF SG Bond": 1.2386501600878536e-16,
+      "Fidelity Global Tech": 0.35615963697086916,
+      "PIMCO Income SGD-H": 8.517763317589244e-17,
+      "JPM US Tech SGD": 1.7149706676468368e-16,
+      "Schroder Asian Growth": 1.6771252355635147e-17,
+      "BlackRock World Gold": 0.17032234204908817,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.039365050272257424
+    }
+  },
+  {
+    "risk_aversion_a": 9.0,
+    "profile_label": "Conservative",
+    "expected_return": 0.14651135286473785,
+    "variance": 0.013783706431139357,
+    "risk": 0.11740403072782193,
+    "utility": 0.08448467392461075,
+    "weights": {
+      "Nikko STI ETF": 0.4317129744395132,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.6319333808495376e-17,
+      "Fidelity Global Tech": 0.35402688465081145,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.16933332557345762,
+      "Franklin India SGD": 5.897142640457945e-17,
+      "United SGD Fund": 0.04492681533621786
+    }
+  },
+  {
+    "risk_aversion_a": 9.05,
+    "profile_label": "Conservative",
+    "expected_return": 0.14582979053029502,
+    "variance": 0.013632666576112366,
+    "risk": 0.1167590106848819,
+    "utility": 0.08414197427338656,
+    "weights": {
+      "Nikko STI ETF": 0.42929978262915963,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.35191579684871216,
+      "PIMCO Income SGD-H": 1.2353716131863874e-16,
+      "JPM US Tech SGD": 1.3388631574731019e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.1683556663756331,
+      "Franklin India SGD": 2.0274951202393357e-17,
+      "United SGD Fund": 0.05042875414649497
+    }
+  },
+  {
+    "risk_aversion_a": 9.1,
+    "profile_label": "Conservative",
+    "expected_return": 0.14515571846512987,
+    "variance": 0.013484109671912489,
+    "risk": 0.11612109916768996,
+    "utility": 0.08380301945792805,
+    "weights": {
+      "Nikko STI ETF": 0.4269131453925708,
+      "Lion-OCBC HSTECH ETF": 1.6738323949810636e-16,
+      "ABF SG Bond": 6.046735276387955e-17,
+      "Fidelity Global Tech": 0.3498278871285543,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 3.8669595141000573e-17,
+      "BlackRock World Gold": 0.16738875389931382,
+      "Franklin India SGD": 8.347244997395113e-17,
+      "United SGD Fund": 0.05587021357956092
+    }
+  },
+  {
+    "risk_aversion_a": 9.15,
+    "profile_label": "Conservative",
+    "expected_return": 0.1444890084791608,
+    "variance": 0.013337980413481717,
+    "risk": 0.11549017453221602,
+    "utility": 0.08346774808748195,
+    "weights": {
+      "Nikko STI ETF": 0.42455254893245736,
+      "Lion-OCBC HSTECH ETF": 6.079843676713758e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3477627729257927,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.1664324121386404,
+      "Franklin India SGD": 9.8461227371208e-18,
+      "United SGD Fund": 0.06125226600311007
+    }
+  },
+  {
+    "risk_aversion_a": 9.2,
+    "profile_label": "Conservative",
+    "expected_return": 0.14382954735211778,
+    "variance": 0.013194227662225253,
+    "risk": 0.11486612930810045,
+    "utility": 0.08313610010588163,
+    "weights": {
+      "Nikko STI ETF": 0.4222175920580138,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.34572011212181686,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.0132462224940117e-16,
+      "Schroder Asian Growth": 1.0013136458495667e-16,
+      "BlackRock World Gold": 0.16548647464011393,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.0665758211800555
+    }
+  },
+  {
+    "risk_aversion_a": 9.25,
+    "profile_label": "Conservative",
+    "expected_return": 0.14317721619896576,
+    "variance": 0.013052799879674634,
+    "risk": 0.11424885067113207,
+    "utility": 0.08280801675547057,
+    "weights": {
+      "Nikko STI ETF": 0.4199079279988391,
+      "Lion-OCBC HSTECH ETF": 1.1506582599447087e-16,
+      "ABF SG Bond": 1.2871724424713162e-17,
+      "Fidelity Global Tech": 0.34369951824538136,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 5.977977376894587e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.16455076126435367,
+      "Franklin India SGD": 6.149205087182044e-17,
+      "United SGD Fund": 0.07184179249142576
+    }
+  },
+  {
+    "risk_aversion_a": 9.3,
+    "profile_label": "Conservative",
+    "expected_return": 0.14253190083586906,
+    "variance": 0.01291364737498341,
+    "risk": 0.11363823025277808,
+    "utility": 0.0824834405421962,
+    "weights": {
+      "Nikko STI ETF": 0.4176231118973857,
+      "Lion-OCBC HSTECH ETF": 2.2987627155534457e-17,
+      "ABF SG Bond": 9.516626920638878e-17,
+      "Fidelity Global Tech": 0.341700643696511,
+      "PIMCO Income SGD-H": 1.8453925657003177e-16,
+      "JPM US Tech SGD": 1.4427300432345684e-16,
+      "Schroder Asian Growth": 1.6469581571470528e-16,
+      "BlackRock World Gold": 0.16362511535200075,
+      "Franklin India SGD": 8.996463987730012e-17,
+      "United SGD Fund": 0.07705112905410175
+    }
+  },
+  {
+    "risk_aversion_a": 9.35,
+    "profile_label": "Conservative",
+    "expected_return": 0.14189348720409573,
+    "variance": 0.012776721283907909,
+    "risk": 0.11303415980980222,
+    "utility": 0.08216231520182626,
+    "weights": {
+      "Nikko STI ETF": 0.4153627085774044,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3397231524874966,
+      "PIMCO Income SGD-H": 6.168771548263619e-17,
+      "JPM US Tech SGD": 2.0197077110805164e-17,
+      "Schroder Asian Growth": 4.818008107277186e-17,
+      "BlackRock World Gold": 0.1627093727341353,
+      "Franklin India SGD": 1.3919292422229917e-16,
+      "United SGD Fund": 0.08220476620096336
+    }
+  },
+  {
+    "risk_aversion_a": 9.4,
+    "profile_label": "Conservative",
+    "expected_return": 0.14126186526012083,
+    "variance": 0.012641974381464161,
+    "risk": 0.11243653490509284,
+    "utility": 0.08184458566723926,
+    "weights": {
+      "Nikko STI ETF": 0.4131263788461649,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 2.881309625027591e-17,
+      "Fidelity Global Tech": 0.33776668532601384,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 7.499206198515948e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.16180337193317318,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.08730356389464815
+    }
+  },
+  {
+    "risk_aversion_a": 9.45,
+    "profile_label": "Conservative",
+    "expected_return": 0.1406369299698122,
+    "variance": 0.012509361255672943,
+    "risk": 0.11184525584785858,
+    "utility": 0.08153019803675754,
+    "weights": {
+      "Nikko STI ETF": 0.41091373843509854,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3358309228509698,
+      "PIMCO Income SGD-H": 1.0751389199498834e-17,
+      "JPM US Tech SGD": 9.923499196852481e-17,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.16090696247713926,
+      "Franklin India SGD": 6.490220551746625e-17,
+      "United SGD Fund": 0.09234837623679247
+    }
+  },
+  {
+    "risk_aversion_a": 9.5,
+    "profile_label": "Conservative",
+    "expected_return": 0.1400185727978406,
+    "variance": 0.012378836474604188,
+    "risk": 0.11126021964118257,
+    "utility": 0.08121909954347072,
+    "weights": {
+      "Nikko STI ETF": 0.408724430218774,
+      "Lion-OCBC HSTECH ETF": 2.06718390777412e-17,
+      "ABF SG Bond": 7.479639737434374e-17,
+      "Fidelity Global Tech": 0.3339155156190582,
+      "PIMCO Income SGD-H": 2.9563990958016845e-17,
+      "JPM US Tech SGD": 1.2082162662930065e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.16001998832818423,
+      "Franklin India SGD": 1.1728865220630297e-17,
+      "United SGD Fund": 0.09734006583398341
+    }
+  },
+  {
+    "risk_aversion_a": 9.55,
+    "profile_label": "Conservative",
+    "expected_return": 0.13940669097205177,
+    "variance": 0.01225035653330112,
+    "risk": 0.11068132874745008,
+    "utility": 0.08091123852553891,
+    "weights": {
+      "Nikko STI ETF": 0.4065580354919856,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3320201667040401,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 9.07426396393532e-18,
+      "BlackRock World Gold": 0.1591423053550186,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.10227949244895605
+    }
+  },
+  {
+    "risk_aversion_a": 9.6,
+    "profile_label": "Conservative",
+    "expected_return": 0.13880118275980902,
+    "variance": 0.01212387882550039,
+    "risk": 0.11010848661888142,
+    "utility": 0.08060656439740715,
+    "weights": {
+      "Nikko STI ETF": 0.4044142652330685,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.2634174034655693e-16,
+      "Fidelity Global Tech": 0.33014453809926153,
+      "PIMCO Income SGD-H": 1.4843913587452712e-16,
+      "JPM US Tech SGD": 1.1709976385906526e-16,
+      "Schroder Asian Growth": 1.0484150304640102e-16,
+      "BlackRock World Gold": 0.15827376100483878,
+      "Franklin India SGD": 2.6223293014045884e-17,
+      "United SGD Fund": 0.10716743566283064
+    }
+  },
+  {
+    "risk_aversion_a": 9.65,
+    "profile_label": "Conservative",
+    "expected_return": 0.1382019500810547,
+    "variance": 0.011999362167694035,
+    "risk": 0.1095416001694974,
+    "utility": 0.08030502762193098,
+    "weights": {
+      "Nikko STI ETF": 0.40229268258780065,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 5.9885229370879034e-18,
+      "Fidelity Global Tech": 0.3282883565845856,
+      "PIMCO Income SGD-H": 1.1836607811521044e-16,
+      "JPM US Tech SGD": 2.6288683957573916e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.15741422207838265,
+      "Franklin India SGD": 5.468444707473763e-17,
+      "United SGD Fund": 0.11200473874923085
+    }
+  },
+  {
+    "risk_aversion_a": 9.7,
+    "profile_label": "Conservative",
+    "expected_return": 0.13760889156357267,
+    "variance": 0.011876765336130251,
+    "risk": 0.108980573205183,
+    "utility": 0.08000657968334096,
+    "weights": {
+      "Nikko STI ETF": 0.4001929990023379,
+      "Lion-OCBC HSTECH ETF": 6.223320470066795e-17,
+      "ABF SG Bond": 2.3288323851809734e-17,
+      "Fidelity Global Tech": 0.32645128135604284,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 1.942517598597232e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.15656353862285427,
+      "Franklin India SGD": 5.436088048888649e-17,
+      "United SGD Fund": 0.11679218101876492
+    }
+  },
+  {
+    "risk_aversion_a": 9.75,
+    "profile_label": "Conservative",
+    "expected_return": 0.13702191907738367,
+    "variance": 0.011756050464883509,
+    "risk": 0.10842532206492868,
+    "utility": 0.07971117306107657,
+    "weights": {
+      "Nikko STI ETF": 0.39811488904121306,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 2.218040475680111e-17,
+      "Fidelity Global Tech": 0.3246330548465497,
+      "PIMCO Income SGD-H": 1.094349627193611e-16,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.15572158012815032,
+      "Franklin India SGD": 4.007312873460095e-17,
+      "United SGD Fund": 0.12153047598408706
+    }
+  },
+  {
+    "risk_aversion_a": 9.8,
+    "profile_label": "Conservative",
+    "expected_return": 0.13644093564717144,
+    "variance": 0.011637178457712156,
+    "risk": 0.10787575472603729,
+    "utility": 0.07941876120438188,
+    "weights": {
+      "Nikko STI ETF": 0.396058005037228,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3228333912077532,
+      "PIMCO Income SGD-H": 1.0263837035059259e-16,
+      "JPM US Tech SGD": 5.236188273336634e-17,
+      "Schroder Asian Growth": 8.447798396146039e-17,
+      "BlackRock World Gold": 0.15488820156939423,
+      "Franklin India SGD": 4.7377940871722035e-17,
+      "United SGD Fund": 0.12622040218562444
+    }
+  },
+  {
+    "risk_aversion_a": 9.85,
+    "profile_label": "Conservative",
+    "expected_return": 0.13586584957190365,
+    "variance": 0.011520111891209698,
+    "risk": 0.10733178416112209,
+    "utility": 0.07912929850769589,
+    "weights": {
+      "Nikko STI ETF": 0.39402191907803874,
+      "Lion-OCBC HSTECH ETF": 5.921776740844265e-17,
+      "ABF SG Bond": 0.0,
+      "Fidelity Global Tech": 0.3210520309791385,
+      "PIMCO Income SGD-H": 0.0,
+      "JPM US Tech SGD": 0.0,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.1540632851645001,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.13086276477832334
+    }
+  },
+  {
+    "risk_aversion_a": 9.9,
+    "profile_label": "Conservative",
+    "expected_return": 0.1352965697188663,
+    "variance": 0.011404814026686444,
+    "risk": 0.10679332388631063,
+    "utility": 0.07884274028676841,
+    "weights": {
+      "Nikko STI ETF": 0.39200640985963914,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 7.63244448111905e-17,
+      "Fidelity Global Tech": 0.3192886592391286,
+      "PIMCO Income SGD-H": 2.0656423078101172e-16,
+      "JPM US Tech SGD": 4.745586790286943e-17,
+      "Schroder Asian Growth": 1.156775955406253e-16,
+      "BlackRock World Gold": 0.15324669077435601,
+      "Franklin India SGD": 9.100521985300203e-17,
+      "United SGD Fund": 0.1354582401268757
+    }
+  },
+  {
+    "risk_aversion_a": 9.95,
+    "profile_label": "Conservative",
+    "expected_return": 0.13473301314795708,
+    "variance": 0.011291250330134962,
+    "risk": 0.10626029517244417,
+    "utility": 0.07855904275553564,
+    "weights": {
+      "Nikko STI ETF": 0.390011163686287,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 1.8429742866359067e-16,
+      "Fidelity Global Tech": 0.31754302194426764,
+      "PIMCO Income SGD-H": 1.5644190316018575e-16,
+      "JPM US Tech SGD": 2.393342414443861e-16,
+      "Schroder Asian Growth": 0.0,
+      "BlackRock World Gold": 0.1524383030158491,
+      "Franklin India SGD": 4.924649555336502e-17,
+      "United SGD Fund": 0.1400075113535958
+    }
+  },
+  {
+    "risk_aversion_a": 10.0,
+    "profile_label": "Conservative",
+    "expected_return": 0.13417509017635734,
+    "variance": 0.01117938543454029,
+    "risk": 0.10573261291834364,
+    "utility": 0.07827816300365589,
+    "weights": {
+      "Nikko STI ETF": 0.38803584059344015,
+      "Lion-OCBC HSTECH ETF": 0.0,
+      "ABF SG Bond": 5.620402418211184e-17,
+      "Fidelity Global Tech": 0.31581485338797494,
+      "PIMCO Income SGD-H": 1.935978504244429e-17,
+      "JPM US Tech SGD": 2.2492790507748495e-16,
+      "Schroder Asian Growth": 3.975633841232784e-17,
+      "BlackRock World Gold": 0.15163799299107295,
+      "Franklin India SGD": 0.0,
+      "United SGD Fund": 0.14451131302751172
+    }
+  }
+]

@@ -1,0 +1,41 @@
+question_id,dimension,weight,question,score,option_label
+investment_horizon,Time horizon,1,How long can you keep this portfolio invested before you need to use most of the money?,1,Less than 1 year
+investment_horizon,Time horizon,1,How long can you keep this portfolio invested before you need to use most of the money?,2,1 to 3 years
+investment_horizon,Time horizon,1,How long can you keep this portfolio invested before you need to use most of the money?,3,3 to 5 years
+investment_horizon,Time horizon,1,How long can you keep this portfolio invested before you need to use most of the money?,4,5 to 10 years
+investment_horizon,Time horizon,1,How long can you keep this portfolio invested before you need to use most of the money?,5,More than 10 years
+income_resilience,Financial resilience,1,How stable are your income and emergency savings today?,1,Income is uncertain and emergency savings are limited
+income_resilience,Financial resilience,1,How stable are your income and emergency savings today?,2,"Some stability, but reserves are still thin"
+income_resilience,Financial resilience,1,How stable are your income and emergency savings today?,3,Reasonably stable income and a basic cash buffer
+income_resilience,Financial resilience,1,How stable are your income and emergency savings today?,4,Stable income and at least 6 months of reserves
+income_resilience,Financial resilience,1,How stable are your income and emergency savings today?,5,Very stable income and strong reserves beyond 12 months
+liquidity_need,Liquidity,1,How likely are you to need part of this portfolio for spending in the next 3 years?,1,Very likely
+liquidity_need,Liquidity,1,How likely are you to need part of this portfolio for spending in the next 3 years?,2,Likely
+liquidity_need,Liquidity,1,How likely are you to need part of this portfolio for spending in the next 3 years?,3,Possible but not planned
+liquidity_need,Liquidity,1,How likely are you to need part of this portfolio for spending in the next 3 years?,4,Unlikely
+liquidity_need,Liquidity,1,How likely are you to need part of this portfolio for spending in the next 3 years?,5,Very unlikely
+loss_tolerance,Loss tolerance,2,What one-year decline would you tolerate before feeling the need to exit the portfolio?,1,Less than 5%
+loss_tolerance,Loss tolerance,2,What one-year decline would you tolerate before feeling the need to exit the portfolio?,2,5% to 10%
+loss_tolerance,Loss tolerance,2,What one-year decline would you tolerate before feeling the need to exit the portfolio?,3,10% to 20%
+loss_tolerance,Loss tolerance,2,What one-year decline would you tolerate before feeling the need to exit the portfolio?,4,20% to 30%
+loss_tolerance,Loss tolerance,2,What one-year decline would you tolerate before feeling the need to exit the portfolio?,5,More than 30%
+drawdown_reaction,Behavior under stress,2,"If markets fall sharply by 20%, what would you most likely do?",1,Sell immediately to avoid further loss
+drawdown_reaction,Behavior under stress,2,"If markets fall sharply by 20%, what would you most likely do?",2,Sell part of the portfolio
+drawdown_reaction,Behavior under stress,2,"If markets fall sharply by 20%, what would you most likely do?",3,Hold and review carefully
+drawdown_reaction,Behavior under stress,2,"If markets fall sharply by 20%, what would you most likely do?",4,Stay invested and rebalance if needed
+drawdown_reaction,Behavior under stress,2,"If markets fall sharply by 20%, what would you most likely do?",5,Add more capital while prices are lower
+return_objective,Investment objective,1,Which objective best matches why you are investing?,1,Preserve capital with minimal fluctuation
+return_objective,Investment objective,1,Which objective best matches why you are investing?,2,Earn income with limited volatility
+return_objective,Investment objective,1,Which objective best matches why you are investing?,3,Balance moderate growth and moderate risk
+return_objective,Investment objective,1,Which objective best matches why you are investing?,4,Seek long-term growth and accept sizable swings
+return_objective,Investment objective,1,Which objective best matches why you are investing?,5,Maximize growth and accept very high volatility
+investment_experience,Investment experience,1,How experienced are you with diversified investment products such as funds and ETFs?,1,No prior investing experience
+investment_experience,Investment experience,1,How experienced are you with diversified investment products such as funds and ETFs?,2,Limited experience
+investment_experience,Investment experience,1,How experienced are you with diversified investment products such as funds and ETFs?,3,Some experience across several products
+investment_experience,Investment experience,1,How experienced are you with diversified investment products such as funds and ETFs?,4,Experienced and comfortable with market volatility
+investment_experience,Investment experience,1,How experienced are you with diversified investment products such as funds and ETFs?,5,Highly experienced and disciplined through market cycles
+balance_sheet_strength,Balance sheet strength,1,How would you describe your debt burden and other near-term financial obligations?,1,High debt or major obligations due soon
+balance_sheet_strength,Balance sheet strength,1,How would you describe your debt burden and other near-term financial obligations?,2,Noticeable debt burden
+balance_sheet_strength,Balance sheet strength,1,How would you describe your debt burden and other near-term financial obligations?,3,Manageable debt and obligations
+balance_sheet_strength,Balance sheet strength,1,How would you describe your debt burden and other near-term financial obligations?,4,Low debt relative to income
+balance_sheet_strength,Balance sheet strength,1,How would you describe your debt burden and other near-term financial obligations?,5,Very low debt and strong financial flexibility

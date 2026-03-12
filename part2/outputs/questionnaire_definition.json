@@ -1,0 +1,322 @@
+{
+  "aRange": {
+    "min": 1.0,
+    "max": 10.0
+  },
+  "questionnaire": [
+    {
+      "id": "investment_horizon",
+      "dimension": "Time horizon",
+      "weight": 1,
+      "question": "How long can you keep this portfolio invested before you need to use most of the money?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Less than 1 year"
+        },
+        {
+          "score": 2,
+          "label": "1 to 3 years"
+        },
+        {
+          "score": 3,
+          "label": "3 to 5 years"
+        },
+        {
+          "score": 4,
+          "label": "5 to 10 years"
+        },
+        {
+          "score": 5,
+          "label": "More than 10 years"
+        }
+      ]
+    },
+    {
+      "id": "income_resilience",
+      "dimension": "Financial resilience",
+      "weight": 1,
+      "question": "How stable are your income and emergency savings today?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Income is uncertain and emergency savings are limited"
+        },
+        {
+          "score": 2,
+          "label": "Some stability, but reserves are still thin"
+        },
+        {
+          "score": 3,
+          "label": "Reasonably stable income and a basic cash buffer"
+        },
+        {
+          "score": 4,
+          "label": "Stable income and at least 6 months of reserves"
+        },
+        {
+          "score": 5,
+          "label": "Very stable income and strong reserves beyond 12 months"
+        }
+      ]
+    },
+    {
+      "id": "liquidity_need",
+      "dimension": "Liquidity",
+      "weight": 1,
+      "question": "How likely are you to need part of this portfolio for spending in the next 3 years?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Very likely"
+        },
+        {
+          "score": 2,
+          "label": "Likely"
+        },
+        {
+          "score": 3,
+          "label": "Possible but not planned"
+        },
+        {
+          "score": 4,
+          "label": "Unlikely"
+        },
+        {
+          "score": 5,
+          "label": "Very unlikely"
+        }
+      ]
+    },
+    {
+      "id": "loss_tolerance",
+      "dimension": "Loss tolerance",
+      "weight": 2,
+      "question": "What one-year decline would you tolerate before feeling the need to exit the portfolio?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Less than 5%"
+        },
+        {
+          "score": 2,
+          "label": "5% to 10%"
+        },
+        {
+          "score": 3,
+          "label": "10% to 20%"
+        },
+        {
+          "score": 4,
+          "label": "20% to 30%"
+        },
+        {
+          "score": 5,
+          "label": "More than 30%"
+        }
+      ]
+    },
+    {
+      "id": "drawdown_reaction",
+      "dimension": "Behavior under stress",
+      "weight": 2,
+      "question": "If markets fall sharply by 20%, what would you most likely do?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Sell immediately to avoid further loss"
+        },
+        {
+          "score": 2,
+          "label": "Sell part of the portfolio"
+        },
+        {
+          "score": 3,
+          "label": "Hold and review carefully"
+        },
+        {
+          "score": 4,
+          "label": "Stay invested and rebalance if needed"
+        },
+        {
+          "score": 5,
+          "label": "Add more capital while prices are lower"
+        }
+      ]
+    },
+    {
+      "id": "return_objective",
+      "dimension": "Investment objective",
+      "weight": 1,
+      "question": "Which objective best matches why you are investing?",
+      "options": [
+        {
+          "score": 1,
+          "label": "Preserve capital with minimal fluctuation"
+        },
+        {
+          "score": 2,
+          "label": "Earn income with limited volatility"
+        },
+        {
+          "score": 3,
+          "label": "Balance moderate growth and moderate risk"
+        },
+        {
+          "score": 4,
+          "label": "Seek long-term growth and accept sizable swings"
+        },
+        {
+          "score": 5,
+          "label": "Maximize growth and accept very high volatility"
+        }
+      ]
+    },
+    {
+      "id": "investment_experience",
+      "dimension": "Investment experience",
+      "weight": 1,
+      "question": "How experienced are you with diversified investment products such as funds and ETFs?",
+      "options": [
+        {
+          "score": 1,
+          "label": "No prior investing experience"
+        },
+        {
+          "score": 2,
+          "label": "Limited experience"
+        },
+        {
+          "score": 3,
+          "label": "Some experience across several products"
+        },
+        {
+          "score": 4,
+          "label": "Experienced and comfortable with market volatility"
+        },
+        {
+          "score": 5,
+          "label": "Highly experienced and disciplined through market cycles"
+        }
+      ]
+    },
+    {
+      "id": "balance_sheet_strength",
+      "dimension": "Balance sheet strength",
+      "weight": 1,
+      "question": "How would you describe your debt burden and other near-term financial obligations?",
+      "options": [
+        {
+          "score": 1,
+          "label": "High debt or major obligations due soon"
+        },
+        {
+          "score": 2,
+          "label": "Noticeable debt burden"
+        },
+        {
+          "score": 3,
+          "label": "Manageable debt and obligations"
+        },
+        {
+          "score": 4,
+          "label": "Low debt relative to income"
+        },
+        {
+          "score": 5,
+          "label": "Very low debt and strong financial flexibility"
+        }
+      ]
+    }
+  ],
+  "mappingFormula": {
+    "weightedScoreMin": 10.0,
+    "weightedScoreMax": 50.0,
+    "riskToleranceIndex": "(weighted_score - min_score) / (max_score - min_score)",
+    "riskAversionA": "A = 10 - 9 * risk_tolerance_index"
+  },
+  "exampleInvestorScores": {
+    "investment_horizon": 4,
+    "income_resilience": 4,
+    "liquidity_need": 3,
+    "loss_tolerance": 3,
+    "drawdown_reaction": 3,
+    "return_objective": 4,
+    "investment_experience": 3,
+    "balance_sheet_strength": 4
+  },
+  "exampleInvestorResult": {
+    "weighted_score": 34.0,
+    "min_score": 10.0,
+    "max_score": 50.0,
+    "risk_tolerance_index": 0.6,
+    "risk_aversion_a": 4.6000000000000005,
+    "profile_label": "Moderate Growth",
+    "details": [
+      {
+        "id": "investment_horizon",
+        "dimension": "Time horizon",
+        "weight": 1,
+        "selected_score": 4,
+        "selected_label": "5 to 10 years",
+        "weighted_contribution": 4
+      },
+      {
+        "id": "income_resilience",
+        "dimension": "Financial resilience",
+        "weight": 1,
+        "selected_score": 4,
+        "selected_label": "Stable income and at least 6 months of reserves",
+        "weighted_contribution": 4
+      },
+      {
+        "id": "liquidity_need",
+        "dimension": "Liquidity",
+        "weight": 1,
+        "selected_score": 3,
+        "selected_label": "Possible but not planned",
+        "weighted_contribution": 3
+      },
+      {
+        "id": "loss_tolerance",
+        "dimension": "Loss tolerance",
+        "weight": 2,
+        "selected_score": 3,
+        "selected_label": "10% to 20%",
+        "weighted_contribution": 6
+      },
+      {
+        "id": "drawdown_reaction",
+        "dimension": "Behavior under stress",
+        "weight": 2,
+        "selected_score": 3,
+        "selected_label": "Hold and review carefully",
+        "weighted_contribution": 6
+      },
+      {
+        "id": "return_objective",
+        "dimension": "Investment objective",
+        "weight": 1,
+        "selected_score": 4,
+        "selected_label": "Seek long-term growth and accept sizable swings",
+        "weighted_contribution": 4
+      },
+      {
+        "id": "investment_experience",
+        "dimension": "Investment experience",
+        "weight": 1,
+        "selected_score": 3,
+        "selected_label": "Some experience across several products",
+        "weighted_contribution": 3
+      },
+      {
+        "id": "balance_sheet_strength",
+        "dimension": "Balance sheet strength",
+        "weight": 1,
+        "selected_score": 4,
+        "selected_label": "Low debt relative to income",
+        "weighted_contribution": 4
+      }
+    ]
+  }
+}
