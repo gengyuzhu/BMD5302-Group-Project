@@ -1,0 +1,94 @@
+<svg width="1400" height="860" viewBox="0 0 1400 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="60" x2="1280" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8EE"/>
+      <stop offset="1" stop-color="#F2E3CC"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFF7EA"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1E2A33"/>
+      <stop offset="1" stop-color="#2F4657"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#24333F" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12V0Z" fill="#7A5D43"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="860" rx="32" fill="url(#bg)"/>
+  <circle cx="176" cy="108" r="96" fill="#F4E3C5" opacity="0.55"/>
+  <circle cx="1244" cy="752" r="110" fill="#EAD2AF" opacity="0.45"/>
+
+  <text x="70" y="78" fill="#687783" font-family="Segoe UI, Arial, sans-serif" font-size="18" letter-spacing="4">BMD5302 ROBOT ADVISER</text>
+  <text x="70" y="132" fill="#15212B" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">Platform Overview</text>
+  <text x="70" y="168" fill="#52636F" font-family="Segoe UI, Arial, sans-serif" font-size="22">Unified web platform connecting fund analytics, investor profiling, and AI-style explanation.</text>
+
+  <rect x="70" y="220" width="1260" height="190" rx="28" fill="url(#dark)" filter="url(#shadow)"/>
+  <text x="104" y="268" fill="#F5F0E8" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700">Client-Facing Web Experience</text>
+  <text x="104" y="298" fill="#C6D2D9" font-family="Segoe UI, Arial, sans-serif" font-size="18">Default GitHub Pages landing view designed for demo, presentation, and portfolio use.</text>
+
+  <rect x="104" y="326" width="258" height="56" rx="16" fill="#F5E7CF"/>
+  <text x="128" y="360" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Investor Personas</text>
+  <text x="128" y="385" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Steady Saver, Balanced Builder, Growth Explorer, Bold Navigator</text>
+
+  <rect x="394" y="326" width="258" height="56" rx="16" fill="#F5E7CF"/>
+  <text x="418" y="360" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Recommendation Cockpit</text>
+  <text x="418" y="385" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Expected return, volatility, utility, and top current allocations</text>
+
+  <rect x="684" y="326" width="258" height="56" rx="16" fill="#F5E7CF"/>
+  <text x="708" y="360" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Frontier Visualization</text>
+  <text x="708" y="385" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Portfolio point on the efficient frontier for the selected client</text>
+
+  <rect x="974" y="326" width="258" height="56" rx="16" fill="#F5E7CF"/>
+  <text x="998" y="360" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">AI Chatbot</text>
+  <text x="998" y="385" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Explains portfolios, funds, GMVP, risk aversion, and implementation logic</text>
+
+  <rect x="70" y="460" width="600" height="300" rx="28" fill="url(#panel)" stroke="#D5C5AE" stroke-width="2" filter="url(#shadow)"/>
+  <text x="104" y="512" fill="#15212B" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700">Analytics Layer</text>
+  <text x="104" y="544" fill="#586A76" font-family="Segoe UI, Arial, sans-serif" font-size="18">Interactive views exposing the quantitative logic behind the recommendation.</text>
+
+  <rect x="104" y="582" width="242" height="132" rx="20" fill="#FFFFFF" stroke="#D8CCB8"/>
+  <text x="128" y="620" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Part 1: Frontier Lab</text>
+  <text x="128" y="652" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• Average returns</text>
+  <text x="128" y="678" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• Covariance matrix</text>
+  <text x="128" y="704" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• GMVP and frontier with / without short sales</text>
+
+  <rect x="380" y="582" width="242" height="132" rx="20" fill="#FFFFFF" stroke="#D8CCB8"/>
+  <text x="404" y="620" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Part 2: Risk Lab</text>
+  <text x="404" y="652" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• 8-question risk questionnaire</text>
+  <text x="404" y="678" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• Score to A mapping</text>
+  <text x="404" y="704" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">• Utility-maximizing portfolio recommendation</text>
+
+  <rect x="730" y="460" width="600" height="300" rx="28" fill="url(#panel)" stroke="#D5C5AE" stroke-width="2" filter="url(#shadow)"/>
+  <text x="764" y="512" fill="#15212B" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700">Data and Computation Layer</text>
+  <text x="764" y="544" fill="#586A76" font-family="Segoe UI, Arial, sans-serif" font-size="18">Single source of truth shared across Python analytics, React components, and GitHub Pages deployment.</text>
+
+  <rect x="764" y="582" width="210" height="132" rx="20" fill="#FFFFFF" stroke="#D8CCB8"/>
+  <text x="788" y="620" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Source Data</text>
+  <text x="788" y="652" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">10 CSV files</text>
+  <text x="788" y="678" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Monthly prices</text>
+  <text x="788" y="704" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Common window: 2022-03 to 2026-03</text>
+
+  <rect x="1002" y="582" width="144" height="132" rx="20" fill="#FFFFFF" stroke="#D8CCB8"/>
+  <text x="1030" y="620" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Python</text>
+  <text x="1030" y="652" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">NumPy</text>
+  <text x="1030" y="678" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Pandas</text>
+  <text x="1030" y="704" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">SciPy</text>
+
+  <rect x="1174" y="582" width="122" height="132" rx="20" fill="#FFFFFF" stroke="#D8CCB8"/>
+  <text x="1198" y="620" fill="#1A2730" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">JSON</text>
+  <text x="1198" y="652" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Part 1 data</text>
+  <text x="1198" y="678" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Part 2 data</text>
+  <text x="1198" y="704" fill="#566775" font-family="Segoe UI, Arial, sans-serif" font-size="16">Shared UI inputs</text>
+
+  <path d="M370 614C696 614 696 614 724 614" stroke="#7A5D43" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M676 350C676 430 676 430 516 456" stroke="#7A5D43" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1020 350C1020 430 1020 430 1030 456" stroke="#7A5D43" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <text x="70" y="815" fill="#687783" font-family="Segoe UI, Arial, sans-serif" font-size="16">Designed for GitHub Pages deployment, classroom presentation, and portfolio demonstration.</text>
+</svg>
