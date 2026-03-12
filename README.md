@@ -1,39 +1,227 @@
 # BMD5302 Group Project
 
-Robot Adviser project for BMD5302, covering:
+This repository contains our **Robot Adviser** project for **BMD5302**, developed as a full workflow from quantitative portfolio analysis to a client-facing digital platform.
 
-- Part 1: Efficient Frontier
-- Part 2: Risk Aversion & Optimal Portfolio
-- Part 3: Web Platform + AI Chatbot
+The project is organized into three major parts:
 
-## Live Site
+- **Part 1: Efficient Frontier**
+- **Part 2: Risk Aversion & Optimal Portfolio**
+- **Part 3: Web Platform + AI Chatbot**
 
-GitHub Pages deployment target:
+## Live Demo
+
+GitHub Pages:
 
 - [https://gengyuzhu.github.io/BMD5302-Group-Project/](https://gengyuzhu.github.io/BMD5302-Group-Project/)
 
-## Local Run
+GitHub Repository:
+
+- [https://github.com/gengyuzhu/BMD5302-Group-Project](https://github.com/gengyuzhu/BMD5302-Group-Project)
+
+## Project Overview
+
+The objective of this project is to design a robo-advisory prototype that:
+
+- analyzes a 10-fund investment universe
+- constructs and visualizes the efficient frontier
+- estimates investor risk aversion through a questionnaire
+- recommends an optimal portfolio using a utility-maximization framework
+- presents the result through a web interface and an AI-style chatbot
+
+The same underlying dataset and optimization outputs are reused across all three parts, so the analysis, recommendation logic, and user interface remain consistent.
+
+## Fund Universe
+
+The project uses historical price data from the following 10 funds:
+
+1. **Nikko AM Singapore STI ETF**
+2. **Lion-OCBC Hang Seng TECH ETF**
+3. **ABF SG Bond Index Fund**
+4. **Fidelity Global Technology A-ACC-USD**
+5. **PIMCO Income Fund Cl E Inc SGD-H**
+6. **JPMorgan US Technology A (acc) SGD**
+7. **Schroder Asian Growth A Dis SGD**
+8. **BlackRock World Gold Fund A2 SGD-H**
+9. **FTIF - Franklin India A (acc) SGD**
+10. **United SGD Fund - Class A SGD Acc**
+
+All source CSV files are stored in:
+
+- [`funds/`](./funds/)
+
+For consistency, all 10 funds were aligned to a **common monthly sample window from March 2022 to March 2026**, giving:
+
+- `49` monthly price observations
+- `48` monthly return observations
+
+## Part 1: Efficient Frontier
+
+Part 1 focuses on the classical mean-variance portfolio construction problem.
+
+### Main tasks completed
+
+- normalized all 10 fund price series into a shared monthly dataset
+- computed monthly average returns
+- constructed the variance-covariance matrix
+- annualized expected returns and covariance for portfolio visualization
+- plotted the efficient frontier:
+  - **with short sales**
+  - **without short sales**
+- identified the **Global Minimum Variance Portfolio (GMVP)** in both settings
+- built an interactive JSX visualization for the frontier
+
+### Main outputs
+
+- [`part1_efficient_frontier.py`](./part1_efficient_frontier.py)
+- [`part1_efficient_frontier_report.md`](./part1_efficient_frontier_report.md)
+- [`part1_outputs/efficient_frontier_comparison.png`](./part1_outputs/efficient_frontier_comparison.png)
+- [`part1_outputs/efficient_frontier_data.json`](./part1_outputs/efficient_frontier_data.json)
+- [`part1_outputs/covariance_matrix_monthly.csv`](./part1_outputs/covariance_matrix_monthly.csv)
+- [`part1_outputs/covariance_matrix_annualized.csv`](./part1_outputs/covariance_matrix_annualized.csv)
+- [`EfficientFrontierInteractive.jsx`](./EfficientFrontierInteractive.jsx)
+
+### Highlights
+
+- The **long-only GMVP** is effectively concentrated in **United SGD Fund**, which had the lowest volatility in the shared sample.
+- The **short-sales GMVP** achieves even lower theoretical volatility by combining a large positive weight in the low-volatility fund with offsetting short positions in other funds.
+- The efficient frontier clearly shows the trade-off between expected return and risk across the 10-fund universe.
+
+## Part 2: Risk Aversion & Optimal Portfolio
+
+Part 2 extends the frontier analysis by introducing investor preferences through a quadratic utility function:
+
+`U = r - (A * sigma^2) / 2`
+
+where:
+
+- `r` is expected portfolio return
+- `sigma^2` is portfolio variance
+- `A` is the investor's risk-aversion coefficient
+
+### Main tasks completed
+
+- designed an 8-question investor risk questionnaire
+- assigned question weights to reflect behavioral importance
+- mapped questionnaire scores into a usable risk-aversion coefficient `A`
+- optimized the portfolio by maximizing investor utility
+- compared:
+  - **recommended long-only portfolio**
+  - **theoretical short-sales benchmark**
+- built an interactive JSX interface for the questionnaire and portfolio recommendation
+
+### Main outputs
+
+- [`part2/part2_risk_aversion_optimal_portfolio.py`](./part2/part2_risk_aversion_optimal_portfolio.py)
+- [`part2/part2_risk_aversion_report.md`](./part2/part2_risk_aversion_report.md)
+- [`part2/outputs/part2_risk_profile_data.json`](./part2/outputs/part2_risk_profile_data.json)
+- [`part2/outputs/questionnaire_definition.csv`](./part2/outputs/questionnaire_definition.csv)
+- [`part2/outputs/recommended_long_only_weights.png`](./part2/outputs/recommended_long_only_weights.png)
+- [`part2/outputs/utility_frontier_example.png`](./part2/outputs/utility_frontier_example.png)
+- [`part2/RiskAversionInteractive.jsx`](./part2/RiskAversionInteractive.jsx)
+
+### Highlights
+
+- The questionnaire converts investor answers into a transparent risk-aversion score rather than an arbitrary label.
+- A higher questionnaire score implies greater risk tolerance and therefore a lower `A`.
+- For the example investor profile used in the report, the recommended long-only portfolio is mainly allocated to:
+  - **Fidelity Global Tech**
+  - **BlackRock World Gold**
+  - **Nikko STI ETF**
+- The short-sales solution is kept as a mathematical benchmark, but the long-only solution is recommended as the practical robo-adviser implementation.
+
+## Part 3: Web Platform + AI Chatbot
+
+Part 3 converts the analytical work into a client-facing digital platform.
+
+### Platform design
+
+The web application is built as a React + Vite single-page interface with three navigation views:
+
+1. **Platform**
+   - client-facing robo-adviser experience
+   - includes personas, portfolio recommendation, compact frontier visualization, fund shelf, and chatbot
+2. **Frontier Lab**
+   - interactive Part 1 efficient-frontier analysis
+3. **Risk Lab**
+   - interactive Part 2 questionnaire and utility-optimization analysis
+
+### AI chatbot
+
+The chatbot is implemented as a local AI-style advisory layer that can explain:
+
+- the current recommended portfolio
+- how the questionnaire maps to `A`
+- the meaning of the efficient frontier and GMVP
+- individual fund characteristics
+- why long-only implementation is preferred over short sales
+
+Although it is local and lightweight, it is grounded in the exact Part 1 and Part 2 outputs, so its explanations remain numerically consistent with the dashboard.
+
+### Main outputs
+
+- [`part3/PlatformExperience.jsx`](./part3/PlatformExperience.jsx)
+- [`part3/part3_platform_report.md`](./part3/part3_platform_report.md)
+- [`src/App.jsx`](./src/App.jsx)
+- [`src/app.css`](./src/app.css)
+
+## Local Development
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Run the local development server:
+
+```bash
 npm run dev
 ```
 
 Then open:
 
-`http://127.0.0.1:5173`
+```text
+http://127.0.0.1:5173
+```
 
-## Project Structure
+Build for production:
 
-- `funds/`: the 10 source CSV files
-- `part1_efficient_frontier.py`: Part 1 analysis pipeline
-- `part1_outputs/`: Part 1 generated statistics, frontier data, and charts
-- `part2/`: Part 2 risk-aversion analysis, outputs, and JSX component
-- `part3/`: Part 3 platform page and report
-- `src/`: Vite + React app entry
+```bash
+npm run build
+```
 
-## Notes
+## Repository Structure
 
-- The web app is built with React and Vite.
-- GitHub Pages deployment is handled by GitHub Actions.
-- The platform defaults to the client-facing Part 3 experience, with Part 1 and Part 2 available as analytical views.
+```text
+funds/                  Source CSV files for the 10 funds
+part1_outputs/          Part 1 generated statistics, charts, and JSON data
+part2/                  Part 2 scripts, reports, outputs, and JSX component
+part3/                  Part 3 platform page and platform report
+src/                    Main React application entry
+EfficientFrontierInteractive.jsx
+part1_efficient_frontier.py
+part1_efficient_frontier_report.md
+package.json
+vite.config.js
+```
+
+## Technical Notes
+
+- Front-end framework: **React**
+- Build tool: **Vite**
+- Optimization and analytics: **Python**, **NumPy**, **Pandas**, **SciPy**, **Matplotlib**
+- Deployment: **GitHub Pages** via **GitHub Actions**
+
+The deployed site uses GitHub Pages workflow automation and is configured for static hosting.
+
+## Summary
+
+This repository is not only a set of calculations. It is a complete robo-adviser prototype that combines:
+
+- financial modeling
+- investor profiling
+- utility-based portfolio recommendation
+- web presentation
+- AI-style explanation
+
+It is intended to demonstrate both quantitative rigor and practical fintech product design.
