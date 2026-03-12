@@ -30,40 +30,6 @@ The objective of this project is to design a robo-advisory prototype that:
 
 The same underlying dataset and optimization outputs are reused across all three parts, so the analysis, recommendation logic, and user interface remain consistent.
 
-## Platform Overview
-
-![Platform Overview](./part3/assets/platform-overview.svg)
-
-## Project Workflow
-
-```mermaid
-flowchart TD
-    A["10 Fund CSV Files"] --> B["Data Cleaning and Monthly Alignment"]
-    B --> C["Shared Return Matrix and Covariance Inputs"]
-    C --> D["Part 1: Efficient Frontier"]
-    C --> E["Part 2: Risk Aversion and Utility Optimization"]
-
-    D --> D1["Average Returns"]
-    D --> D2["Covariance Matrix"]
-    D --> D3["GMVP and Frontier Points"]
-    D --> D4["Frontier JSON and Charts"]
-
-    E --> E1["Questionnaire Design"]
-    E --> E2["Score to Risk Aversion A"]
-    E --> E3["Optimal Long-Only Portfolio"]
-    E --> E4["Short-Sales Benchmark"]
-    E --> E5["Risk Profile JSON and Charts"]
-
-    D4 --> F["Part 3: Web Platform"]
-    E5 --> F
-
-    F --> G["Client Personas"]
-    F --> H["Recommendation Cockpit"]
-    F --> I["Frontier Visualization"]
-    F --> J["AI Chatbot"]
-
-    J --> K["Explainable Investor Guidance"]
-```
 
 ## Fund Universe
 
@@ -249,14 +215,4 @@ vite.config.js
 
 The deployed site uses GitHub Pages workflow automation and is configured for static hosting.
 
-## Summary
 
-This repository is not only a set of calculations. It is a complete robo-adviser prototype that combines:
-
-- financial modeling
-- investor profiling
-- utility-based portfolio recommendation
-- web presentation
-- AI-style explanation
-
-It is intended to demonstrate both quantitative rigor and practical fintech product design.
