@@ -228,6 +228,48 @@ This figure uses two panels:
 
 ![Risk Aversion Sensitivity](part2_outputs/optimal_portfolio_vs_risk_aversion.png)
 
+## Current Risk Lab Interface
+
+The current website implementation no longer shows Part 2 as one long page. It now follows a two-phase workflow that matches the robo-adviser user journey more closely.
+
+### Phase 1: Risk Questionnaire
+
+`Risk Lab` opens in `Risk Questionnaire` mode and renders one question at a time.
+
+The questionnaire interface includes:
+
+- a segmented horizontal progress bar across all 8 questions
+- question meta information in the form `Qx/8`, question dimension, and weight
+- one large question card with numbered answer buttons
+- `Prev` and `Next` navigation controls
+- a right-side `Question Status` panel showing answered progress across all 8 dimensions
+- an `Interpretation` box with the formula summary:
+  - `S = sum(weight_i x score_i)`
+  - `T = (S - 10) / 40`
+  - `A = 10 - 9T`
+  - `U = r - (A x sigma^2) / 2`
+
+The interface also blocks incomplete transitions. If the user tries to open the optimal-portfolio view before all questions are answered, the page shows a notice and redirects the user back to the first unanswered question.
+
+### Phase 2: Optimal Portfolio Dashboard
+
+Once all 8 questions are completed, the interface automatically switches to `Optimal Portfolio`.
+
+The current dashboard includes:
+
+- a mode toggle between:
+  - `Long-only recommendation selected`
+  - `Short-sales benchmark selected`
+- three headline metric cards:
+  - `Risk Aversion (A)`
+  - `Optimal Return`
+  - `Maximum Utility (U*)`
+- an `Efficient Frontier & Your Indifference Curve` chart
+- `Optimal Allocation` bars for the active portfolio mode
+- a full `Weight Breakdown` table covering all 10 funds
+- a `Justification` card that explains the recommendation in plain language
+- a `Retake Questionnaire` button that clears the current answers and restarts the workflow from Question 1
+
 ## Deliverables
 
 ### Main files
@@ -252,12 +294,15 @@ This figure uses two panels:
 
 ## Note on the JSX Component
 
-`part2/RiskAversionInteractive.jsx` reads `part2_outputs/part2_risk_profile_data.json` and provides:
+`part2/RiskAversionInteractive.jsx` reads `part2_outputs/part2_risk_profile_data.json` and now operates through a modular front-end structure:
 
-- an interactive risk questionnaire
-- live conversion from questionnaire score to `A`
-- switching between long-only recommendation and short-sales benchmark
-- a frontier chart with the selected optimal portfolio point
-- dynamic display of expected return, volatility, utility, and portfolio weights
+- `QuizWizard.jsx` for the one-question-at-a-time risk questionnaire
+- `QuestionCard.jsx` for the current question and option set
+- `ResultsDashboard.jsx` for the completed output view
+- `MetricsGrid.jsx` for the top scoring cards
+- `EfficientFrontierChart.jsx` for the frontier and indifference-curve visualization
+- `AllocationBars.jsx` and `WeightBreakdown.jsx` for portfolio composition
+
+This keeps the full Risk Lab synchronized with the same scoring formulas, long-only recommendation, short-sales benchmark, and the dynamic display of expected return, volatility, utility, and portfolio weights reported above.
 
 This means the JSX output remains numerically consistent with the Python optimization and the written report.

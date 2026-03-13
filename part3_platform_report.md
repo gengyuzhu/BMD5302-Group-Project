@@ -67,6 +67,12 @@ It also allows the user to compare:
 
 This is important because it shows both financial rigor and implementation realism.
 
+The cockpit is now more interactive than a static dashboard. It includes:
+
+- a live switch between long-only implementation and short-sales benchmark
+- dynamic holding bars with direct `Ask` actions that send a question to the chatbot
+- persona-linked portfolio metrics that refresh immediately when the active investor profile changes
+
 ### 3. Frontier visualization
 
 The platform includes a compact efficient-frontier chart with:
@@ -77,6 +83,13 @@ The platform includes a compact efficient-frontier chart with:
 - the currently selected portfolio point
 
 This gives the user a visual anchor for how their profile sits on the opportunity set.
+
+The current chart module also includes:
+
+- hover tooltips for funds and the selected portfolio point
+- a legend for the long-only frontier, short-sales frontier, and active point
+- projected guide lines to the selected point
+- supporting insight cards below the chart summarizing the current point, the active constraint mode, and the leading driver of the portfolio
 
 ### 4. Fund shelf
 
@@ -122,6 +135,36 @@ The chatbot is implemented locally without requiring external API keys. This kee
 
 For future enhancement, the same interface can later be connected to a live LLM API.
 
+### Current chatbot capabilities
+
+The latest website version upgrades the chatbot from a plain response box into a structured advisory module. Each assistant reply can contain:
+
+- a short title
+- a direct answer
+- bullet-point explanation
+- compact statistic badges
+- follow-up prompt suggestions
+
+The chatbot also includes:
+
+- live context binding to the currently selected persona and constraint mode
+- automatic `Context updated` messages when the user changes the persona or the long-only / short-sales setting
+- prompt chips for common questions
+- `Send` and `Clear` controls
+- clickable `Ask` shortcuts from the top holdings area and the fund shelf
+
+The assistant can currently explain:
+
+- the current recommendation
+- the difference between long-only and short-sales portfolios
+- the GMVP
+- how the questionnaire maps into `A`
+- the role of an individual fund
+- comparisons between funds
+- comparisons between investor personas
+
+This makes the chatbot much more useful for classroom demonstration because it behaves like an explainable copilot rather than a static FAQ.
+
 ## Why the Platform Meets the Rubric
 
 ### Intuitive
@@ -137,6 +180,7 @@ For future enhancement, the same interface can later be connected to a live LLM 
 - visual hierarchy is strong
 - the user can compare personas without re-running any scripts
 - deeper analytical views remain accessible via tabs
+- the chatbot offers follow-up prompts instead of requiring the user to invent every question from scratch
 
 ### Portfolio-ready
 

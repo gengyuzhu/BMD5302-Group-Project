@@ -160,13 +160,33 @@ Interpretation:
 - [`part1_outputs/frontier_points_long_only.csv`](part1_outputs/frontier_points_long_only.csv)
 - [`part1_outputs/efficient_frontier_data.json`](part1_outputs/efficient_frontier_data.json)
 
-## Note on the JSX File
+## Note on the Interactive Part 1 Interface
 
-`part1/EfficientFrontierInteractive.jsx` reads `part1_outputs/efficient_frontier_data.json` and provides:
+`part1/EfficientFrontierInteractive.jsx` is the current web implementation of Part 1. It reads:
 
-- toggle between comparison, short-sales-only, and long-only views
-- hover tooltips for funds and both GMVPs
-- a slider to inspect a portfolio along either frontier
-- a live weight table for the selected frontier point
+- `part1_outputs/efficient_frontier_data.json`
+- `part1_outputs/covariance_matrix_annualized.csv`
 
-This keeps the interactive chart consistent with the exact numbers used in the report and PNG outputs.
+The interface now mirrors the analytical workflow used in this report:
+
+- view switch between the combined frontier, short-sales-only view, and long-only view
+- hover tooltips for individual funds, both GMVPs, and the currently selected frontier point
+- a `Frontier position` summary row that shows where the selected portfolio sits on the active frontier
+- a `Portfolio Inspector` module placed directly below the frontier-position summary, with:
+  - long-only vs short-sales mode toggle
+  - slider-based frontier navigation
+  - live target return, expected return, and volatility cards
+  - an automatically refreshed weight table for the selected point
+- a `Frontier Analytics` section at the bottom of the page with three tabs:
+  - `Annualized Fund Statistics (48 months real data)`
+  - `Correlation Matrix (Annualized, 48 months)`
+  - `Variance-Covariance Matrix (Annualized)`
+
+The analytics section adds the following website features on top of the static PNG figures:
+
+- sortable fund statistics table
+- search/filter by fund name, short name, or ticker
+- hover tooltips for correlation and covariance matrix cells
+- direct comparison of annualized return, volatility, Sharpe ratio, correlation, and covariance inside one page
+
+This keeps the website fully aligned with the same dataset, annualization rules, and optimization outputs documented in the report.
