@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import data from "../part2_outputs/part2_risk_profile_data.json";
 
 const theme = {
@@ -139,6 +139,9 @@ export default function RiskAversionInteractive({ payload = data }) {
   const [portfolioMode, setPortfolioMode] = useState(null);
   const [chartScale, setChartScale] = useState(null);
   const [chartTooltip, setChartTooltip] = useState(null);
+  const questionPanelRef = useRef(null);
+  const sidebarViewportRef = useRef(null);
+  const sidebarStackRef = useRef(null);
 
   const answeredCount = Object.keys(answers).length;
   const isComplete = answeredCount === questionnaire.length;
@@ -245,6 +248,45 @@ export default function RiskAversionInteractive({ payload = data }) {
     ? activePortfolio.risk / (domain.maxX || 1)
     : 0;
 
+  useEffect(() => {
+    const syncSidebar = () => {
+      const questionPanel = questionPanelRef.current;
+      const viewport = sidebarViewportRef.current;
+      const stack = sidebarStackRef.current;
+
+      if (!questionPanel || !viewport || !stack) {
+        return;
+      }
+
+      if (window.innerWidth <= 980) {
+        viewport.style.height = "auto";
+        stack.style.transform = "translateY(0)";
+        return;
+      }
+
+      const stickyTop = 184;
+      const viewportHeight = Math.max(460, window.innerHeight - stickyTop - 22);
+      const questionHeight = questionPanel.offsetHeight;
+      const maxShift = Math.max(0, stack.scrollHeight - viewportHeight);
+      const scrollWindow = Math.max(1, questionHeight - viewportHeight);
+      const questionRect = questionPanel.getBoundingClientRect();
+      const progressed = Math.min(Math.max(stickyTop - questionRect.top, 0), scrollWindow);
+      const shift = maxShift * (progressed / scrollWindow);
+
+      viewport.style.height = `${viewportHeight}px`;
+      stack.style.transform = `translateY(-${shift}px)`;
+    };
+
+    syncSidebar();
+    window.addEventListener("scroll", syncSidebar, { passive: true });
+    window.addEventListener("resize", syncSidebar);
+
+    return () => {
+      window.removeEventListener("scroll", syncSidebar);
+      window.removeEventListener("resize", syncSidebar);
+    };
+  }, [activePortfolio, activeRows.length, isComplete, portfolioMode, progressRatio, scoring]);
+
   return (
     <section
       className="motion-surface"
@@ -301,7 +343,7 @@ export default function RiskAversionInteractive({ payload = data }) {
       </div>
 
       <div className="risk-layout">
-        <div className="dashboard-card" style={cardStyle}>
+        <div className="dashboard-card" style={cardStyle} ref={questionPanelRef}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <div>
               <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
@@ -369,134 +411,64 @@ export default function RiskAversionInteractive({ payload = data }) {
 
         <aside className="risk-sidebar">
           <div className="risk-sticky">
-            <div className="floating-summary">
-              <strong>
-                {portfolioMode === "longOnly"
-                  ? "Long-only recommendation selected"
-                  : portfolioMode === "shortSalesAllowed"
-                    ? "Short-sales benchmark selected"
-                    : "Choose a portfolio mode after answering"}
-              </strong>
-              <p>
-                {isComplete
-                  ? activePortfolio
-                    ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
-                    : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
-                  : `The right-side summary stays visible while you work through the questionnaire so the profile updates remain aligned with the questions.`}
-              </p>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Completion Status
-              </div>
-              <h3 style={{ margin: "8px 0 12px", fontSize: 25 }}>Progress and unlock state</h3>
-              <div className="progress-track">
-                <div className="progress-fill" style={{ width: `${progressRatio * 100}%` }} />
-              </div>
-              <div style={{ marginTop: 12, color: theme.muted, lineHeight: 1.55 }}>
-                {isComplete
-                  ? "All eight questions are complete. You can now compare the long-only recommendation with the short-sales benchmark."
-                  : `Complete the remaining ${questionnaire.length - answeredCount} question${questionnaire.length - answeredCount === 1 ? "" : "s"} to unlock the final scoring output and optimal portfolio.`}
-              </div>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Scoring Output
-              </div>
-              <div className="stat-grid" style={{ marginTop: 14 }}>
-                <StatBox
-                  label="Weighted score"
-                  value={scoring ? scoring.weightedScore.toFixed(1) : "--"}
-                  note={`Range ${questionnaireBounds(questionnaire).min} to ${questionnaireBounds(questionnaire).max}`}
-                />
-                <StatBox
-                  label="Risk tolerance index"
-                  value={scoring ? scoring.riskToleranceIndex.toFixed(2) : "--"}
-                  note="Normalized to 0 to 1"
-                />
-                <StatBox
-                  label="Risk aversion A"
-                  value={scoring ? scoring.riskAversionA.toFixed(2) : "--"}
-                  note="A = 10 - 9T"
-                />
-                <StatBox
-                  label="Profile"
-                  value={scoring ? scoring.profileLabel : "Pending"}
-                  note="Higher A means more risk aversion"
-                />
-              </div>
-
-              <div
-                style={{
-                  marginTop: 14,
-                  borderRadius: 18,
-                  padding: 14,
-                  background: "#fcf5e8",
-                  border: `1px solid ${theme.line}`,
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-                  <strong>Risk profile continuum</strong>
-                  <span style={{ color: theme.muted }}>
-                    {scoring ? `T = ${scoring.riskToleranceIndex.toFixed(2)} | A = ${scoring.riskAversionA.toFixed(2)}` : "Waiting for all 8 answers"}
-                  </span>
-                </div>
-                <div className="mini-meter" style={{ marginTop: 10 }}>
-                  <span
-                    style={{
-                      width: `${Math.max(6, (scoring?.riskToleranceIndex ?? progressRatio * 0.35) * 100)}%`,
-                      background: "linear-gradient(90deg, #8f6846 0%, #d58526 54%, #376da3 100%)",
-                    }}
-                  />
-                </div>
-                <div style={{ marginTop: 10, color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
-                  Lower questionnaire scores map to a higher A and a more conservative implementation.
-                  Higher scores reduce A and allow the optimizer to accept more volatility for higher
-                  expected return.
-                </div>
-              </div>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Portfolio Recommendation
-              </div>
-              {!activePortfolio ? (
-                <div className="placeholder-card" style={{ marginTop: 12 }}>
-                  {isComplete
-                    ? "Choose either Long-only recommendation or Short-sales benchmark above to inspect the optimized portfolio."
-                    : "Complete all eight questions first, then choose the constraint set you want to analyze."}
-                </div>
-              ) : (
-                <>
-                  <h3 style={{ margin: "8px 0 6px", fontSize: 25 }}>
+            <div className="risk-follow-viewport" ref={sidebarViewportRef}>
+              <div className="risk-follow-stack" ref={sidebarStackRef}>
+                <div className="floating-summary">
+                  <strong>
                     {portfolioMode === "longOnly"
-                      ? "Recommended long-only portfolio"
-                      : "Theoretical short-sales benchmark"}
-                  </h3>
-                  <p style={{ margin: 0, color: theme.muted, lineHeight: 1.5 }}>
-                    {portfolioMode === "longOnly"
-                      ? payload.recommendedPortfolio.rationale
-                      : "This benchmark maximizes the same utility function but allows unconstrained short positions, so it should be read as a theoretical comparison rather than a retail implementation."}
+                      ? "Long-only recommendation selected"
+                      : portfolioMode === "shortSalesAllowed"
+                        ? "Short-sales benchmark selected"
+                        : "Choose a portfolio mode after answering"}
+                  </strong>
+                  <p>
+                    {isComplete
+                      ? activePortfolio
+                        ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
+                        : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
+                      : `The right-side summary now follows the questionnaire scroll automatically, so you do not need a separate sidebar scroll.`}
                   </p>
+                </div>
 
-                  <div className="stat-grid" style={{ marginTop: 16 }}>
+                <div className="dashboard-card" style={cardStyle}>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+                    Completion Status
+                  </div>
+                  <h3 style={{ margin: "8px 0 12px", fontSize: 25 }}>Progress and unlock state</h3>
+                  <div className="progress-track">
+                    <div className="progress-fill" style={{ width: `${progressRatio * 100}%` }} />
+                  </div>
+                  <div style={{ marginTop: 12, color: theme.muted, lineHeight: 1.55 }}>
+                    {isComplete
+                      ? "All eight questions are complete. You can now compare the long-only recommendation with the short-sales benchmark."
+                      : `Complete the remaining ${questionnaire.length - answeredCount} question${questionnaire.length - answeredCount === 1 ? "" : "s"} to unlock the final scoring output and optimal portfolio.`}
+                  </div>
+                </div>
+
+                <div className="dashboard-card" style={cardStyle}>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+                    Scoring Output
+                  </div>
+                  <div className="stat-grid" style={{ marginTop: 14 }}>
                     <StatBox
-                      label="Return"
-                      value={formatPercent(activePortfolio.expected_return)}
-                      note="Annualized expected return"
+                      label="Weighted score"
+                      value={scoring ? scoring.weightedScore.toFixed(1) : "--"}
+                      note={`Range ${questionnaireBounds(questionnaire).min} to ${questionnaireBounds(questionnaire).max}`}
                     />
                     <StatBox
-                      label="Volatility"
-                      value={formatPercent(activePortfolio.risk)}
-                      note="Annualized volatility"
+                      label="Risk tolerance index"
+                      value={scoring ? scoring.riskToleranceIndex.toFixed(2) : "--"}
+                      note="Normalized to 0 to 1"
                     />
                     <StatBox
-                      label="Utility"
-                      value={activePortfolio.utility.toFixed(4)}
-                      note="Quadratic utility"
+                      label="Risk aversion A"
+                      value={scoring ? scoring.riskAversionA.toFixed(2) : "--"}
+                      note="A = 10 - 9T"
+                    />
+                    <StatBox
+                      label="Profile"
+                      value={scoring ? scoring.profileLabel : "Pending"}
+                      note="Higher A means more risk aversion"
                     />
                   </div>
 
@@ -505,90 +477,164 @@ export default function RiskAversionInteractive({ payload = data }) {
                       marginTop: 14,
                       borderRadius: 18,
                       padding: 14,
-                      background: portfolioMode === "longOnly" ? "#f8efe2" : "#eaf2fb",
-                      border: `1px solid ${portfolioMode === "longOnly" ? "#dbc6a9" : "#bfd2ea"}`,
+                      background: "#fcf5e8",
+                      border: `1px solid ${theme.line}`,
                     }}
                   >
-                    <div style={{ fontWeight: 700, marginBottom: 6 }}>
-                      Matched optimization record: A = {activePortfolio.risk_aversion_a.toFixed(2)}
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                      <strong>Risk profile continuum</strong>
+                      <span style={{ color: theme.muted }}>
+                        {scoring ? `T = ${scoring.riskToleranceIndex.toFixed(2)} | A = ${scoring.riskAversionA.toFixed(2)}` : "Waiting for all 8 answers"}
+                      </span>
                     </div>
-                    <div style={{ color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
-                      Comparison portfolio on the other constraint set: return{" "}
-                      {formatPercent(comparisonPortfolio.expected_return)}, volatility{" "}
-                      {formatPercent(comparisonPortfolio.risk)}, utility {comparisonPortfolio.utility.toFixed(4)}.
+                    <div className="mini-meter" style={{ marginTop: 10 }}>
+                      <span
+                        style={{
+                          width: `${Math.max(6, (scoring?.riskToleranceIndex ?? progressRatio * 0.35) * 100)}%`,
+                          background: "linear-gradient(90deg, #8f6846 0%, #d58526 54%, #376da3 100%)",
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginTop: 10, color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
+                      Lower questionnaire scores map to a higher A and a more conservative implementation.
+                      Higher scores reduce A and allow the optimizer to accept more volatility for higher
+                      expected return.
                     </div>
                   </div>
-                </>
-              )}
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Weight Breakdown
-              </div>
-              {!activePortfolio ? (
-                <div className="placeholder-card" style={{ marginTop: 12 }}>
-                  Portfolio weights will appear here after you finish the questionnaire and select a constraint set.
                 </div>
-              ) : (
-                <div className="holdings-list" style={{ marginTop: 12 }}>
-                  {activeRows.map((row) => {
-                    const magnitude = Math.min(100, Math.abs(row.weight) * 100);
-                    return (
-                      <div key={row.shortName} className="holdings-row">
-                        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                          <span>{row.fund}</span>
-                          <strong style={{ color: row.weight < 0 ? theme.warning : theme.ink }}>
-                            {formatPercent(row.weight)}
-                          </strong>
+
+                <div className="dashboard-card" style={cardStyle}>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+                    Portfolio Recommendation
+                  </div>
+                  {!activePortfolio ? (
+                    <div className="placeholder-card" style={{ marginTop: 12 }}>
+                      {isComplete
+                        ? "Choose either Long-only recommendation or Short-sales benchmark above to inspect the optimized portfolio."
+                        : "Complete all eight questions first, then choose the constraint set you want to analyze."}
+                    </div>
+                  ) : (
+                    <>
+                      <h3 style={{ margin: "8px 0 6px", fontSize: 25 }}>
+                        {portfolioMode === "longOnly"
+                          ? "Recommended long-only portfolio"
+                          : "Theoretical short-sales benchmark"}
+                      </h3>
+                      <p style={{ margin: 0, color: theme.muted, lineHeight: 1.5 }}>
+                        {portfolioMode === "longOnly"
+                          ? payload.recommendedPortfolio.rationale
+                          : "This benchmark maximizes the same utility function but allows unconstrained short positions, so it should be read as a theoretical comparison rather than a retail implementation."}
+                      </p>
+
+                      <div className="stat-grid" style={{ marginTop: 16 }}>
+                        <StatBox
+                          label="Return"
+                          value={formatPercent(activePortfolio.expected_return)}
+                          note="Annualized expected return"
+                        />
+                        <StatBox
+                          label="Volatility"
+                          value={formatPercent(activePortfolio.risk)}
+                          note="Annualized volatility"
+                        />
+                        <StatBox
+                          label="Utility"
+                          value={activePortfolio.utility.toFixed(4)}
+                          note="Quadratic utility"
+                        />
+                      </div>
+
+                      <div
+                        style={{
+                          marginTop: 14,
+                          borderRadius: 18,
+                          padding: 14,
+                          background: portfolioMode === "longOnly" ? "#f8efe2" : "#eaf2fb",
+                          border: `1px solid ${portfolioMode === "longOnly" ? "#dbc6a9" : "#bfd2ea"}`,
+                        }}
+                      >
+                        <div style={{ fontWeight: 700, marginBottom: 6 }}>
+                          Matched optimization record: A = {activePortfolio.risk_aversion_a.toFixed(2)}
                         </div>
-                        <div style={{ height: 10, borderRadius: 999, background: theme.soft, overflow: "hidden" }}>
-                          <div
-                            style={{
-                              width: `${magnitude}%`,
-                              height: "100%",
-                              background: row.weight < 0 ? theme.warning : portfolioMode === "longOnly" ? theme.long : theme.short,
-                            }}
-                          />
+                        <div style={{ color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
+                          Comparison portfolio on the other constraint set: return{" "}
+                          {formatPercent(comparisonPortfolio.expected_return)}, volatility{" "}
+                          {formatPercent(comparisonPortfolio.risk)}, utility {comparisonPortfolio.utility.toFixed(4)}.
                         </div>
                       </div>
-                    );
-                  })}
+                    </>
+                  )}
                 </div>
-              )}
-            </div>
 
-            <div className="dashboard-card" style={cardStyle}>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Interpretation
-              </div>
-              <div style={{ display: "grid", gap: 12, color: theme.muted, lineHeight: 1.55, marginTop: 12 }}>
-                <div>
-                  <strong style={{ color: theme.ink }}>Questionnaire logic:</strong> the two behavioral questions have double
-                  weight because the ability to tolerate losses and remain invested during drawdowns has the most direct
-                  connection to practical risk capacity.
+                <div className="dashboard-card" style={cardStyle}>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+                    Weight Breakdown
+                  </div>
+                  {!activePortfolio ? (
+                    <div className="placeholder-card" style={{ marginTop: 12 }}>
+                      Portfolio weights will appear here after you finish the questionnaire and select a constraint set.
+                    </div>
+                  ) : (
+                    <div className="holdings-list" style={{ marginTop: 12 }}>
+                      {activeRows.map((row) => {
+                        const magnitude = Math.min(100, Math.abs(row.weight) * 100);
+                        return (
+                          <div key={row.shortName} className="holdings-row">
+                            <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                              <span>{row.fund}</span>
+                              <strong style={{ color: row.weight < 0 ? theme.warning : theme.ink }}>
+                                {formatPercent(row.weight)}
+                              </strong>
+                            </div>
+                            <div style={{ height: 10, borderRadius: 999, background: theme.soft, overflow: "hidden" }}>
+                              <div
+                                style={{
+                                  width: `${magnitude}%`,
+                                  height: "100%",
+                                  background: row.weight < 0 ? theme.warning : portfolioMode === "longOnly" ? theme.long : theme.short,
+                                }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <strong style={{ color: theme.ink }}>A mapping:</strong> a higher questionnaire score lowers the risk-aversion
-                  coefficient <strong>A</strong>, which allows the optimizer to accept more variance for more expected return.
-                </div>
-                <div>
-                  <strong style={{ color: theme.ink }}>Implementation choice:</strong> the long-only portfolio is the recommended
-                  robo-adviser solution because it avoids leverage and borrow constraints. The short-sales solution is shown only
-                  as a mathematical benchmark.
-                </div>
-              </div>
 
-              <div style={{ marginTop: 18, padding: 16, borderRadius: 18, background: theme.panel, border: `1px solid ${theme.line}` }}>
-                <div style={{ fontWeight: 700, marginBottom: 8 }}>Formula summary</div>
-                <div style={{ fontFamily: "IBM Plex Mono, Consolas, monospace", fontSize: 13, lineHeight: 1.6 }}>
-                  S = sum(weight_i x score_i)
-                  <br />
-                  T = (S - 10) / 40
-                  <br />
-                  A = 10 - 9T
-                  <br />
-                  U = r - (A x sigma^2) / 2
+                <div className="dashboard-card" style={cardStyle}>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+                    Interpretation
+                  </div>
+                  <div style={{ display: "grid", gap: 12, color: theme.muted, lineHeight: 1.55, marginTop: 12 }}>
+                    <div>
+                      <strong style={{ color: theme.ink }}>Questionnaire logic:</strong> the two behavioral questions have double
+                      weight because the ability to tolerate losses and remain invested during drawdowns has the most direct
+                      connection to practical risk capacity.
+                    </div>
+                    <div>
+                      <strong style={{ color: theme.ink }}>A mapping:</strong> a higher questionnaire score lowers the risk-aversion
+                      coefficient <strong>A</strong>, which allows the optimizer to accept more variance for more expected return.
+                    </div>
+                    <div>
+                      <strong style={{ color: theme.ink }}>Implementation choice:</strong> the long-only portfolio is the recommended
+                      robo-adviser solution because it avoids leverage and borrow constraints. The short-sales solution is shown only
+                      as a mathematical benchmark.
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 18, padding: 16, borderRadius: 18, background: theme.panel, border: `1px solid ${theme.line}` }}>
+                    <div style={{ fontWeight: 700, marginBottom: 8 }}>Formula summary</div>
+                    <div style={{ fontFamily: "IBM Plex Mono, Consolas, monospace", fontSize: 13, lineHeight: 1.6 }}>
+                      S = sum(weight_i x score_i)
+                      <br />
+                      T = (S - 10) / 40
+                      <br />
+                      A = 10 - 9T
+                      <br />
+                      U = r - (A x sigma^2) / 2
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -558,21 +558,19 @@ svg {
 .risk-sticky {
   position: sticky;
   top: 184px;
+  overflow: hidden;
+}
+
+.risk-follow-viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-follow-stack {
   display: grid;
   gap: 18px;
-  max-height: calc(100vh - 204px);
-  overflow: auto;
-  padding-right: 6px;
-  scrollbar-width: thin;
-}
-
-.risk-sticky::-webkit-scrollbar {
-  width: 8px;
-}
-
-.risk-sticky::-webkit-scrollbar-thumb {
-  background: rgba(22, 33, 43, 0.16);
-  border-radius: 999px;
+  will-change: transform;
+  transition: transform 140ms ease-out;
 }
 
 .question-stack {
@@ -760,6 +758,15 @@ svg {
   .risk-sticky {
     position: static;
   }
+
+  .risk-follow-viewport {
+    overflow: visible;
+    height: auto !important;
+  }
+
+  .risk-follow-stack {
+    transform: none !important;
+  }
 }
 
 @media (max-width: 720px) {
@@ -808,7 +815,6 @@ svg {
   }
 
   .risk-sticky {
-    max-height: none;
     overflow: visible;
   }
 }
