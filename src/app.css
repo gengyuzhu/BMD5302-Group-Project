@@ -127,9 +127,7 @@ svg {
 }
 
 .app-topbar-frame {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
+  position: static;
   margin-bottom: 20px;
 }
 
