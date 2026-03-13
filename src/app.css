@@ -558,19 +558,8 @@ svg {
 .risk-sticky {
   position: sticky;
   top: 184px;
-  overflow: hidden;
-}
-
-.risk-follow-viewport {
-  position: relative;
-  overflow: hidden;
-}
-
-.risk-follow-stack {
   display: grid;
   gap: 18px;
-  will-change: transform;
-  transition: transform 140ms ease-out;
 }
 
 .question-stack {
@@ -757,15 +746,6 @@ svg {
 
   .risk-sticky {
     position: static;
-  }
-
-  .risk-follow-viewport {
-    overflow: visible;
-    height: auto !important;
-  }
-
-  .risk-follow-stack {
-    transform: none !important;
   }
 }
 

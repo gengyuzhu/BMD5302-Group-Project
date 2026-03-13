@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import data from "../part2_outputs/part2_risk_profile_data.json";
 
 const theme = {
@@ -139,9 +139,6 @@ export default function RiskAversionInteractive({ payload = data }) {
   const [portfolioMode, setPortfolioMode] = useState(null);
   const [chartScale, setChartScale] = useState(null);
   const [chartTooltip, setChartTooltip] = useState(null);
-  const questionPanelRef = useRef(null);
-  const sidebarViewportRef = useRef(null);
-  const sidebarStackRef = useRef(null);
 
   const answeredCount = Object.keys(answers).length;
   const isComplete = answeredCount === questionnaire.length;
@@ -248,45 +245,6 @@ export default function RiskAversionInteractive({ payload = data }) {
     ? activePortfolio.risk / (domain.maxX || 1)
     : 0;
 
-  useEffect(() => {
-    const syncSidebar = () => {
-      const questionPanel = questionPanelRef.current;
-      const viewport = sidebarViewportRef.current;
-      const stack = sidebarStackRef.current;
-
-      if (!questionPanel || !viewport || !stack) {
-        return;
-      }
-
-      if (window.innerWidth <= 980) {
-        viewport.style.height = "auto";
-        stack.style.transform = "translateY(0)";
-        return;
-      }
-
-      const stickyTop = 184;
-      const viewportHeight = Math.max(460, window.innerHeight - stickyTop - 22);
-      const questionHeight = questionPanel.offsetHeight;
-      const maxShift = Math.max(0, stack.scrollHeight - viewportHeight);
-      const scrollWindow = Math.max(1, questionHeight - viewportHeight);
-      const questionRect = questionPanel.getBoundingClientRect();
-      const progressed = Math.min(Math.max(stickyTop - questionRect.top, 0), scrollWindow);
-      const shift = maxShift * (progressed / scrollWindow);
-
-      viewport.style.height = `${viewportHeight}px`;
-      stack.style.transform = `translateY(-${shift}px)`;
-    };
-
-    syncSidebar();
-    window.addEventListener("scroll", syncSidebar, { passive: true });
-    window.addEventListener("resize", syncSidebar);
-
-    return () => {
-      window.removeEventListener("scroll", syncSidebar);
-      window.removeEventListener("resize", syncSidebar);
-    };
-  }, [activePortfolio, activeRows.length, isComplete, portfolioMode, progressRatio, scoring]);
-
   return (
     <section
       className="motion-surface"
@@ -343,7 +301,7 @@ export default function RiskAversionInteractive({ payload = data }) {
       </div>
 
       <div className="risk-layout">
-        <div className="dashboard-card" style={cardStyle} ref={questionPanelRef}>
+        <div className="dashboard-card" style={cardStyle}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <div>
               <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
@@ -411,26 +369,24 @@ export default function RiskAversionInteractive({ payload = data }) {
 
         <aside className="risk-sidebar">
           <div className="risk-sticky">
-            <div className="risk-follow-viewport" ref={sidebarViewportRef}>
-              <div className="risk-follow-stack" ref={sidebarStackRef}>
-                <div className="floating-summary">
-                  <strong>
-                    {portfolioMode === "longOnly"
-                      ? "Long-only recommendation selected"
-                      : portfolioMode === "shortSalesAllowed"
-                        ? "Short-sales benchmark selected"
-                        : "Choose a portfolio mode after answering"}
-                  </strong>
-                  <p>
-                    {isComplete
-                      ? activePortfolio
-                        ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
-                        : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
-                      : `The right-side summary now follows the questionnaire scroll automatically, so you do not need a separate sidebar scroll.`}
-                  </p>
-                </div>
+            <div className="floating-summary">
+              <strong>
+                {portfolioMode === "longOnly"
+                  ? "Long-only recommendation selected"
+                  : portfolioMode === "shortSalesAllowed"
+                    ? "Short-sales benchmark selected"
+                    : "Choose a portfolio mode after answering"}
+              </strong>
+              <p>
+                {isComplete
+                  ? activePortfolio
+                    ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
+                    : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
+                  : `The full right-hand module stack stays naturally expanded, without any separate sidebar scrolling or clipped viewport behavior.`}
+              </p>
+            </div>
 
-                <div className="dashboard-card" style={cardStyle}>
+            <div className="dashboard-card" style={cardStyle}>
                   <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                     Completion Status
                   </div>
@@ -443,9 +399,9 @@ export default function RiskAversionInteractive({ payload = data }) {
                       ? "All eight questions are complete. You can now compare the long-only recommendation with the short-sales benchmark."
                       : `Complete the remaining ${questionnaire.length - answeredCount} question${questionnaire.length - answeredCount === 1 ? "" : "s"} to unlock the final scoring output and optimal portfolio.`}
                   </div>
-                </div>
+            </div>
 
-                <div className="dashboard-card" style={cardStyle}>
+            <div className="dashboard-card" style={cardStyle}>
                   <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                     Scoring Output
                   </div>
@@ -501,9 +457,9 @@ export default function RiskAversionInteractive({ payload = data }) {
                       expected return.
                     </div>
                   </div>
-                </div>
+            </div>
 
-                <div className="dashboard-card" style={cardStyle}>
+            <div className="dashboard-card" style={cardStyle}>
                   <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                     Portfolio Recommendation
                   </div>
@@ -564,9 +520,9 @@ export default function RiskAversionInteractive({ payload = data }) {
                       </div>
                     </>
                   )}
-                </div>
+            </div>
 
-                <div className="dashboard-card" style={cardStyle}>
+            <div className="dashboard-card" style={cardStyle}>
                   <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                     Weight Breakdown
                   </div>
@@ -600,9 +556,9 @@ export default function RiskAversionInteractive({ payload = data }) {
                       })}
                     </div>
                   )}
-                </div>
+            </div>
 
-                <div className="dashboard-card" style={cardStyle}>
+            <div className="dashboard-card" style={cardStyle}>
                   <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                     Interpretation
                   </div>
@@ -635,8 +591,6 @@ export default function RiskAversionInteractive({ payload = data }) {
                       U = r - (A x sigma^2) / 2
                     </div>
                   </div>
-                </div>
-              </div>
             </div>
           </div>
         </aside>
