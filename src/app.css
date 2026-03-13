@@ -444,6 +444,35 @@ svg {
   color: var(--app-ink);
 }
 
+.platform-search-input {
+  min-width: 240px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(22, 33, 43, 0.12);
+  background: #fffefb;
+  color: var(--app-ink);
+  font: inherit;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.platform-search-input::placeholder {
+  color: rgba(98, 118, 134, 0.86);
+}
+
+.platform-search-input:hover {
+  transform: translateY(-1px);
+}
+
+.platform-search-input:focus-visible {
+  outline: none;
+  border-color: rgba(208, 123, 42, 0.44);
+  box-shadow: 0 0 0 4px rgba(208, 123, 42, 0.12);
+}
+
+.platform-matrix-shell {
+  position: relative;
+}
+
 .platform-matrix-table {
   min-width: 980px;
   border-collapse: separate;
