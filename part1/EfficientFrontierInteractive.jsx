@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import frontierData from "../part1_outputs/efficient_frontier_data.json";
 import covarianceAnnualizedCsv from "../part1_outputs/covariance_matrix_annualized.csv?raw";
 
@@ -125,10 +125,7 @@ function buildCorrelationMatrix(covarianceMatrix, funds) {
   };
 }
 
-export default function EfficientFrontierInteractive({
-  data = frontierData,
-  onChatContextChange,
-}) {
+export default function EfficientFrontierInteractive({ data = frontierData }) {
   const [viewMode, setViewMode] = useState("both");
   const [portfolioMode, setPortfolioMode] = useState("longOnly");
   const [portfolioIndex, setPortfolioIndex] = useState(0);
@@ -702,25 +699,6 @@ export default function EfficientFrontierInteractive({
       )}
     </div>
   );
-
-  useEffect(() => {
-    onChatContextChange?.({
-      viewMode,
-      analyticsView,
-      portfolioMode,
-      selectedPortfolio,
-      selectedIndex: boundedIndex,
-      frontierCount: activeFrontier.length,
-    });
-  }, [
-    activeFrontier.length,
-    analyticsView,
-    boundedIndex,
-    onChatContextChange,
-    portfolioMode,
-    selectedPortfolio,
-    viewMode,
-  ]);
 
   return (
     <section
