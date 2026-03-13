@@ -425,6 +425,110 @@ svg {
   box-shadow: none;
 }
 
+.assistant-card {
+  display: grid;
+  gap: 12px;
+  max-width: 100%;
+  border-radius: 20px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #fff9ef, #f8efdf);
+  border: 1px solid rgba(22, 33, 43, 0.08);
+}
+
+.assistant-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--app-ink);
+}
+
+.assistant-copy {
+  color: var(--app-ink);
+  line-height: 1.6;
+}
+
+.assistant-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.assistant-stat {
+  display: grid;
+  gap: 4px;
+  min-width: 104px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(22, 33, 43, 0.08);
+}
+
+.assistant-stat span {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+
+.assistant-stat strong {
+  font-size: 15px;
+  color: var(--app-ink);
+}
+
+.assistant-list {
+  display: grid;
+  gap: 8px;
+}
+
+.assistant-list-item {
+  position: relative;
+  padding-left: 18px;
+  color: var(--app-ink);
+  line-height: 1.55;
+}
+
+.assistant-list-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d07b2a, #376da3);
+}
+
+.assistant-followups {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.assistant-suggestion,
+.assistant-mini-action {
+  border-radius: 999px;
+  border: 1px solid rgba(22, 33, 43, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--app-ink);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.assistant-suggestion {
+  padding: 8px 12px;
+}
+
+.assistant-mini-action {
+  padding: 6px 10px;
+}
+
+.assistant-suggestion:hover,
+.assistant-mini-action:hover {
+  border-color: rgba(208, 123, 42, 0.42);
+  background: #ffffff;
+}
+
 .chat-log {
   max-height: 420px;
   overflow: auto;
@@ -445,6 +549,11 @@ svg {
   animation: bubble-in 240ms ease;
 }
 
+.chat-bubble-assistant {
+  justify-self: start;
+  max-width: 92%;
+}
+
 .chat-status {
   display: inline-flex;
   align-items: center;
@@ -460,6 +569,33 @@ svg {
   border-radius: 50%;
   background: #d07b2a;
   animation: pulse 1000ms ease-in-out infinite;
+}
+
+.chat-scenario-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chat-scenario-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffdf8, #f6ecdb);
+  border: 1px solid rgba(22, 33, 43, 0.08);
+}
+
+.chat-scenario-card span {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+
+.chat-scenario-card strong {
+  color: var(--app-ink);
+  line-height: 1.35;
 }
 
 .persona-grid,
@@ -530,6 +666,22 @@ svg {
   border-radius: 18px;
   border: 1px solid rgba(22, 33, 43, 0.08);
   background: rgba(255, 255, 255, 0.72);
+  text-align: left;
+}
+
+.fund-card-interactive {
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.fund-card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: rgba(208, 123, 42, 0.28);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .fund-card h4 {
@@ -1191,6 +1343,10 @@ svg {
 
   .chat-context {
     align-items: flex-start;
+  }
+
+  .chat-scenario-strip {
+    grid-template-columns: 1fr;
   }
 
   .nav-banner {
