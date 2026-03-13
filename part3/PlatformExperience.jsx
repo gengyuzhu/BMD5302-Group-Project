@@ -1,4 +1,4 @@
-import React, { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import frontierData from "../part1_outputs/efficient_frontier_data.json";
 import riskData from "../part2_outputs/part2_risk_profile_data.json";
 
@@ -562,19 +562,13 @@ function buildAssistantReply(message, context) {
   });
 }
 
-export default function PlatformExperience() {
+export default function PlatformExperience({
+  onChatPrompt,
+  onChatContextChange,
+}) {
   const [selectedPersonaId, setSelectedPersonaId] = useState("growth");
   const [constraintMode, setConstraintMode] = useState("longOnly");
-  const [draft, setDraft] = useState("");
-  const [isThinking, setIsThinking] = useState(false);
-  const [thinkingLabel, setThinkingLabel] = useState("Reviewing the current client context");
   const [chartTooltip, setChartTooltip] = useState(null);
-  const chatViewportRef = useRef(null);
-  const timerIdsRef = useRef([]);
-  const contextRef = useRef({
-    personaId: "growth",
-    constraintMode: "longOnly",
-  });
 
   const activePersona = personas.find((persona) => persona.id === selectedPersonaId) ?? personas[0];
   const activeLongPortfolio = useMemo(() => nearestPortfolio(riskData.optimalPortfolios.longOnly, activePersona.a), [activePersona.a]);
@@ -583,22 +577,6 @@ export default function PlatformExperience() {
   const topHoldings = positiveWeights(displayedPortfolio.weights, 4);
   const longAnchors = positiveWeights(activeLongPortfolio.weights, 3);
   const shortExposures = negativeWeights(activeShortPortfolio.weights, 3);
-
-  const context = useMemo(
-    () => ({
-      activePersona,
-      activeLongPortfolio,
-      activeShortPortfolio,
-      displayedPortfolio,
-      constraintMode,
-      funds: riskData.funds,
-      gmvpLong: frontierData.gmvp.longOnly,
-      gmvpShort: frontierData.gmvp.shortSalesAllowed,
-    }),
-    [activeLongPortfolio, activePersona, activeShortPortfolio, constraintMode, displayedPortfolio],
-  );
-
-  const [messages, setMessages] = useState(() => [buildWelcomeMessage(context)]);
 
   const prompts = useMemo(
     () => [
@@ -613,52 +591,23 @@ export default function PlatformExperience() {
   );
 
   useEffect(() => {
-    if (chatViewportRef.current) {
-      chatViewportRef.current.scrollTo({ top: chatViewportRef.current.scrollHeight, behavior: "smooth" });
-    }
-  }, [messages, isThinking]);
-
-  useEffect(() => {
-    const previous = contextRef.current;
-    if (
-      previous.personaId === selectedPersonaId &&
-      previous.constraintMode === constraintMode
-    ) {
-      return;
-    }
-
-    contextRef.current = {
-      personaId: selectedPersonaId,
+    onChatContextChange?.({
+      selectedPersonaId,
       constraintMode,
-    };
-
-    setMessages((current) => [
-      ...current,
-      assistantMessage({
-        title: "Context updated",
-        text: `Replies now use ${activePersona.label} with ${constraintMode === "longOnly" ? "the long-only implementation" : "the short-sales benchmark"}.`,
-        bullets: [
-          `Expected return: ${formatPercent(displayedPortfolio.expected_return)}.`,
-          `Volatility: ${formatPercent(displayedPortfolio.risk)}.`,
-          `Top holdings: ${portfolioLeaders(displayedPortfolio)}.`,
-        ],
-        suggestions: [
-          "Summarize the current portfolio.",
-          "Compare long-only and short-sales.",
-          "Explain how the questionnaire converts answers into A.",
-        ],
-      }),
-    ]);
+      activePersona,
+      activeLongPortfolio,
+      activeShortPortfolio,
+      displayedPortfolio,
+    });
   }, [
-    activePersona.label,
+    activeLongPortfolio,
+    activePersona,
+    activeShortPortfolio,
     constraintMode,
     displayedPortfolio,
+    onChatContextChange,
     selectedPersonaId,
   ]);
-
-  useEffect(() => () => {
-    timerIdsRef.current.forEach((id) => window.clearTimeout(id));
-  }, []);
 
   const chartDomain = useMemo(() => {
     const allRisks = riskData.funds.map((fund) => fund.annualVolatility);
@@ -687,35 +636,8 @@ export default function PlatformExperience() {
 
   function submitMessage(rawText) {
     const text = rawText.trim();
-    if (!text) {
-      return;
-    }
-    setMessages((current) => [...current, { role: "user", text }]);
-    setDraft("");
-    setIsThinking(true);
-    setThinkingLabel(
-      [
-        "Reviewing the frontier and utility outputs",
-        "Checking the live persona and constraint mode",
-        "Building a portfolio explanation from Parts 1 and 2",
-      ][Math.floor(Math.random() * 3)],
-    );
-    const id = window.setTimeout(() => {
-      timerIdsRef.current = timerIdsRef.current.filter((timerId) => timerId !== id);
-      const reply = buildAssistantReply(text, context);
-      startTransition(() => {
-        setMessages((current) => [...current, reply]);
-        setIsThinking(timerIdsRef.current.length > 0);
-      });
-    }, 420);
-    timerIdsRef.current = [...timerIdsRef.current, id];
-  }
-
-  function clearChat() {
-    timerIdsRef.current.forEach((id) => window.clearTimeout(id));
-    timerIdsRef.current = [];
-    setIsThinking(false);
-    setMessages([buildWelcomeMessage(context)]);
+    if (!text) return;
+    onChatPrompt?.(text);
   }
 
   return (
@@ -1054,54 +976,55 @@ export default function PlatformExperience() {
           </div>
 
           <div className="dashboard-card" style={cardStyle}>
-            <div style={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: theme.muted }}>AI Chatbot</div>
-            <h3 style={{ margin: "8px 0 12px", fontSize: 26 }}>Explain the portfolio in plain language</h3>
-            <div className="chat-context">
-              <div>
-                <strong>Live context</strong>
-                <div style={{ marginTop: 4, color: "rgba(255,255,255,0.82)" }}>{activePersona.label} | {constraintMode === "longOnly" ? "Long-only implementation" : "Short-sales benchmark"}</div>
-                <div style={{ marginTop: 6, color: "rgba(255,255,255,0.72)", fontSize: 13 }}>Future replies always use the currently selected persona and constraint set.</div>
-              </div>
-              <div className="chat-badges">
-                <span className="chat-badge">A = {activePersona.a.toFixed(2)}</span>
-                <span className="chat-badge">Return {formatPercent(displayedPortfolio.expected_return)}</span>
-                <span className="chat-badge">Vol {formatPercent(displayedPortfolio.risk)}</span>
-              </div>
+            <div style={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: theme.muted }}>AI Copilot Dock</div>
+            <h3 style={{ margin: "8px 0 12px", fontSize: 26 }}>Use the right-side adviser rail</h3>
+            <div style={{ color: theme.muted, lineHeight: 1.6 }}>
+              Hover the chatbot on the right to expand it. The dock follows the page as you scroll and answers Parts 1 and 2 using the current platform context.
             </div>
 
-            <div className="chat-scenario-strip" style={{ marginTop: 12 }}>
+            <div className="chat-scenario-strip" style={{ marginTop: 14 }}>
+              <div className="chat-scenario-card">
+                <span>Live persona</span>
+                <strong>{activePersona.label}</strong>
+              </div>
+              <div className="chat-scenario-card">
+                <span>Current mode</span>
+                <strong>{constraintMode === "longOnly" ? "Long-only implementation" : "Short-sales benchmark"}</strong>
+              </div>
               <div className="chat-scenario-card">
                 <span>Current top idea</span>
                 <strong>{topHoldings[0]?.fund ?? "No active holding"}</strong>
               </div>
-              <div className="chat-scenario-card">
-                <span>GMVP anchor</span>
-                <strong>{formatPercent(frontierData.gmvp.longOnly.risk)} vol</strong>
-              </div>
-              <div className="chat-scenario-card">
-                <span>Data window</span>
-                <strong>{riskData.metadata.sample_start} to {riskData.metadata.sample_end}</strong>
-              </div>
             </div>
 
-            <div className="prompt-grid" style={{ marginTop: 12 }}>
+            <div className="prompt-grid" style={{ marginTop: 14 }}>
               {prompts.map((prompt) => (
-                <button key={prompt} type="button" className="prompt-chip" style={actionButton(false)} onClick={() => submitMessage(prompt)}>{prompt}</button>
+                <button
+                  key={prompt}
+                  type="button"
+                  className="prompt-chip"
+                  style={actionButton(false)}
+                  onClick={() => submitMessage(prompt)}
+                >
+                  {prompt}
+                </button>
               ))}
             </div>
 
-            <div ref={chatViewportRef} className="chat-log" style={{ borderRadius: 20, border: `1px solid ${theme.line}`, background: "#fffefb", padding: 14, minHeight: 360, display: "grid", gap: 10, alignContent: "start", marginTop: 12 }}>
-              {messages.map((message, index) => (
-                <ChatMessage key={`${message.role}-${index}`} message={message} onSuggestionClick={submitMessage} />
-              ))}
-              {isThinking ? <div className="chat-status">{thinkingLabel}</div> : null}
+            <div
+              style={{
+                marginTop: 14,
+                padding: 14,
+                borderRadius: 18,
+                background: "linear-gradient(135deg, rgba(31, 45, 55, 0.95), rgba(55, 109, 163, 0.92))",
+                color: "#ffffff",
+              }}
+            >
+              <strong>What the dock can answer</strong>
+              <div style={{ marginTop: 8, color: "rgba(255,255,255,0.82)", lineHeight: 1.55 }}>
+                Recommendation summaries, GMVP questions, long-only versus short-sales logic, fund comparisons, the questionnaire-to-A mapping, and the current portfolio weights.
+              </div>
             </div>
-
-            <form onSubmit={(event) => { event.preventDefault(); submitMessage(draft); }} className="chat-composer" style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 10, marginTop: 12 }}>
-              <input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Ask about the client profile, a fund, the frontier, or the recommendation" style={{ borderRadius: 16, border: `1px solid ${theme.line}`, padding: "14px 16px", fontSize: 14 }} />
-              <button type="submit" style={actionButton(true)}>Send</button>
-              <button type="button" style={actionButton(false)} onClick={clearChat}>Clear</button>
-            </form>
           </div>
         </div>
 

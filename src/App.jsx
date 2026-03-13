@@ -1,5 +1,6 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from "react";
 import "./app.css";
+import AdvisorSidebar from "./components/AdvisorSidebar.jsx";
 
 const EfficientFrontierInteractive = lazy(() => import("../part1/EfficientFrontierInteractive.jsx"));
 const RiskAversionInteractive = lazy(() => import("../part2/RiskAversionInteractive.jsx"));
@@ -37,13 +38,24 @@ const views = [
 
 export default function App() {
   const [activeView, setActiveView] = useState("platform");
+  const [chatContext, setChatContext] = useState({});
+  const [chatRequest, setChatRequest] = useState(null);
   const activeMeta = useMemo(
     () => views.find((view) => view.id === activeView) ?? views[0],
     [activeView],
   );
 
+  const handleChatContextChange = useCallback((nextContext) => {
+    setChatContext(nextContext ?? {});
+  }, []);
+
+  const handleChatPrompt = useCallback((text) => {
+    setChatRequest({ id: `${Date.now()}-${Math.random()}`, text });
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setChatContext({});
   }, [activeView]);
 
   return (
@@ -96,10 +108,33 @@ export default function App() {
       </section>
 
       <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
-        <div key={activeView} className="view-stage">
-          {activeView === "platform" && <PlatformExperience />}
-          {activeView === "frontier" && <EfficientFrontierInteractive />}
-          {activeView === "risk" && <RiskAversionInteractive />}
+        <div key={activeView} className="view-stage view-workspace">
+          <div className="workspace-main">
+            {activeView === "platform" && (
+              <PlatformExperience
+                onChatPrompt={handleChatPrompt}
+                onChatContextChange={handleChatContextChange}
+              />
+            )}
+            {activeView === "frontier" && (
+              <EfficientFrontierInteractive
+                onChatContextChange={handleChatContextChange}
+              />
+            )}
+            {activeView === "risk" && (
+              <RiskAversionInteractive
+                onChatContextChange={handleChatContextChange}
+              />
+            )}
+          </div>
+
+          <aside className="workspace-rail" aria-label="AI chatbot sidebar">
+            <AdvisorSidebar
+              activeView={activeView}
+              viewContext={chatContext}
+              externalRequest={chatRequest}
+            />
+          </aside>
         </div>
       </Suspense>
     </main>

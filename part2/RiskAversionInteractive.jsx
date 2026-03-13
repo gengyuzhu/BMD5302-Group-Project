@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import payload from "../part2_outputs/part2_risk_profile_data.json";
 import "./risk-lab.css";
 import QuizWizard from "./components/QuizWizard.jsx";
@@ -13,7 +13,10 @@ import {
   weightRows,
 } from "./components/riskLabUtils.js";
 
-export default function RiskAversionInteractive({ data = payload }) {
+export default function RiskAversionInteractive({
+  data = payload,
+  onChatContextChange,
+}) {
   const questionnaire = data.questionnaire.questionnaire;
   const bounds = useMemo(() => questionnaireBounds(questionnaire), [questionnaire]);
 
@@ -156,6 +159,33 @@ export default function RiskAversionInteractive({ data = payload }) {
     setQuizNotice("");
     smoothScrollToTop();
   };
+
+  useEffect(() => {
+    onChatContextChange?.({
+      activeTab,
+      currentIndex,
+      currentQuestion,
+      answeredCount,
+      questionnaireLength: questionnaire.length,
+      isComplete,
+      scoring,
+      tone,
+      portfolioMode,
+      activePortfolio,
+    });
+  }, [
+    activePortfolio,
+    activeTab,
+    answeredCount,
+    currentIndex,
+    currentQuestion,
+    isComplete,
+    onChatContextChange,
+    portfolioMode,
+    questionnaire.length,
+    scoring,
+    tone,
+  ]);
 
   return (
     <section className="motion-surface risklab-shell">
