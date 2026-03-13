@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import frontierData from "../part1_outputs/efficient_frontier_data.json";
+import covarianceAnnualizedCsv from "../part1_outputs/covariance_matrix_annualized.csv?raw";
 
 const theme = {
   ink: "#1d2a34",
@@ -22,6 +23,19 @@ const chartSize = {
   paddingRight: 36,
   paddingBottom: 56,
   paddingLeft: 74,
+};
+
+const tickerMap = {
+  "Nikko STI ETF": "STI_ETF",
+  "Lion-OCBC HSTECH ETF": "HSTECH",
+  "ABF SG Bond": "ABF_SG",
+  "Fidelity Global Tech": "FID_TECH",
+  "PIMCO Income SGD-H": "PIMCO_INC",
+  "JPM US Tech SGD": "JPM_TECH",
+  "Schroder Asian Growth": "SCH_ASIA",
+  "BlackRock World Gold": "BLK_GOLD",
+  "Franklin India SGD": "FRANK_IND",
+  "United SGD Fund": "UOB_SGD",
 };
 
 const buttonStyle = (active) => ({
@@ -65,11 +79,50 @@ function hoverPosition(event) {
   };
 }
 
+function tickerCode(shortName) {
+  return tickerMap[shortName] ?? shortName.toUpperCase().replace(/[^\w]+/g, "_").slice(0, 10);
+}
+
+function parseMatrixCsv(raw) {
+  const lines = raw.trim().split(/\r?\n/).filter(Boolean);
+  const headers = lines[0].split(",").slice(1);
+  const rows = lines.slice(1).map((line) => {
+    const cells = line.split(",");
+    return {
+      rowLabel: cells[0],
+      values: cells.slice(1).map((value) => Number(value)),
+    };
+  });
+  return { headers, rows };
+}
+
+function buildCorrelationMatrix(covarianceMatrix, funds) {
+  const volatilityMap = Object.fromEntries(
+    funds.map((fund) => [fund.shortName, fund.annualVolatility]),
+  );
+
+  return {
+    headers: covarianceMatrix.headers,
+    rows: covarianceMatrix.rows.map((row) => ({
+      rowLabel: row.rowLabel,
+      values: row.values.map((value, columnIndex) => {
+        const columnLabel = covarianceMatrix.headers[columnIndex];
+        const denominator =
+          (volatilityMap[row.rowLabel] ?? 0) * (volatilityMap[columnLabel] ?? 0);
+        return denominator ? value / denominator : 0;
+      }),
+    })),
+  };
+}
+
 export default function EfficientFrontierInteractive({ data = frontierData }) {
   const [viewMode, setViewMode] = useState("both");
   const [portfolioMode, setPortfolioMode] = useState("longOnly");
   const [portfolioIndex, setPortfolioIndex] = useState(0);
   const [tooltip, setTooltip] = useState(null);
+  const [analyticsView, setAnalyticsView] = useState("statistics");
+  const [statsSort, setStatsSort] = useState({ key: "annualReturn", direction: "desc" });
+  const [matrixHover, setMatrixHover] = useState(null);
 
   const assets = data.funds;
   const shortFrontier = data.frontiers.shortSalesAllowed;
@@ -137,6 +190,159 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
   const gmvpShortY = yScale(gmvpShort.return);
   const gmvpLongX = xScale(gmvpLong.risk);
   const gmvpLongY = yScale(gmvpLong.return);
+
+  const covarianceMatrix = useMemo(() => parseMatrixCsv(covarianceAnnualizedCsv), []);
+  const correlationMatrix = useMemo(
+    () => buildCorrelationMatrix(covarianceMatrix, assets),
+    [assets, covarianceMatrix],
+  );
+
+  const fundStatisticsRows = useMemo(
+    () =>
+      assets.map((asset) => ({
+        ...asset,
+        ticker: tickerCode(asset.shortName),
+        sharpe: asset.annualVolatility ? asset.annualReturn / asset.annualVolatility : 0,
+      })),
+    [assets],
+  );
+
+  const sortedFundStatistics = useMemo(() => {
+    const direction = statsSort.direction === "asc" ? 1 : -1;
+    return [...fundStatisticsRows].sort((left, right) => {
+      const leftValue = left[statsSort.key];
+      const rightValue = right[statsSort.key];
+
+      if (typeof leftValue === "string" && typeof rightValue === "string") {
+        return leftValue.localeCompare(rightValue) * direction;
+      }
+
+      return ((leftValue ?? 0) - (rightValue ?? 0)) * direction;
+    });
+  }, [fundStatisticsRows, statsSort]);
+
+  const covarianceMaxAbs = useMemo(
+    () =>
+      Math.max(
+        ...covarianceMatrix.rows.flatMap((row) => row.values.map((value) => Math.abs(value))),
+        1,
+      ),
+    [covarianceMatrix],
+  );
+
+  const activeAnalyticsMeta = useMemo(() => {
+    if (analyticsView === "statistics") {
+      const topSharpe = [...fundStatisticsRows].sort((a, b) => b.sharpe - a.sharpe)[0];
+      const highestReturn = [...fundStatisticsRows].sort((a, b) => b.annualReturn - a.annualReturn)[0];
+      return {
+        title: `Annualized Fund Statistics (${data.metadata.return_observations} months real data)`,
+        copy:
+          "Use the annualized return, volatility, and Sharpe ratio to compare the 10-fund universe before moving to the frontier itself.",
+        highlights: [
+          {
+            label: "Highest return",
+            value: `${highestReturn.shortName} ${formatPercent(highestReturn.annualReturn)}`,
+          },
+          {
+            label: "Best Sharpe",
+            value: `${topSharpe.shortName} ${topSharpe.sharpe.toFixed(3)}`,
+          },
+          {
+            label: "Sort mode",
+            value: `${statsSort.key} ${statsSort.direction}`,
+          },
+        ],
+      };
+    }
+
+    if (analyticsView === "correlation") {
+      return {
+        title: `Correlation Matrix (Annualized, ${data.metadata.return_observations} months)`,
+        copy:
+          "Correlation highlights which funds tend to move together and where diversification is stronger or weaker inside the shared sample window.",
+        highlights: [
+          { label: "Matrix size", value: `${correlationMatrix.headers.length} x ${correlationMatrix.headers.length}` },
+          {
+            label: "Hover insight",
+            value: matrixHover
+              ? `${tickerCode(matrixHover.rowLabel)} vs ${tickerCode(matrixHover.columnLabel)} ${matrixHover.value.toFixed(3)}`
+              : "Hover a cell",
+          },
+          { label: "Sample window", value: `${data.metadata.sample_start} to ${data.metadata.sample_end}` },
+        ],
+      };
+    }
+
+    return {
+      title: "Variance-Covariance Matrix (Annualized)",
+      copy:
+        "Variance sits on the diagonal and pairwise annualized covariance fills the off-diagonal cells, showing how fund risks interact inside optimization.",
+      highlights: [
+        { label: "Matrix size", value: `${covarianceMatrix.headers.length} x ${covarianceMatrix.headers.length}` },
+        {
+          label: "Hover insight",
+          value: matrixHover
+            ? `${tickerCode(matrixHover.rowLabel)} vs ${tickerCode(matrixHover.columnLabel)} ${matrixHover.value.toFixed(4)}`
+            : "Hover a cell",
+        },
+        { label: "Annualization", value: `${data.metadata.annualization_factor}x monthly` },
+      ],
+    };
+  }, [
+    analyticsView,
+    correlationMatrix.headers.length,
+    covarianceMatrix.headers.length,
+    data.metadata.annualization_factor,
+    data.metadata.return_observations,
+    data.metadata.sample_end,
+    data.metadata.sample_start,
+    fundStatisticsRows,
+    matrixHover,
+    statsSort.direction,
+    statsSort.key,
+  ]);
+
+  function toggleStatsSort(nextKey) {
+    setStatsSort((current) => {
+      if (current.key === nextKey) {
+        return {
+          key: nextKey,
+          direction: current.direction === "desc" ? "asc" : "desc",
+        };
+      }
+      return {
+        key: nextKey,
+        direction: nextKey === "displayName" || nextKey === "ticker" ? "asc" : "desc",
+      };
+    });
+  }
+
+  function matrixCellStyle(value, diagonal, matrixType) {
+    if (diagonal) {
+      return {
+        background: "rgba(208, 123, 42, 0.18)",
+        color: theme.ink,
+        fontWeight: 700,
+      };
+    }
+
+    const denominator = matrixType === "correlation" ? 1 : covarianceMaxAbs;
+    const normalized = Math.min(1, Math.abs(value) / (denominator || 1));
+
+    if (value < 0) {
+      return {
+        background: `rgba(209, 73, 91, ${0.08 + normalized * 0.2})`,
+        color: "#8b2336",
+        fontWeight: 600,
+      };
+    }
+
+    return {
+      background: `rgba(55, 109, 163, ${0.06 + normalized * 0.18})`,
+      color: theme.ink,
+      fontWeight: value > 0.5 && matrixType === "correlation" ? 700 : 500,
+    };
+  }
 
   return (
     <section
@@ -518,6 +724,232 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             {selectedTopRows.map((row) => `${row.fund} ${formatPercent(row.weight)}`).join(", ")}
           </div>
         </div>
+      </div>
+
+      <div
+        className="dashboard-card"
+        style={{
+          background: "#ffffff",
+          borderRadius: 22,
+          border: `1px solid ${theme.line}`,
+          padding: 20,
+          marginTop: 20,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+            alignItems: "flex-start",
+          }}
+        >
+          <div style={{ maxWidth: 720 }}>
+            <div
+              style={{
+                fontSize: 12,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: theme.muted,
+              }}
+            >
+              Frontier Analytics
+            </div>
+            <h3 style={{ margin: "8px 0 8px", fontSize: 28 }}>{activeAnalyticsMeta.title}</h3>
+            <div style={{ color: theme.muted, lineHeight: 1.55 }}>{activeAnalyticsMeta.copy}</div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(140px, 1fr))",
+              gap: 12,
+              minWidth: 320,
+            }}
+          >
+            {activeAnalyticsMeta.highlights.map((item) => (
+              <div
+                key={`${item.label}-${item.value}`}
+                className="platform-chart-insight"
+                style={{ minHeight: 92 }}
+              >
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 18 }}>
+          <button
+            type="button"
+            style={buttonStyle(analyticsView === "statistics")}
+            onClick={() => setAnalyticsView("statistics")}
+            aria-pressed={analyticsView === "statistics"}
+          >
+            Fund Statistics
+          </button>
+          <button
+            type="button"
+            style={buttonStyle(analyticsView === "correlation")}
+            onClick={() => setAnalyticsView("correlation")}
+            aria-pressed={analyticsView === "correlation"}
+          >
+            Correlation
+          </button>
+          <button
+            type="button"
+            style={buttonStyle(analyticsView === "covariance")}
+            onClick={() => setAnalyticsView("covariance")}
+            aria-pressed={analyticsView === "covariance"}
+          >
+            Covariance
+          </button>
+        </div>
+
+        {analyticsView === "statistics" ? (
+          <div style={{ marginTop: 18, overflowX: "auto" }}>
+            <table className="platform-data-table">
+              <thead>
+                <tr>
+                  {[
+                    { key: "displayName", label: "Fund" },
+                    { key: "ticker", label: "Ticker" },
+                    { key: "annualReturn", label: "Return" },
+                    { key: "annualVolatility", label: "Volatility" },
+                    { key: "sharpe", label: "Sharpe*" },
+                  ].map((column) => {
+                    const active = statsSort.key === column.key;
+                    return (
+                      <th
+                        key={column.key}
+                        style={{
+                          textAlign: column.key === "displayName" || column.key === "ticker" ? "left" : "right",
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className={active ? "platform-sort-button platform-sort-button-active" : "platform-sort-button"}
+                          onClick={() => toggleStatsSort(column.key)}
+                        >
+                          {column.label}
+                          {active ? (statsSort.direction === "desc" ? " ↓" : " ↑") : ""}
+                        </button>
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {sortedFundStatistics.map((row) => (
+                  <tr key={row.index}>
+                    <td>
+                      <div style={{ display: "grid", gap: 4 }}>
+                        <strong>{row.displayName}</strong>
+                        <span style={{ color: theme.muted, fontSize: 13 }}>{row.shortName}</span>
+                      </div>
+                    </td>
+                    <td style={{ fontFamily: "IBM Plex Mono, Consolas, monospace", color: theme.muted }}>
+                      {row.ticker}
+                    </td>
+                    <td style={{ textAlign: "right", fontWeight: 700, color: row.annualReturn >= 0 ? theme.long : theme.gmvpShort }}>
+                      {formatPercent(row.annualReturn)}
+                    </td>
+                    <td style={{ textAlign: "right", fontWeight: 600 }}>
+                      {formatPercent(row.annualVolatility)}
+                    </td>
+                    <td style={{ textAlign: "right", fontWeight: 600, color: row.sharpe >= 0 ? theme.ink : theme.gmvpShort }}>
+                      {row.sharpe.toFixed(3)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ marginTop: 12, color: theme.muted, fontSize: 13 }}>
+              * Sharpe ratio shown as an approximation with risk-free rate set to 0%.
+            </div>
+          </div>
+        ) : (
+          <div style={{ marginTop: 18, overflowX: "auto" }}>
+            <table className="platform-matrix-table">
+              <thead>
+                <tr>
+                  <th className="platform-matrix-corner">Fund</th>
+                  {(analyticsView === "correlation" ? correlationMatrix.headers : covarianceMatrix.headers).map((header) => (
+                    <th key={header}>{tickerCode(header)}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {(analyticsView === "correlation" ? correlationMatrix.rows : covarianceMatrix.rows).map((row, rowIndex) => (
+                  <tr key={row.rowLabel}>
+                    <th>{tickerCode(row.rowLabel)}</th>
+                    {row.values.map((value, columnIndex) => {
+                      const diagonal = rowIndex === columnIndex;
+                      const columnLabel =
+                        analyticsView === "correlation"
+                          ? correlationMatrix.headers[columnIndex]
+                          : covarianceMatrix.headers[columnIndex];
+                      const tone = matrixCellStyle(
+                        value,
+                        diagonal,
+                        analyticsView === "correlation" ? "correlation" : "covariance",
+                      );
+
+                      return (
+                        <td key={`${row.rowLabel}-${columnLabel}`}>
+                          <button
+                            type="button"
+                            className="platform-matrix-cell"
+                            style={tone}
+                            onMouseEnter={() =>
+                              setMatrixHover({
+                                rowLabel: row.rowLabel,
+                                columnLabel,
+                                value,
+                                diagonal,
+                              })
+                            }
+                            onFocus={() =>
+                              setMatrixHover({
+                                rowLabel: row.rowLabel,
+                                columnLabel,
+                                value,
+                                diagonal,
+                              })
+                            }
+                          >
+                            {analyticsView === "correlation" ? value.toFixed(3) : value.toFixed(4)}
+                          </button>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+              <span className="platform-legend-chip">
+                <i style={{ background: "rgba(208, 123, 42, 0.85)" }} />
+                Diagonal = variance / self-correlation
+              </span>
+              <span className="platform-legend-chip">
+                <i style={{ background: "rgba(55, 109, 163, 0.85)" }} />
+                Positive co-movement
+              </span>
+              <span className="platform-legend-chip">
+                <i style={{ background: "rgba(209, 73, 91, 0.85)" }} />
+                Negative co-movement
+              </span>
+            </div>
+
+            <div style={{ marginTop: 12, color: theme.muted, fontSize: 13, lineHeight: 1.5 }}>
+              Hover any matrix cell to inspect the pair. The diagonal cells represent each fund&apos;s own variance in the annualized covariance matrix and self-correlation in the correlation matrix.
+            </div>
+          </div>
+        )}
       </div>
 
       <div
