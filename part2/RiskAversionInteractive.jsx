@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import data from "./outputs/part2_risk_profile_data.json";
+import data from "../part2_outputs/part2_risk_profile_data.json";
 
 const theme = {
   ink: "#1b2932",

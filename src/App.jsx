@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import "./app.css";
 
-const EfficientFrontierInteractive = lazy(() => import("../EfficientFrontierInteractive.jsx"));
+const EfficientFrontierInteractive = lazy(() => import("../part1/EfficientFrontierInteractive.jsx"));
 const RiskAversionInteractive = lazy(() => import("../part2/RiskAversionInteractive.jsx"));
 const PlatformExperience = lazy(() => import("../part3/PlatformExperience.jsx"));
 

@@ -137,7 +137,7 @@ The main visual outputs for Part 2 are shown below.
 This chart shows how the investor's utility function selects an optimal portfolio point on the frontier and contrasts the recommended long-only solution with the theoretical short-sales benchmark.
 
 <p>
-  <img src="./part2/outputs/utility_frontier_example.png" alt="Utility Maximization on the Efficient Frontier" width="960">
+  <img src="./part2_outputs/utility_frontier_example.png" alt="Utility Maximization on the Efficient Frontier" width="960">
 </p>
 
 **2. Recommended Long-Only Portfolio Weights**
@@ -145,7 +145,7 @@ This chart shows how the investor's utility function selects an optimal portfoli
 This figure presents the final recommended implementation portfolio for the example investor after mapping questionnaire answers into the risk-aversion coefficient `A`.
 
 <p>
-  <img src="./part2/outputs/recommended_long_only_weights.png" alt="Recommended Long-Only Portfolio Weights" width="960">
+  <img src="./part2_outputs/recommended_long_only_weights.png" alt="Recommended Long-Only Portfolio Weights" width="960">
 </p>
 
 **3. Optimal Portfolio vs Risk Aversion**
@@ -153,7 +153,7 @@ This figure presents the final recommended implementation portfolio for the exam
 This sensitivity chart shows how expected return, volatility, and utility change as the investor becomes more or less risk averse.
 
 <p>
-  <img src="./part2/outputs/optimal_portfolio_vs_risk_aversion.png" alt="Optimal Portfolio vs Risk Aversion" width="960">
+  <img src="./part2_outputs/optimal_portfolio_vs_risk_aversion.png" alt="Optimal Portfolio vs Risk Aversion" width="960">
 </p>
 
 **4. Example Investor Weight Comparison**
@@ -161,7 +161,7 @@ This sensitivity chart shows how expected return, volatility, and utility change
 This comparison chart contrasts the recommended long-only portfolio with the much more aggressive theoretical short-sales benchmark for the same investor profile.
 
 <p>
-  <img src="./part2/outputs/example_investor_weight_comparison.png" alt="Example Investor Weight Comparison" width="960">
+  <img src="./part2_outputs/example_investor_weight_comparison.png" alt="Example Investor Weight Comparison" width="960">
 </p>
 
 ### Highlights
@@ -205,7 +205,7 @@ Although it is local and lightweight, it is grounded in the exact Part 1 and Par
 ### Main outputs
 
 - [`part3/PlatformExperience.jsx`](./part3/PlatformExperience.jsx)
-- [`part3/part3_platform_report.md`](./part3/part3_platform_report.md)
+- [`part3_platform_report.md`](./part3_platform_report.md)
 - [`src/App.jsx`](./src/App.jsx)
 - [`src/app.css`](./src/app.css)
 
@@ -239,13 +239,15 @@ npm run build
 
 ```text
 funds/                  Source CSV files for the 10 funds
+part1/                  Part 1 scripts and JSX component
 part1_outputs/          Part 1 generated statistics, charts, and JSON data
-part2/                  Part 2 scripts, reports, outputs, and JSX component
-part3/                  Part 3 platform page and platform report
+part2/                  Part 2 scripts and JSX component
+part2_outputs/          Part 2 generated statistics, charts, and JSON data
+part3/                  Part 3 platform page assets and JSX component
 src/                    Main React application entry
-EfficientFrontierInteractive.jsx
-part1_efficient_frontier.py
 part1_efficient_frontier_report.md
+part2_risk_aversion_report.md
+part3_platform_report.md
 package.json
 vite.config.js
 ```

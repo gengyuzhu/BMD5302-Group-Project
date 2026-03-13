@@ -1,6 +1,6 @@
 import React, { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import frontierData from "../part1_outputs/efficient_frontier_data.json";
-import riskData from "../part2/outputs/part2_risk_profile_data.json";
+import riskData from "../part2_outputs/part2_risk_profile_data.json";
 
 const theme = {
   ink: "#16212b",

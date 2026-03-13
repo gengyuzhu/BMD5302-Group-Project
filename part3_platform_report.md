@@ -146,18 +146,18 @@ For future enhancement, the same interface can later be connected to a live LLM 
 
 ## Main Files
 
-- [`PlatformExperience.jsx`](PlatformExperience.jsx)
+- [`part3/PlatformExperience.jsx`](part3/PlatformExperience.jsx)
 - [`part3_platform_report.md`](part3_platform_report.md)
 
 ## Integration Files
 
-- [`src/App.jsx`](../src/App.jsx)
-- [`src/app.css`](../src/app.css)
+- [`src/App.jsx`](src/App.jsx)
+- [`src/app.css`](src/app.css)
 
 ## Data Sources Used by the Platform
 
-- [`part1_outputs/efficient_frontier_data.json`](../part1_outputs/efficient_frontier_data.json)
-- [`part2/outputs/part2_risk_profile_data.json`](../part2/outputs/part2_risk_profile_data.json)
+- [`part1_outputs/efficient_frontier_data.json`](part1_outputs/efficient_frontier_data.json)
+- [`part2_outputs/part2_risk_profile_data.json`](part2_outputs/part2_risk_profile_data.json)
 
 ## Run Instructions
 

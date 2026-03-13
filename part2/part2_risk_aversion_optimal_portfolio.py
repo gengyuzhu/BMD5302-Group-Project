@@ -13,14 +13,17 @@ from scipy.optimize import minimize
 
 PROJECT_DIR = Path(r"E:\2025 NUS\BMD5302\Bmd5301_Project")
 PART2_DIR = PROJECT_DIR / "part2"
-OUTPUT_DIR = PART2_DIR / "outputs"
+OUTPUT_DIR = PROJECT_DIR / "part2_outputs"
 PART1_OUTPUT_DIR = PROJECT_DIR / "part1_outputs"
+PART1_DIR = PROJECT_DIR / "part1"
 A_MIN = 1.0
 A_MAX = 10.0
 
 
 if str(PROJECT_DIR) not in sys.path:
     sys.path.insert(0, str(PROJECT_DIR))
+if str(PART1_DIR) not in sys.path:
+    sys.path.insert(0, str(PART1_DIR))
 
 
 import part1_efficient_frontier as part1  # noqa: E402

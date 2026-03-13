@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import frontierData from "./part1_outputs/efficient_frontier_data.json";
+import frontierData from "../part1_outputs/efficient_frontier_data.json";
 
 const theme = {
   ink: "#1d2a34",

@@ -143,8 +143,8 @@ Interpretation:
 
 ### Reproducible analysis
 
-- [`part1_efficient_frontier.py`](part1_efficient_frontier.py)
-- [`EfficientFrontierInteractive.jsx`](EfficientFrontierInteractive.jsx)
+- [`part1/part1_efficient_frontier.py`](part1/part1_efficient_frontier.py)
+- [`part1/EfficientFrontierInteractive.jsx`](part1/EfficientFrontierInteractive.jsx)
 
 ### Core outputs
 
@@ -162,7 +162,7 @@ Interpretation:
 
 ## Note on the JSX File
 
-`EfficientFrontierInteractive.jsx` reads `part1_outputs/efficient_frontier_data.json` and provides:
+`part1/EfficientFrontierInteractive.jsx` reads `part1_outputs/efficient_frontier_data.json` and provides:
 
 - toggle between comparison, short-sales-only, and long-only views
 - hover tooltips for funds and both GMVPs

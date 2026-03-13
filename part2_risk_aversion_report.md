@@ -78,8 +78,8 @@ This makes the questionnaire stronger than a flat checklist because the mapping 
 
 The full question text and answer options are saved in:
 
-- [`outputs/questionnaire_definition.csv`](outputs/questionnaire_definition.csv)
-- [`outputs/questionnaire_definition.json`](outputs/questionnaire_definition.json)
+- [`part2_outputs/questionnaire_definition.csv`](part2_outputs/questionnaire_definition.csv)
+- [`part2_outputs/questionnaire_definition.json`](part2_outputs/questionnaire_definition.json)
 
 ## Mathematical Link from Questionnaire to Risk Aversion `A`
 
@@ -145,7 +145,7 @@ Investor profile classification:
 
 The detailed answer breakdown is saved in:
 
-- [`outputs/example_investor_questionnaire_breakdown.csv`](outputs/example_investor_questionnaire_breakdown.csv)
+- [`part2_outputs/example_investor_questionnaire_breakdown.csv`](part2_outputs/example_investor_questionnaire_breakdown.csv)
 
 ## Optimization Result
 
@@ -213,7 +213,7 @@ This monotonic pattern is exactly what the utility framework should produce:
 
 ### Utility and efficient frontier
 
-![Utility Frontier](outputs/utility_frontier_example.png)
+![Utility Frontier](part2_outputs/utility_frontier_example.png)
 
 This figure uses two panels:
 
@@ -222,37 +222,37 @@ This figure uses two panels:
 
 ### Recommended long-only weights
 
-![Recommended Weights](outputs/recommended_long_only_weights.png)
+![Recommended Weights](part2_outputs/recommended_long_only_weights.png)
 
 ### Risk aversion sensitivity
 
-![Risk Aversion Sensitivity](outputs/optimal_portfolio_vs_risk_aversion.png)
+![Risk Aversion Sensitivity](part2_outputs/optimal_portfolio_vs_risk_aversion.png)
 
-## Deliverables in `part2`
+## Deliverables
 
 ### Main files
 
-- [`part2_risk_aversion_optimal_portfolio.py`](part2_risk_aversion_optimal_portfolio.py)
+- [`part2/part2_risk_aversion_optimal_portfolio.py`](part2/part2_risk_aversion_optimal_portfolio.py)
 - [`part2_risk_aversion_report.md`](part2_risk_aversion_report.md)
-- [`RiskAversionInteractive.jsx`](RiskAversionInteractive.jsx)
+- [`part2/RiskAversionInteractive.jsx`](part2/RiskAversionInteractive.jsx)
 
 ### Generated outputs
 
-- [`outputs/part2_risk_profile_data.json`](outputs/part2_risk_profile_data.json)
-- [`outputs/optimal_portfolios_long_only_summary.csv`](outputs/optimal_portfolios_long_only_summary.csv)
-- [`outputs/optimal_portfolios_short_sales_summary.csv`](outputs/optimal_portfolios_short_sales_summary.csv)
-- [`outputs/optimal_portfolios_long_only_full.json`](outputs/optimal_portfolios_long_only_full.json)
-- [`outputs/optimal_portfolios_short_sales_full.json`](outputs/optimal_portfolios_short_sales_full.json)
-- [`outputs/example_investor_weights_long_only.csv`](outputs/example_investor_weights_long_only.csv)
-- [`outputs/example_investor_weights_short_sales.csv`](outputs/example_investor_weights_short_sales.csv)
-- [`outputs/example_investor_weight_comparison.png`](outputs/example_investor_weight_comparison.png)
-- [`outputs/recommended_long_only_weights.png`](outputs/recommended_long_only_weights.png)
-- [`outputs/questionnaire_definition.csv`](outputs/questionnaire_definition.csv)
-- [`outputs/questionnaire_definition.json`](outputs/questionnaire_definition.json)
+- [`part2_outputs/part2_risk_profile_data.json`](part2_outputs/part2_risk_profile_data.json)
+- [`part2_outputs/optimal_portfolios_long_only_summary.csv`](part2_outputs/optimal_portfolios_long_only_summary.csv)
+- [`part2_outputs/optimal_portfolios_short_sales_summary.csv`](part2_outputs/optimal_portfolios_short_sales_summary.csv)
+- [`part2_outputs/optimal_portfolios_long_only_full.json`](part2_outputs/optimal_portfolios_long_only_full.json)
+- [`part2_outputs/optimal_portfolios_short_sales_full.json`](part2_outputs/optimal_portfolios_short_sales_full.json)
+- [`part2_outputs/example_investor_weights_long_only.csv`](part2_outputs/example_investor_weights_long_only.csv)
+- [`part2_outputs/example_investor_weights_short_sales.csv`](part2_outputs/example_investor_weights_short_sales.csv)
+- [`part2_outputs/example_investor_weight_comparison.png`](part2_outputs/example_investor_weight_comparison.png)
+- [`part2_outputs/recommended_long_only_weights.png`](part2_outputs/recommended_long_only_weights.png)
+- [`part2_outputs/questionnaire_definition.csv`](part2_outputs/questionnaire_definition.csv)
+- [`part2_outputs/questionnaire_definition.json`](part2_outputs/questionnaire_definition.json)
 
 ## Note on the JSX Component
 
-`RiskAversionInteractive.jsx` reads `outputs/part2_risk_profile_data.json` and provides:
+`part2/RiskAversionInteractive.jsx` reads `part2_outputs/part2_risk_profile_data.json` and provides:
 
 - an interactive risk questionnaire
 - live conversion from questionnaire score to `A`
