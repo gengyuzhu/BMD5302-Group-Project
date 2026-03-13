@@ -102,47 +102,40 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
     const risks = allPoints.map((point) => point.risk ?? point.annualVolatility);
     const returns = allPoints.map((point) => point.return ?? point.annualReturn);
 
-    const minRisk = Math.min(...risks);
-    const maxRisk = Math.max(...risks);
-    const minReturn = Math.min(...returns);
-    const maxReturn = Math.max(...returns);
-
     return {
-      riskMin: Math.max(0, minRisk - 0.01),
-      riskMax: maxRisk + 0.02,
-      returnMin: minReturn - 0.03,
-      returnMax: maxReturn + 0.03,
+      riskMin: Math.max(0, Math.min(...risks) - 0.01),
+      riskMax: Math.max(...risks) + 0.02,
+      returnMin: Math.min(...returns) - 0.03,
+      returnMax: Math.max(...returns) + 0.03,
     };
   }, [assets, displayedSeries, gmvpLong, gmvpShort]);
 
   const xScale = (value) => {
     const { paddingLeft, width, paddingRight } = chartSize;
     const usable = width - paddingLeft - paddingRight;
-    return (
-      paddingLeft +
-      ((value - chartDomain.riskMin) / (chartDomain.riskMax - chartDomain.riskMin || 1)) * usable
-    );
+    return paddingLeft + ((value - chartDomain.riskMin) / (chartDomain.riskMax - chartDomain.riskMin || 1)) * usable;
   };
 
   const yScale = (value) => {
     const { paddingTop, height, paddingBottom } = chartSize;
     const usable = height - paddingTop - paddingBottom;
-    return (
-      height -
-      paddingBottom -
-      ((value - chartDomain.returnMin) / (chartDomain.returnMax - chartDomain.returnMin || 1)) * usable
-    );
+    return height - paddingBottom - ((value - chartDomain.returnMin) / (chartDomain.returnMax - chartDomain.returnMin || 1)) * usable;
   };
 
   const xTicks = makeTicks(chartDomain.riskMin, chartDomain.riskMax, 6);
   const yTicks = makeTicks(chartDomain.returnMin, chartDomain.returnMax, 6);
   const selectedRows = weightsToRows(selectedPortfolio.weights);
-
   const topShortWeights = weightsToRows(gmvpShort.weights).slice(0, 3);
   const topLongWeights = weightsToRows(gmvpLong.weights).slice(0, 3);
 
+  const gmvpShortX = xScale(gmvpShort.risk);
+  const gmvpShortY = yScale(gmvpShort.return);
+  const gmvpLongX = xScale(gmvpLong.risk);
+  const gmvpLongY = yScale(gmvpLong.return);
+
   return (
     <section
+      className="motion-surface"
       style={{
         color: theme.ink,
         background:
@@ -186,7 +179,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             minWidth: 320,
           }}
         >
-          <div style={{ background: theme.panel, borderRadius: 18, padding: 14, border: `1px solid ${theme.line}` }}>
+          <div className="dashboard-card" style={{ background: theme.panel, borderRadius: 18, padding: 14, border: `1px solid ${theme.line}` }}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               Sample
             </div>
@@ -198,7 +191,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             </div>
           </div>
 
-          <div style={{ background: theme.panel, borderRadius: 18, padding: 14, border: `1px solid ${theme.line}` }}>
+          <div className="dashboard-card" style={{ background: theme.panel, borderRadius: 18, padding: 14, border: `1px solid ${theme.line}` }}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               Long-only GMVP
             </div>
@@ -213,18 +206,19 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
       </div>
 
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
-        <button type="button" style={buttonStyle(viewMode === "both")} onClick={() => setViewMode("both")}>
+        <button type="button" style={buttonStyle(viewMode === "both")} onClick={() => setViewMode("both")} aria-pressed={viewMode === "both"}>
           Compare both
         </button>
-        <button type="button" style={buttonStyle(viewMode === "short")} onClick={() => setViewMode("short")}>
+        <button type="button" style={buttonStyle(viewMode === "short")} onClick={() => setViewMode("short")} aria-pressed={viewMode === "short"}>
           Short sales only
         </button>
-        <button type="button" style={buttonStyle(viewMode === "long")} onClick={() => setViewMode("long")}>
+        <button type="button" style={buttonStyle(viewMode === "long")} onClick={() => setViewMode("long")} aria-pressed={viewMode === "long"}>
           Long-only only
         </button>
       </div>
 
       <div
+        className="dashboard-card"
         style={{
           position: "relative",
           overflowX: "auto",
@@ -263,13 +257,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
                 stroke={theme.line}
                 strokeDasharray="5 6"
               />
-              <text
-                x={xScale(tick)}
-                y={chartSize.height - chartSize.paddingBottom + 24}
-                textAnchor="middle"
-                fontSize="12"
-                fill={theme.muted}
-              >
+              <text x={xScale(tick)} y={chartSize.height - chartSize.paddingBottom + 24} textAnchor="middle" fontSize="12" fill={theme.muted}>
                 {formatPercent(tick)}
               </text>
             </g>
@@ -378,9 +366,16 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             onMouseLeave={() => setTooltip(null)}
             style={{ cursor: "pointer" }}
           >
-            <text x={xScale(gmvpShort.risk)} y={yScale(gmvpShort.return) + 6} textAnchor="middle" fontSize="22" fill={theme.gmvpShort}>
-              ★
-            </text>
+            <rect
+              x={gmvpShortX - 8}
+              y={gmvpShortY - 8}
+              width="16"
+              height="16"
+              fill={theme.gmvpShort}
+              stroke="#ffffff"
+              strokeWidth="2"
+              transform={`rotate(45 ${gmvpShortX} ${gmvpShortY})`}
+            />
           </g>
 
           <g
@@ -403,9 +398,16 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             onMouseLeave={() => setTooltip(null)}
             style={{ cursor: "pointer" }}
           >
-            <text x={xScale(gmvpLong.risk)} y={yScale(gmvpLong.return) + 6} textAnchor="middle" fontSize="22" fill={theme.gmvpLong}>
-              ★
-            </text>
+            <rect
+              x={gmvpLongX - 8}
+              y={gmvpLongY - 8}
+              width="16"
+              height="16"
+              rx="4"
+              fill={theme.gmvpLong}
+              stroke="#ffffff"
+              strokeWidth="2"
+            />
           </g>
 
           <g
@@ -481,7 +483,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
           marginTop: 20,
         }}
       >
-        <div style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
+        <div className="dashboard-card" style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
             <div>
               <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
@@ -503,6 +505,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
                   setPortfolioMode("longOnly");
                   setPortfolioIndex(0);
                 }}
+                aria-pressed={portfolioMode === "longOnly"}
               >
                 Long-only
               </button>
@@ -513,6 +516,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
                   setPortfolioMode("shortSalesAllowed");
                   setPortfolioIndex(0);
                 }}
+                aria-pressed={portfolioMode === "shortSalesAllowed"}
               >
                 Short sales
               </button>
@@ -531,26 +535,24 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
           </div>
 
           <div
+            className="stat-grid"
             style={{
               marginTop: 14,
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(120px, 1fr))",
-              gap: 12,
             }}
           >
-            <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+            <div className="stat-card">
               <div style={{ color: theme.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 Target return
               </div>
               <div style={{ marginTop: 6, fontWeight: 700 }}>{formatPercent(selectedPortfolio.target_return)}</div>
             </div>
-            <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+            <div className="stat-card">
               <div style={{ color: theme.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 Expected return
               </div>
               <div style={{ marginTop: 6, fontWeight: 700 }}>{formatPercent(selectedPortfolio.return)}</div>
             </div>
-            <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+            <div className="stat-card">
               <div style={{ color: theme.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 Volatility
               </div>
@@ -588,7 +590,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
         </div>
 
         <div style={{ display: "grid", gap: 18 }}>
-          <div style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
+          <div className="dashboard-card" style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               GMVP Snapshot
             </div>
@@ -623,7 +625,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             </div>
           </div>
 
-          <div style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
+          <div className="dashboard-card" style={{ background: "#ffffff", borderRadius: 22, border: `1px solid ${theme.line}`, padding: 18 }}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               Fund Legend
             </div>

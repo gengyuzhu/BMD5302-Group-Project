@@ -112,9 +112,7 @@ export default function RiskAversionInteractive({ payload = data }) {
 
   const fundMap = useMemo(
     () =>
-      Object.fromEntries(
-        payload.funds.map((fund) => [fund.shortName, `${fund.index}. ${fund.shortName}`]),
-      ),
+      Object.fromEntries(payload.funds.map((fund) => [fund.shortName, `${fund.index}. ${fund.shortName}`])),
     [payload.funds],
   );
 
@@ -169,9 +167,7 @@ export default function RiskAversionInteractive({ payload = data }) {
   const xScale = (value) =>
     chart.left + ((value - domain.minX) / (domain.maxX - domain.minX || 1)) * (chart.width - chart.left - chart.right);
   const yScale = (value) =>
-    chart.height -
-    chart.bottom -
-    ((value - domain.minY) / (domain.maxY - domain.minY || 1)) * (chart.height - chart.top - chart.bottom);
+    chart.height - chart.bottom - ((value - domain.minY) / (domain.maxY - domain.minY || 1)) * (chart.height - chart.top - chart.bottom);
 
   const xTicks = makeTicks(domain.minX, domain.maxX, 6);
   const yTicks = makeTicks(domain.minY, domain.maxY, 6);
@@ -183,6 +179,7 @@ export default function RiskAversionInteractive({ payload = data }) {
 
   return (
     <section
+      className="motion-surface"
       style={{
         background:
           "radial-gradient(circle at top left, rgba(245, 185, 77, 0.22), transparent 30%), linear-gradient(180deg, #fffdf8 0%, #f7ecdb 100%)",
@@ -209,13 +206,19 @@ export default function RiskAversionInteractive({ payload = data }) {
         </div>
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-start" }}>
-          <button type="button" style={buttonStyle(portfolioMode === "longOnly")} onClick={() => setPortfolioMode("longOnly")}>
+          <button
+            type="button"
+            style={buttonStyle(portfolioMode === "longOnly")}
+            onClick={() => setPortfolioMode("longOnly")}
+            aria-pressed={portfolioMode === "longOnly"}
+          >
             Long-only recommendation
           </button>
           <button
             type="button"
             style={buttonStyle(portfolioMode === "shortSalesAllowed")}
             onClick={() => setPortfolioMode("shortSalesAllowed")}
+            aria-pressed={portfolioMode === "shortSalesAllowed"}
           >
             Short-sales benchmark
           </button>
@@ -233,7 +236,7 @@ export default function RiskAversionInteractive({ payload = data }) {
           alignItems: "start",
         }}
       >
-        <div style={cardStyle}>
+        <div className="dashboard-card" style={cardStyle}>
           <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
             Questionnaire
           </div>
@@ -295,7 +298,7 @@ export default function RiskAversionInteractive({ payload = data }) {
         </div>
 
         <div style={{ display: "grid", gap: 18 }}>
-          <div style={cardStyle}>
+          <div className="dashboard-card" style={cardStyle}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               Scoring Output
             </div>
@@ -349,9 +352,39 @@ export default function RiskAversionInteractive({ payload = data }) {
                 <div style={{ color: theme.muted, fontSize: 14 }}>Higher A means more risk aversion</div>
               </div>
             </div>
+
+            <div
+              style={{
+                marginTop: 14,
+                borderRadius: 18,
+                padding: 14,
+                background: "#fcf5e8",
+                border: `1px solid ${theme.line}`,
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <strong>Risk profile continuum</strong>
+                <span style={{ color: theme.muted }}>
+                  T = {scoring.riskToleranceIndex.toFixed(2)} | A = {scoring.riskAversionA.toFixed(2)}
+                </span>
+              </div>
+              <div className="mini-meter" style={{ marginTop: 10 }}>
+                <span
+                  style={{
+                    width: `${Math.max(6, scoring.riskToleranceIndex * 100)}%`,
+                    background: "linear-gradient(90deg, #8f6846 0%, #d58526 54%, #376da3 100%)",
+                  }}
+                />
+              </div>
+              <div style={{ marginTop: 10, color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
+                Lower questionnaire scores map to a higher A and a more conservative implementation.
+                Higher scores reduce A and allow the optimizer to accept more volatility for higher
+                expected return.
+              </div>
+            </div>
           </div>
 
-          <div style={cardStyle}>
+          <div className="dashboard-card" style={cardStyle}>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
               Portfolio Recommendation
             </div>
@@ -365,14 +398,12 @@ export default function RiskAversionInteractive({ payload = data }) {
             </p>
 
             <div
+              className="stat-grid"
               style={{
                 marginTop: 16,
-                display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(110px, 1fr))",
-                gap: 12,
               }}
             >
-              <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 12, color: theme.muted, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                   Return
                 </div>
@@ -380,13 +411,13 @@ export default function RiskAversionInteractive({ payload = data }) {
                   {formatPercent(activePortfolio.expected_return)}
                 </div>
               </div>
-              <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 12, color: theme.muted, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                   Volatility
                 </div>
                 <div style={{ marginTop: 6, fontWeight: 700 }}>{formatPercent(activePortfolio.risk)}</div>
               </div>
-              <div style={{ background: theme.panel, borderRadius: 16, padding: 12 }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 12, color: theme.muted, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                   Utility
                 </div>
@@ -416,7 +447,7 @@ export default function RiskAversionInteractive({ payload = data }) {
         </div>
       </div>
 
-      <div style={{ ...cardStyle, marginTop: 18 }}>
+      <div className="dashboard-card" style={{ ...cardStyle, marginTop: 18 }}>
         <div
           style={{
             display: "flex",
@@ -434,10 +465,20 @@ export default function RiskAversionInteractive({ payload = data }) {
             <h3 style={{ margin: "8px 0 0", fontSize: 25 }}>Selected portfolio on the efficient frontier</h3>
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button type="button" style={buttonStyle(chartScale === "retail")} onClick={() => setChartScale("retail")}>
+            <button
+              type="button"
+              style={buttonStyle(chartScale === "retail")}
+              onClick={() => setChartScale("retail")}
+              aria-pressed={chartScale === "retail"}
+            >
               Retail scale
             </button>
-            <button type="button" style={buttonStyle(chartScale === "full")} onClick={() => setChartScale("full")}>
+            <button
+              type="button"
+              style={buttonStyle(chartScale === "full")}
+              onClick={() => setChartScale("full")}
+              aria-pressed={chartScale === "full"}
+            >
               Full theoretical scale
             </button>
           </div>
@@ -558,7 +599,7 @@ export default function RiskAversionInteractive({ payload = data }) {
               borderRadius: 14,
               padding: 12,
               background: "#fff5f7",
-              border: `1px solid #f1c4ce`,
+              border: "1px solid #f1c4ce",
               color: theme.warning,
               fontSize: 14,
             }}
@@ -577,17 +618,17 @@ export default function RiskAversionInteractive({ payload = data }) {
           gap: 18,
         }}
       >
-        <div style={cardStyle}>
+        <div className="dashboard-card" style={cardStyle}>
           <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
             Weight Breakdown
           </div>
           <h3 style={{ margin: "8px 0 12px", fontSize: 25 }}>Portfolio weights</h3>
 
-          <div style={{ display: "grid", gap: 10 }}>
+          <div className="holdings-list">
             {activeRows.map((row) => {
               const magnitude = Math.min(100, Math.abs(row.weight) * 100);
               return (
-                <div key={row.shortName}>
+                <div key={row.shortName} className="holdings-row">
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 5 }}>
                     <span>{row.fund}</span>
                     <strong style={{ color: row.weight < 0 ? theme.warning : theme.ink }}>
@@ -609,7 +650,7 @@ export default function RiskAversionInteractive({ payload = data }) {
           </div>
         </div>
 
-        <div style={cardStyle}>
+        <div className="dashboard-card" style={cardStyle}>
           <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
             Interpretation
           </div>
@@ -635,13 +676,13 @@ export default function RiskAversionInteractive({ payload = data }) {
           <div style={{ marginTop: 18, padding: 16, borderRadius: 18, background: theme.panel, border: `1px solid ${theme.line}` }}>
             <div style={{ fontWeight: 700, marginBottom: 8 }}>Formula summary</div>
             <div style={{ fontFamily: "IBM Plex Mono, Consolas, monospace", fontSize: 13, lineHeight: 1.6 }}>
-              S = Σ(wᵢ × sᵢ)
+              S = sum(weight_i x score_i)
               <br />
               T = (S - 10) / 40
               <br />
               A = 10 - 9T
               <br />
-              U = r - (A × σ²) / 2
+              U = r - (A x sigma^2) / 2
             </div>
           </div>
         </div>

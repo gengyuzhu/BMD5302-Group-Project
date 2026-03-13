@@ -73,13 +73,31 @@ Part 1 focuses on the classical mean-variance portfolio construction problem.
 
 ### Main outputs
 
-- [`part1_efficient_frontier.py`](./part1_efficient_frontier.py)
-- [`part1_efficient_frontier_report.md`](./part1_efficient_frontier_report.md)
-- [`part1_outputs/efficient_frontier_comparison.png`](./part1_outputs/efficient_frontier_comparison.png)
-- [`part1_outputs/efficient_frontier_data.json`](./part1_outputs/efficient_frontier_data.json)
-- [`part1_outputs/covariance_matrix_monthly.csv`](./part1_outputs/covariance_matrix_monthly.csv)
-- [`part1_outputs/covariance_matrix_annualized.csv`](./part1_outputs/covariance_matrix_annualized.csv)
-- [`EfficientFrontierInteractive.jsx`](./EfficientFrontierInteractive.jsx)
+The key visual outputs for Part 1 are shown below.
+
+**1. Efficient Frontier Comparison**
+
+This chart compares the efficient frontier with short sales allowed versus the long-only frontier, while also showing the individual fund points and both GMVP locations.
+
+<p>
+  <img src="./part1_outputs/efficient_frontier_comparison.png" alt="Efficient Frontier Comparison" width="960">
+</p>
+
+**2. Efficient Frontier with Short Sales**
+
+This figure isolates the short-sales case and highlights the shape of the frontier together with the GMVP under short-selling assumptions.
+
+<p>
+  <img src="./part1_outputs/efficient_frontier_short_sales.png" alt="Efficient Frontier with Short Sales" width="960">
+</p>
+
+**3. Efficient Frontier without Short Sales**
+
+This figure focuses on the practical long-only frontier, which is the more realistic setting for a retail robo-adviser implementation.
+
+<p>
+  <img src="./part1_outputs/efficient_frontier_long_only.png" alt="Efficient Frontier without Short Sales" width="960">
+</p>
 
 ### Highlights
 
@@ -112,13 +130,39 @@ where:
 
 ### Main outputs
 
-- [`part2/part2_risk_aversion_optimal_portfolio.py`](./part2/part2_risk_aversion_optimal_portfolio.py)
-- [`part2/part2_risk_aversion_report.md`](./part2/part2_risk_aversion_report.md)
-- [`part2/outputs/part2_risk_profile_data.json`](./part2/outputs/part2_risk_profile_data.json)
-- [`part2/outputs/questionnaire_definition.csv`](./part2/outputs/questionnaire_definition.csv)
-- [`part2/outputs/recommended_long_only_weights.png`](./part2/outputs/recommended_long_only_weights.png)
-- [`part2/outputs/utility_frontier_example.png`](./part2/outputs/utility_frontier_example.png)
-- [`part2/RiskAversionInteractive.jsx`](./part2/RiskAversionInteractive.jsx)
+The main visual outputs for Part 2 are shown below.
+
+**1. Utility Maximization on the Efficient Frontier**
+
+This chart shows how the investor's utility function selects an optimal portfolio point on the frontier and contrasts the recommended long-only solution with the theoretical short-sales benchmark.
+
+<p>
+  <img src="./part2/outputs/utility_frontier_example.png" alt="Utility Maximization on the Efficient Frontier" width="960">
+</p>
+
+**2. Recommended Long-Only Portfolio Weights**
+
+This figure presents the final recommended implementation portfolio for the example investor after mapping questionnaire answers into the risk-aversion coefficient `A`.
+
+<p>
+  <img src="./part2/outputs/recommended_long_only_weights.png" alt="Recommended Long-Only Portfolio Weights" width="960">
+</p>
+
+**3. Optimal Portfolio vs Risk Aversion**
+
+This sensitivity chart shows how expected return, volatility, and utility change as the investor becomes more or less risk averse.
+
+<p>
+  <img src="./part2/outputs/optimal_portfolio_vs_risk_aversion.png" alt="Optimal Portfolio vs Risk Aversion" width="960">
+</p>
+
+**4. Example Investor Weight Comparison**
+
+This comparison chart contrasts the recommended long-only portfolio with the much more aggressive theoretical short-sales benchmark for the same investor profile.
+
+<p>
+  <img src="./part2/outputs/example_investor_weight_comparison.png" alt="Example Investor Weight Comparison" width="960">
+</p>
 
 ### Highlights
 

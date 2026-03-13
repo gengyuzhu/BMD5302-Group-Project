@@ -13,6 +13,7 @@ const views = [
     heading: "Web Platform + AI Chatbot",
     intro:
       "A portfolio-ready interface that unifies the fund universe, risk profiling, recommendation engine, and chatbot guidance into one client-facing workflow.",
+    metrics: ["4 client personas", "10-fund recommendation engine", "AI-guided portfolio chat"],
   },
   {
     id: "frontier",
@@ -21,6 +22,7 @@ const views = [
     heading: "Efficient Frontier",
     intro:
       "Inspect the 10-fund opportunity set, compare the frontiers with and without short sales, and explore the portfolio weights along each curve.",
+    metrics: ["10 funds", "2 frontier constraints", "GMVP comparison"],
   },
   {
     id: "risk",
@@ -29,6 +31,7 @@ const views = [
     heading: "Risk Aversion & Optimal Portfolio",
     intro:
       "Map questionnaire answers into risk aversion A and observe how the optimal portfolio changes when utility maximization is applied to the same frontier.",
+    metrics: ["8-question profile", "Utility maximization", "Interactive portfolio recommendation"],
   },
 ];
 
@@ -54,6 +57,7 @@ export default function App() {
               type="button"
               className={view.id === activeView ? "nav-pill nav-pill-active" : "nav-pill"}
               onClick={() => setActiveView(view.id)}
+              aria-pressed={view.id === activeView}
             >
               {view.title}
             </button>
@@ -65,12 +69,21 @@ export default function App() {
         <p className="eyebrow">{activeMeta.eyebrow}</p>
         <h2>{activeMeta.heading}</h2>
         <p className="intro">{activeMeta.intro}</p>
+        <div className="hero-metrics" aria-label="Current view highlights">
+          {activeMeta.metrics.map((metric) => (
+            <span key={metric} className="metric-chip">
+              {metric}
+            </span>
+          ))}
+        </div>
       </section>
 
-      <Suspense fallback={<section className="loading-card">Loading experience…</section>}>
-        {activeView === "platform" && <PlatformExperience />}
-        {activeView === "frontier" && <EfficientFrontierInteractive />}
-        {activeView === "risk" && <RiskAversionInteractive />}
+      <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
+        <div key={activeView} className="view-stage">
+          {activeView === "platform" && <PlatformExperience />}
+          {activeView === "frontier" && <EfficientFrontierInteractive />}
+          {activeView === "risk" && <RiskAversionInteractive />}
+        </div>
       </Suspense>
     </main>
   );
