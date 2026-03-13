@@ -127,6 +127,11 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
   const selectedRows = weightsToRows(selectedPortfolio.weights);
   const topShortWeights = weightsToRows(gmvpShort.weights).slice(0, 3);
   const topLongWeights = weightsToRows(gmvpLong.weights).slice(0, 3);
+  const selectedTopRows = selectedRows.filter((row) => Math.abs(row.weight) > 1e-4).slice(0, 4);
+  const frontierProgress = activeFrontier.length > 1 ? boundedIndex / (activeFrontier.length - 1) : 0;
+  const activeRiskBudget = selectedRows
+    .filter((row) => row.weight > 1e-5)
+    .reduce((sum, row) => sum + row.weight, 0);
 
   const gmvpShortX = xScale(gmvpShort.risk);
   const gmvpShortY = yScale(gmvpShort.return);
@@ -218,10 +223,8 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
       </div>
 
       <div
-        className="dashboard-card"
+        className="dashboard-card chart-shell"
         style={{
-          position: "relative",
-          overflowX: "auto",
           background: "rgba(255,255,255,0.54)",
           borderRadius: 22,
           border: `1px solid ${theme.line}`,
@@ -433,6 +436,28 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             }}
             onMouseLeave={() => setTooltip(null)}
           >
+            <line
+              x1={xScale(selectedPortfolio.risk)}
+              x2={xScale(selectedPortfolio.risk)}
+              y1={chartSize.height - chartSize.paddingBottom}
+              y2={yScale(selectedPortfolio.return)}
+              stroke="rgba(29, 42, 52, 0.18)"
+              strokeDasharray="6 6"
+            />
+            <line
+              x1={chartSize.paddingLeft}
+              x2={xScale(selectedPortfolio.risk)}
+              y1={yScale(selectedPortfolio.return)}
+              y2={yScale(selectedPortfolio.return)}
+              stroke="rgba(29, 42, 52, 0.18)"
+              strokeDasharray="6 6"
+            />
+            <circle
+              cx={xScale(selectedPortfolio.risk)}
+              cy={yScale(selectedPortfolio.return)}
+              r="18"
+              fill={portfolioMode === "shortSalesAllowed" ? "rgba(47, 108, 173, 0.14)" : "rgba(92, 159, 69, 0.14)"}
+            />
             <circle
               cx={xScale(selectedPortfolio.risk)}
               cy={yScale(selectedPortfolio.return)}
@@ -451,20 +476,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
         </svg>
 
         {tooltip && (
-          <div
-            style={{
-              position: "absolute",
-              left: tooltip.x,
-              top: tooltip.y,
-              minWidth: 190,
-              background: "rgba(23, 33, 40, 0.94)",
-              color: "#ffffff",
-              borderRadius: 14,
-              padding: "10px 12px",
-              pointerEvents: "none",
-              boxShadow: "0 12px 26px rgba(0,0,0,0.2)",
-            }}
-          >
+          <div className="chart-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
             <div style={{ fontWeight: 700, marginBottom: 6 }}>{tooltip.title}</div>
             {tooltip.lines.map((line) => (
               <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>
@@ -473,6 +485,39 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="insight-grid" style={{ marginTop: 16 }}>
+        <div className="insight-card">
+          <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+            Frontier position
+          </div>
+          <strong>{boundedIndex + 1}</strong>
+          <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+            Point {boundedIndex + 1} of {activeFrontier.length} on the selected frontier.
+          </div>
+          <div className="frontier-progress-track" style={{ marginTop: 12 }}>
+            <div className="frontier-progress-fill" style={{ width: `${frontierProgress * 100}%` }} />
+          </div>
+        </div>
+        <div className="insight-card">
+          <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+            Positive exposure
+          </div>
+          <strong>{formatPercent(activeRiskBudget)}</strong>
+          <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+            Sum of positive portfolio weights for the currently selected point.
+          </div>
+        </div>
+        <div className="insight-card">
+          <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+            Top holdings
+          </div>
+          <strong>{selectedTopRows.length}</strong>
+          <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+            {selectedTopRows.map((row) => `${row.fund} ${formatPercent(row.weight)}`).join(", ")}
+          </div>
+        </div>
       </div>
 
       <div
@@ -532,6 +577,16 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
               onChange={(event) => setPortfolioIndex(Number(event.target.value))}
               style={{ width: "100%" }}
             />
+          </div>
+
+          <div style={{ marginTop: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, color: theme.muted, fontSize: 14 }}>
+              <span>{portfolioMode === "shortSalesAllowed" ? "Short-sales path" : "Long-only path"}</span>
+              <span>{formatPercent(frontierProgress, 0)} explored</span>
+            </div>
+            <div className="frontier-progress-track" style={{ marginTop: 8 }}>
+              <div className="frontier-progress-fill" style={{ width: `${frontierProgress * 100}%` }} />
+            </div>
           </div>
 
           <div

@@ -111,6 +111,15 @@ function weightRows(weightMap, fundMap) {
     .sort((left, right) => Math.abs(right.weight) - Math.abs(left.weight));
 }
 
+function hoverPosition(event) {
+  const svg = event.currentTarget.ownerSVGElement ?? event.currentTarget;
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left + 12,
+    y: event.clientY - rect.top - 12,
+  };
+}
+
 function StatBox({ label, value, note }) {
   return (
     <div className="stat-card">
@@ -129,6 +138,7 @@ export default function RiskAversionInteractive({ payload = data }) {
   const [answers, setAnswers] = useState({});
   const [portfolioMode, setPortfolioMode] = useState(null);
   const [chartScale, setChartScale] = useState(null);
+  const [chartTooltip, setChartTooltip] = useState(null);
 
   const answeredCount = Object.keys(answers).length;
   const isComplete = answeredCount === questionnaire.length;
@@ -177,6 +187,7 @@ export default function RiskAversionInteractive({ payload = data }) {
     () => (activePortfolio ? weightRows(activePortfolio.weights, fundMap) : []),
     [activePortfolio, fundMap],
   );
+  const activeTopRows = activeRows.slice(0, 3);
 
   const effectiveChartScale = chartScale ?? "retail";
 
@@ -230,6 +241,9 @@ export default function RiskAversionInteractive({ payload = data }) {
     activePortfolio.risk <= domain.maxX &&
     activePortfolio.expected_return >= domain.minY &&
     activePortfolio.expected_return <= domain.maxY;
+  const selectedPointProgress = activePortfolio
+    ? activePortfolio.risk / (domain.maxX || 1)
+    : 0;
 
   return (
     <section
@@ -355,6 +369,23 @@ export default function RiskAversionInteractive({ payload = data }) {
 
         <aside className="risk-sidebar">
           <div className="risk-sticky">
+            <div className="floating-summary">
+              <strong>
+                {portfolioMode === "longOnly"
+                  ? "Long-only recommendation selected"
+                  : portfolioMode === "shortSalesAllowed"
+                    ? "Short-sales benchmark selected"
+                    : "Choose a portfolio mode after answering"}
+              </strong>
+              <p>
+                {isComplete
+                  ? activePortfolio
+                    ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
+                    : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
+                  : `The right-side summary stays visible while you work through the questionnaire so the profile updates remain aligned with the questions.`}
+              </p>
+            </div>
+
             <div className="dashboard-card" style={cardStyle}>
               <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
                 Completion Status
@@ -602,7 +633,7 @@ export default function RiskAversionInteractive({ payload = data }) {
           </div>
         </div>
 
-        <div style={{ overflowX: "auto" }}>
+        <div className="chart-shell">
           <svg width={chart.width} height={chart.height} role="img" aria-label="Risk aversion frontier chart">
             <rect x="0" y="0" width={chart.width} height={chart.height} rx="18" fill="#fffefb" />
 
@@ -677,7 +708,27 @@ export default function RiskAversionInteractive({ payload = data }) {
             />
 
             {payload.funds.map((fund) => (
-              <g key={fund.index}>
+              <g
+                key={fund.index}
+                onMouseEnter={(event) => {
+                  const position = hoverPosition(event);
+                  setChartTooltip({
+                    x: position.x,
+                    y: position.y,
+                    title: `${fund.index}. ${fund.shortName}`,
+                    lines: [
+                      `Expected return: ${formatPercent(fund.annualReturn)}`,
+                      `Volatility: ${formatPercent(fund.annualVolatility)}`,
+                    ],
+                  });
+                }}
+                onMouseMove={(event) => {
+                  const position = hoverPosition(event);
+                  setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                }}
+                onMouseLeave={() => setChartTooltip(null)}
+                style={{ cursor: "pointer" }}
+              >
                 <circle cx={xScale(fund.annualVolatility)} cy={yScale(fund.annualReturn)} r="6.5" fill={theme.accent} />
                 <text x={xScale(fund.annualVolatility) + 8} y={yScale(fund.annualReturn) - 8} fontSize="12" fontWeight="700" fill={theme.ink}>
                   {fund.index}
@@ -686,7 +737,49 @@ export default function RiskAversionInteractive({ payload = data }) {
             ))}
 
             {activePointVisible && (
-              <g>
+              <g
+                onMouseEnter={(event) => {
+                  const position = hoverPosition(event);
+                  setChartTooltip({
+                    x: position.x,
+                    y: position.y,
+                    title: portfolioMode === "longOnly" ? "Selected long-only portfolio" : "Selected short-sales benchmark",
+                    lines: [
+                      `Expected return: ${formatPercent(activePortfolio.expected_return)}`,
+                      `Volatility: ${formatPercent(activePortfolio.risk)}`,
+                      `Utility: ${activePortfolio.utility.toFixed(4)}`,
+                    ],
+                  });
+                }}
+                onMouseMove={(event) => {
+                  const position = hoverPosition(event);
+                  setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                }}
+                onMouseLeave={() => setChartTooltip(null)}
+                style={{ cursor: "pointer" }}
+              >
+                <line
+                  x1={xScale(activePortfolio.risk)}
+                  x2={xScale(activePortfolio.risk)}
+                  y1={chart.height - chart.bottom}
+                  y2={yScale(activePortfolio.expected_return)}
+                  stroke="rgba(27, 41, 50, 0.22)"
+                  strokeDasharray="6 6"
+                />
+                <line
+                  x1={chart.left}
+                  x2={xScale(activePortfolio.risk)}
+                  y1={yScale(activePortfolio.expected_return)}
+                  y2={yScale(activePortfolio.expected_return)}
+                  stroke="rgba(27, 41, 50, 0.22)"
+                  strokeDasharray="6 6"
+                />
+                <circle
+                  cx={xScale(activePortfolio.risk)}
+                  cy={yScale(activePortfolio.expected_return)}
+                  r="18"
+                  fill={portfolioMode === "longOnly" ? "rgba(143, 104, 70, 0.14)" : "rgba(55, 109, 163, 0.14)"}
+                />
                 <circle
                   cx={xScale(activePortfolio.risk)}
                   cy={yScale(activePortfolio.expected_return)}
@@ -708,6 +801,17 @@ export default function RiskAversionInteractive({ payload = data }) {
               </g>
             )}
           </svg>
+
+          {chartTooltip && (
+            <div className="chart-tooltip" style={{ left: chartTooltip.x, top: chartTooltip.y }}>
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>{chartTooltip.title}</div>
+              {chartTooltip.lines.map((line) => (
+                <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>
+                  {line}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {!isComplete && (
@@ -738,6 +842,44 @@ export default function RiskAversionInteractive({ payload = data }) {
             <strong>Full theoretical scale</strong> to display it.
           </div>
         )}
+
+        <div className="insight-grid" style={{ marginTop: 14 }}>
+          <div className="insight-card">
+            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+              Chart mode
+            </div>
+            <strong>{chartScale ?? "Pending"}</strong>
+            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+              {chartScale
+                ? chartScale === "retail"
+                  ? "Focused on practical long-only scale."
+                  : "Expanded to the full theoretical opportunity set."
+                : "Select a chart scale to highlight the part of the frontier you want to inspect."}
+            </div>
+          </div>
+          <div className="insight-card">
+            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+              Selected point
+            </div>
+            <strong>{activePortfolio ? `${Math.round(selectedPointProgress * 100)}%` : "--"}</strong>
+            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+              {activePortfolio
+                ? "Approximate horizontal position of the chosen portfolio on the current chart scale."
+                : "This unlocks after you finish the questionnaire and pick a portfolio mode."}
+            </div>
+          </div>
+          <div className="insight-card">
+            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
+              Top holdings
+            </div>
+            <strong>{activeTopRows.length > 0 ? activeTopRows.length : "--"}</strong>
+            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
+              {activeTopRows.length > 0
+                ? activeTopRows.map((row) => `${row.fund} ${formatPercent(row.weight)}`).join(", ")
+                : "The top allocations appear here once a portfolio is active."}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
