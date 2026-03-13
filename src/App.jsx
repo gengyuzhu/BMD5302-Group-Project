@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import "./app.css";
 
 const EfficientFrontierInteractive = lazy(() => import("../part1/EfficientFrontierInteractive.jsx"));
@@ -37,8 +37,6 @@ const views = [
 
 export default function App() {
   const [activeView, setActiveView] = useState("platform");
-  const [topbarHeight, setTopbarHeight] = useState(252);
-  const topbarRef = useRef(null);
   const activeMeta = useMemo(
     () => views.find((view) => view.id === activeView) ?? views[0],
     [activeView],
@@ -48,40 +46,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeView]);
 
-  useLayoutEffect(() => {
-    const element = topbarRef.current;
-    if (!element) return undefined;
-
-    const updateHeight = () => {
-      const nextHeight = Math.ceil(element.getBoundingClientRect().height);
-      if (nextHeight > 0) {
-        setTopbarHeight(nextHeight);
-      }
-    };
-
-    updateHeight();
-
-    if (typeof ResizeObserver !== "undefined") {
-      const observer = new ResizeObserver(() => updateHeight());
-      observer.observe(element);
-      window.addEventListener("resize", updateHeight);
-
-      return () => {
-        observer.disconnect();
-        window.removeEventListener("resize", updateHeight);
-      };
-    }
-
-    window.addEventListener("resize", updateHeight);
-    return () => {
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, []);
-
   return (
-    <>
+    <main className="app-shell">
       <header className="app-topbar-frame">
-        <div ref={topbarRef} className="app-topbar">
+        <div className="app-topbar">
           <div className="topbar-row">
             <div className="topbar-heading">
               <p className="eyebrow">BMD5302 Robot Adviser</p>
@@ -114,28 +82,26 @@ export default function App() {
         </div>
       </header>
 
-      <main className="app-shell" style={{ "--app-topbar-height": `${topbarHeight}px` }}>
-        <section className="hero">
-          <p className="eyebrow">{activeMeta.eyebrow}</p>
-          <h2>{activeMeta.heading}</h2>
-          <p className="intro">{activeMeta.intro}</p>
-          <div className="hero-metrics" aria-label="Current view highlights">
-            {activeMeta.metrics.map((metric) => (
-              <span key={metric} className="metric-chip">
-                {metric}
-              </span>
-            ))}
-          </div>
-        </section>
+      <section className="hero">
+        <p className="eyebrow">{activeMeta.eyebrow}</p>
+        <h2>{activeMeta.heading}</h2>
+        <p className="intro">{activeMeta.intro}</p>
+        <div className="hero-metrics" aria-label="Current view highlights">
+          {activeMeta.metrics.map((metric) => (
+            <span key={metric} className="metric-chip">
+              {metric}
+            </span>
+          ))}
+        </div>
+      </section>
 
-        <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
-          <div key={activeView} className="view-stage">
-            {activeView === "platform" && <PlatformExperience />}
-            {activeView === "frontier" && <EfficientFrontierInteractive />}
-            {activeView === "risk" && <RiskAversionInteractive />}
-          </div>
-        </Suspense>
-      </main>
-    </>
+      <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
+        <div key={activeView} className="view-stage">
+          {activeView === "platform" && <PlatformExperience />}
+          {activeView === "frontier" && <EfficientFrontierInteractive />}
+          {activeView === "risk" && <RiskAversionInteractive />}
+        </div>
+      </Suspense>
+    </main>
   );
 }

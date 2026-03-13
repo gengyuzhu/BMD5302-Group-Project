@@ -123,37 +123,29 @@ svg {
 .app-shell {
   width: min(1440px, calc(100vw - 32px));
   margin: 0 auto;
-  padding: calc(var(--app-topbar-height, 252px) + 24px) 0 48px;
+  padding: 24px 0 48px;
 }
 
 .app-topbar-frame {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 9999;
-  padding: 0 16px;
-  pointer-events: none;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  margin-bottom: 20px;
 }
 
 .app-topbar {
   position: relative;
-  width: min(1440px, 100%);
-  margin: 0 auto;
+  width: 100%;
   display: grid;
   gap: 16px;
   padding: 20px 24px;
-  border-radius: 0 0 26px 26px;
+  border-radius: 26px;
   border: 1px solid var(--app-line);
   background: var(--app-panel);
   box-shadow: var(--app-shadow);
   backdrop-filter: blur(10px);
   isolation: isolate;
-  pointer-events: auto;
   transform: translateZ(0);
-  will-change: transform;
 }
 
 .topbar-row {
@@ -1179,12 +1171,7 @@ svg {
     width: min(100vw - 16px, 1440px);
   }
 
-  .app-topbar-frame {
-    padding: 0 8px;
-  }
-
   .app-topbar {
-    width: min(calc(100vw - 16px), 1440px);
     padding: 18px;
   }
 
