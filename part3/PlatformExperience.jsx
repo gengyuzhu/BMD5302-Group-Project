@@ -204,6 +204,15 @@ function pathFromPoints(points, xScale, yScale) {
     .join(" ");
 }
 
+function hoverPosition(event) {
+  const svg = event.currentTarget.ownerSVGElement ?? event.currentTarget;
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left + 14,
+    y: event.clientY - rect.top - 14,
+  };
+}
+
 function StatCard({ label, value, note }) {
   return (
     <div className="stat-card">
@@ -559,6 +568,7 @@ export default function PlatformExperience() {
   const [draft, setDraft] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [thinkingLabel, setThinkingLabel] = useState("Reviewing the current client context");
+  const [chartTooltip, setChartTooltip] = useState(null);
   const chatViewportRef = useRef(null);
   const timerIdsRef = useRef([]);
   const contextRef = useRef({
@@ -669,7 +679,7 @@ export default function PlatformExperience() {
     };
   }, [constraintMode, displayedPortfolio.expected_return, displayedPortfolio.risk]);
 
-  const chart = { width: 760, height: 380, left: 68, right: 30, top: 24, bottom: 50 };
+  const chart = { width: 760, height: 430, left: 74, right: 34, top: 28, bottom: 78 };
   const xScale = (value) => chart.left + ((value - chartDomain.minX) / (chartDomain.maxX - chartDomain.minX || 1)) * (chart.width - chart.left - chart.right);
   const yScale = (value) => chart.height - chart.bottom - ((value - chartDomain.minY) / (chartDomain.maxY - chartDomain.minY || 1)) * (chart.height - chart.top - chart.bottom);
   const xTicks = makeTicks(chartDomain.minX, chartDomain.maxX, 5);
@@ -775,35 +785,272 @@ export default function PlatformExperience() {
           <div className="dashboard-card" style={cardStyle}>
             <div style={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: theme.muted }}>Visual Allocation</div>
             <h3 style={{ margin: "8px 0 12px", fontSize: 26 }}>Portfolio point on the frontier</h3>
-            <div style={{ overflowX: "auto" }}>
-              <svg width={chart.width} height={chart.height} role="img" aria-label="Platform efficient frontier chart">
-                <rect x="0" y="0" width={chart.width} height={chart.height} rx="18" fill="#fffefb" />
+            <div className="platform-chart-legend">
+              <span className="platform-legend-chip">
+                <i style={{ background: theme.short }} />
+                Short-sales frontier
+              </span>
+              <span className="platform-legend-chip">
+                <i style={{ background: theme.good }} />
+                Long-only frontier
+              </span>
+              <span className="platform-legend-chip">
+                <i style={{ background: constraintMode === "longOnly" ? theme.long : theme.short }} />
+                Selected portfolio point
+              </span>
+            </div>
+
+            <div className="chart-shell platform-chart-shell" style={{ marginTop: 14 }}>
+              <svg
+                width={chart.width}
+                height={chart.height}
+                role="img"
+                aria-label="Platform efficient frontier chart"
+                style={{ display: "block", overflow: "visible" }}
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width={chart.width}
+                  height={chart.height}
+                  rx="22"
+                  fill="#fffefb"
+                />
                 {yTicks.map((tick) => (
                   <g key={`y-${tick}`}>
-                    <line x1={chart.left} x2={chart.width - chart.right} y1={yScale(tick)} y2={yScale(tick)} stroke={theme.line} strokeDasharray="5 6" />
-                    <text x={chart.left - 12} y={yScale(tick) + 4} textAnchor="end" fontSize="12" fill={theme.muted}>{formatPercent(tick)}</text>
+                    <line
+                      x1={chart.left}
+                      x2={chart.width - chart.right}
+                      y1={yScale(tick)}
+                      y2={yScale(tick)}
+                      stroke={theme.line}
+                      strokeDasharray="5 6"
+                    />
+                    <text
+                      x={chart.left - 12}
+                      y={yScale(tick) + 4}
+                      textAnchor="end"
+                      fontSize="12"
+                      fill={theme.muted}
+                    >
+                      {formatPercent(tick)}
+                    </text>
                   </g>
                 ))}
                 {xTicks.map((tick) => (
                   <g key={`x-${tick}`}>
-                    <line x1={xScale(tick)} x2={xScale(tick)} y1={chart.top} y2={chart.height - chart.bottom} stroke={theme.line} strokeDasharray="5 6" />
-                    <text x={xScale(tick)} y={chart.height - chart.bottom + 24} textAnchor="middle" fontSize="12" fill={theme.muted}>{formatPercent(tick)}</text>
+                    <line
+                      x1={xScale(tick)}
+                      x2={xScale(tick)}
+                      y1={chart.top}
+                      y2={chart.height - chart.bottom}
+                      stroke={theme.line}
+                      strokeDasharray="5 6"
+                    />
+                    <text
+                      x={xScale(tick)}
+                      y={chart.height - chart.bottom + 28}
+                      textAnchor="middle"
+                      fontSize="12"
+                      fill={theme.muted}
+                    >
+                      {formatPercent(tick)}
+                    </text>
                   </g>
                 ))}
-                <line x1={chart.left} x2={chart.left} y1={chart.top} y2={chart.height - chart.bottom} stroke={theme.ink} />
-                <line x1={chart.left} x2={chart.width - chart.right} y1={chart.height - chart.bottom} y2={chart.height - chart.bottom} stroke={theme.ink} />
-                <path d={pathFromPoints(frontierData.frontiers.shortSalesAllowed, xScale, yScale)} fill="none" stroke={theme.short} strokeWidth="3.2" />
-                <path d={pathFromPoints(frontierData.frontiers.longOnly, xScale, yScale)} fill="none" stroke={theme.good} strokeWidth="3.2" strokeDasharray="8 6" />
+
+                <text
+                  x={chart.width / 2}
+                  y={chart.height - 18}
+                  textAnchor="middle"
+                  fontSize="13"
+                  fontWeight="700"
+                  fill={theme.muted}
+                >
+                  Volatility
+                </text>
+                <text
+                  x="22"
+                  y={chart.height / 2}
+                  transform={`rotate(-90 22 ${chart.height / 2})`}
+                  textAnchor="middle"
+                  fontSize="13"
+                  fontWeight="700"
+                  fill={theme.muted}
+                >
+                  Expected Return
+                </text>
+
+                <line
+                  x1={chart.left}
+                  x2={chart.left}
+                  y1={chart.top}
+                  y2={chart.height - chart.bottom}
+                  stroke={theme.ink}
+                />
+                <line
+                  x1={chart.left}
+                  x2={chart.width - chart.right}
+                  y1={chart.height - chart.bottom}
+                  y2={chart.height - chart.bottom}
+                  stroke={theme.ink}
+                />
+
+                <path
+                  d={pathFromPoints(frontierData.frontiers.shortSalesAllowed, xScale, yScale)}
+                  fill="none"
+                  stroke={theme.short}
+                  strokeWidth="3.2"
+                  strokeLinecap="round"
+                />
+                <path
+                  d={pathFromPoints(frontierData.frontiers.longOnly, xScale, yScale)}
+                  fill="none"
+                  stroke={theme.good}
+                  strokeWidth="3.2"
+                  strokeDasharray="8 6"
+                  strokeLinecap="round"
+                />
+
                 {riskData.funds.map((fund) => (
-                  <g key={fund.index}>
-                    <circle cx={xScale(fund.annualVolatility)} cy={yScale(fund.annualReturn)} r="6.2" fill={theme.accent} />
-                    <text x={xScale(fund.annualVolatility) + 8} y={yScale(fund.annualReturn) - 8} fontSize="12" fontWeight="700" fill={theme.ink}>{fund.index}</text>
+                  <g
+                    key={fund.index}
+                    onMouseEnter={(event) => {
+                      const position = hoverPosition(event);
+                      setChartTooltip({
+                        x: position.x,
+                        y: position.y,
+                        title: `${fund.index}. ${fund.shortName}`,
+                        lines: [
+                          `Return: ${formatPercent(fund.annualReturn)}`,
+                          `Volatility: ${formatPercent(fund.annualVolatility)}`,
+                        ],
+                      });
+                    }}
+                    onMouseMove={(event) => {
+                      const position = hoverPosition(event);
+                      setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                    }}
+                    onMouseLeave={() => setChartTooltip(null)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle
+                      cx={xScale(fund.annualVolatility)}
+                      cy={yScale(fund.annualReturn)}
+                      r="6.2"
+                      fill={theme.accent}
+                    />
+                    <text
+                      x={xScale(fund.annualVolatility) + 8}
+                      y={yScale(fund.annualReturn) - 8}
+                      fontSize="12"
+                      fontWeight="700"
+                      fill={theme.ink}
+                    >
+                      {fund.index}
+                    </text>
                   </g>
                 ))}
-                <circle cx={xScale(displayedPortfolio.risk)} cy={yScale(displayedPortfolio.expected_return)} r="11" fill={constraintMode === "longOnly" ? theme.long : theme.short} stroke="#111111" strokeWidth="2" />
+
+                <line
+                  x1={xScale(displayedPortfolio.risk)}
+                  x2={xScale(displayedPortfolio.risk)}
+                  y1={chart.height - chart.bottom}
+                  y2={yScale(displayedPortfolio.expected_return)}
+                  stroke={constraintMode === "longOnly" ? theme.long : theme.short}
+                  strokeDasharray="6 6"
+                  opacity="0.55"
+                />
+                <line
+                  x1={chart.left}
+                  x2={xScale(displayedPortfolio.risk)}
+                  y1={yScale(displayedPortfolio.expected_return)}
+                  y2={yScale(displayedPortfolio.expected_return)}
+                  stroke={constraintMode === "longOnly" ? theme.long : theme.short}
+                  strokeDasharray="6 6"
+                  opacity="0.55"
+                />
+
+                <g
+                  onMouseEnter={(event) => {
+                    const position = hoverPosition(event);
+                    setChartTooltip({
+                      x: position.x,
+                      y: position.y,
+                      title: constraintMode === "longOnly" ? "Current long-only recommendation" : "Current short-sales benchmark",
+                      lines: [
+                        `Expected return: ${formatPercent(displayedPortfolio.expected_return)}`,
+                        `Volatility: ${formatPercent(displayedPortfolio.risk)}`,
+                        `Utility: ${displayedPortfolio.utility.toFixed(4)}`,
+                      ],
+                    });
+                  }}
+                  onMouseMove={(event) => {
+                    const position = hoverPosition(event);
+                    setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                  }}
+                  onMouseLeave={() => setChartTooltip(null)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <circle
+                    cx={xScale(displayedPortfolio.risk)}
+                    cy={yScale(displayedPortfolio.expected_return)}
+                    r="18"
+                    fill={constraintMode === "longOnly" ? "rgba(143, 104, 70, 0.16)" : "rgba(55, 109, 163, 0.16)"}
+                  />
+                  <circle
+                    cx={xScale(displayedPortfolio.risk)}
+                    cy={yScale(displayedPortfolio.expected_return)}
+                    r="11"
+                    fill={constraintMode === "longOnly" ? theme.long : theme.short}
+                    stroke="#111111"
+                    strokeWidth="2"
+                  />
+                  <text
+                    x={xScale(displayedPortfolio.risk) + 16}
+                    y={yScale(displayedPortfolio.expected_return) - 8}
+                    fontSize="12"
+                    fontWeight="700"
+                    fill={theme.ink}
+                  >
+                    Current
+                  </text>
+                </g>
               </svg>
+
+              {chartTooltip ? (
+                <div className="chart-tooltip" style={{ left: chartTooltip.x, top: chartTooltip.y }}>
+                  <div style={{ fontWeight: 700, marginBottom: 6 }}>{chartTooltip.title}</div>
+                  {chartTooltip.lines.map((line) => (
+                    <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>
+                      {line}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
-            <div style={{ marginTop: 12, color: theme.muted, lineHeight: 1.55 }}>The filled marker shows the selected client recommendation directly on the efficient frontier.</div>
+
+            <div className="platform-chart-insights">
+              <div className="platform-chart-insight">
+                <span>Current point</span>
+                <strong>{formatPercent(displayedPortfolio.expected_return)} return</strong>
+                <small>{formatPercent(displayedPortfolio.risk)} volatility</small>
+              </div>
+              <div className="platform-chart-insight">
+                <span>Constraint mode</span>
+                <strong>{constraintMode === "longOnly" ? "Long-only implementation" : "Short-sales benchmark"}</strong>
+                <small>Same frontier, different implementation rule</small>
+              </div>
+              <div className="platform-chart-insight">
+                <span>Top driver</span>
+                <strong>{topHoldings[0]?.fund ?? "No active holding"}</strong>
+                <small>{topHoldings[0] ? `${formatPercent(topHoldings[0].weight)} weight` : "No exposure selected"}</small>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 12, color: theme.muted, lineHeight: 1.55 }}>
+              The filled marker shows the selected client recommendation directly on the frontier. Hover any fund or the current point to inspect the underlying numbers.
+            </div>
           </div>
 
           <div className="dashboard-card" style={cardStyle}>
