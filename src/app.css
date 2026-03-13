@@ -661,6 +661,411 @@ svg {
   line-height: 1.5;
 }
 
+.risk2-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  padding: 30px;
+  color: #eef5ff;
+  background:
+    radial-gradient(circle at top center, rgba(53, 239, 230, 0.12), transparent 24%),
+    radial-gradient(circle at 0% 100%, rgba(255, 178, 29, 0.12), transparent 22%),
+    linear-gradient(135deg, #070b1d 0%, #0f1538 54%, #08182b 100%);
+  border: 1px solid rgba(104, 132, 168, 0.2);
+  box-shadow: 0 26px 60px rgba(7, 14, 30, 0.42);
+}
+
+.risk2-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015), transparent 24%, transparent 76%, rgba(255, 255, 255, 0.015)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 34%);
+  pointer-events: none;
+}
+
+.risk2-content {
+  position: relative;
+  z-index: 1;
+}
+
+.risk2-kicker {
+  margin: 0;
+  color: rgba(226, 236, 255, 0.72);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.risk2-title {
+  margin: 10px 0 8px;
+  color: #eef5ff;
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+  line-height: 1.02;
+}
+
+.risk2-subcopy {
+  color: #96a8c5;
+  line-height: 1.6;
+}
+
+.risk2-tabrow {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.risk2-tab {
+  min-width: 188px;
+  border-radius: 999px;
+  border: 1px solid rgba(104, 132, 168, 0.28);
+  background: rgba(8, 16, 39, 0.76);
+  color: #bfd0eb;
+  padding: 13px 22px;
+  font-weight: 600;
+}
+
+.risk2-tab-active {
+  border-color: #35efe6;
+  background: rgba(53, 239, 230, 0.12);
+  color: #35efe6;
+  box-shadow: 0 0 0 1px rgba(53, 239, 230, 0.18);
+}
+
+.risk2-tab-disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.risk2-quiz-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 20px;
+  margin-top: 28px;
+  align-items: start;
+}
+
+.risk2-sidegrid,
+.risk2-results,
+.risk2-map,
+.risk2-allocation-list {
+  display: grid;
+  gap: 18px;
+}
+
+.risk2-panel {
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(104, 132, 168, 0.16);
+  background:
+    linear-gradient(180deg, rgba(12, 18, 46, 0.92), rgba(11, 22, 52, 0.8));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.risk2-panel-kicker,
+.risk2-stat-kicker {
+  color: #8ba0c0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.risk2-panel-title {
+  margin: 10px 0 12px;
+  font-size: 24px;
+  color: #eef5ff;
+}
+
+.risk2-question-top,
+.risk2-steprow,
+.risk2-controls,
+.risk2-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.risk2-chip,
+.risk2-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(104, 132, 168, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: #d6e2f7;
+  font-size: 13px;
+}
+
+.risk2-progressbar {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(78, 97, 133, 0.24);
+}
+
+.risk2-progressfill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #35efe6 0%, #ffb21d 100%);
+  transition: width 260ms ease;
+}
+
+.risk2-stepdot {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(104, 132, 168, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.risk2-stepdot:hover,
+.risk2-map-item:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.risk2-stepdot-active {
+  width: 34px;
+  background: linear-gradient(90deg, rgba(53, 239, 230, 0.9), rgba(255, 178, 29, 0.9));
+  border-color: transparent;
+}
+
+.risk2-stepdot-complete {
+  background: #35efe6;
+  border-color: #35efe6;
+}
+
+.risk2-question-title {
+  margin: 18px 0 0;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  line-height: 1.14;
+  color: #eef5ff;
+}
+
+.risk2-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.risk2-option {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(104, 132, 168, 0.16);
+  background: rgba(13, 19, 45, 0.8);
+  color: #eef5ff;
+  box-shadow: none;
+}
+
+.risk2-option:hover {
+  border-color: rgba(53, 239, 230, 0.42);
+}
+
+.risk2-option-active {
+  border-color: #35efe6;
+  background: linear-gradient(135deg, rgba(53, 239, 230, 0.1), rgba(255, 178, 29, 0.12));
+}
+
+.risk2-option-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #eef5ff;
+  font-weight: 700;
+}
+
+.risk2-option-active .risk2-option-score {
+  background: rgba(53, 239, 230, 0.18);
+  color: #35efe6;
+}
+
+.risk2-controls {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.risk2-button {
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.risk2-button-primary {
+  border: 1px solid rgba(255, 178, 29, 0.22);
+  background: linear-gradient(90deg, #35efe6 0%, #1cc3e7 100%);
+  color: #07101d;
+}
+
+.risk2-button-secondary {
+  border: 1px solid rgba(104, 132, 168, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+  color: #d6e2f7;
+}
+
+.risk2-button-outline {
+  border: 1px solid #35efe6;
+  background: rgba(53, 239, 230, 0.08);
+  color: #35efe6;
+}
+
+.risk2-button:disabled,
+.risk2-tab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.risk2-map-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: 15px;
+  border: 1px solid rgba(104, 132, 168, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: #d8e4f7;
+  box-shadow: none;
+}
+
+.risk2-map-item-active {
+  border-color: #35efe6;
+  background: rgba(53, 239, 230, 0.09);
+}
+
+.risk2-map-item-complete {
+  border-color: rgba(255, 178, 29, 0.28);
+}
+
+.risk2-note-block {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(6, 12, 30, 0.48);
+  border: 1px solid rgba(104, 132, 168, 0.14);
+  color: #d7e4f6;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: 13px;
+}
+
+.risk2-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.risk2-stat {
+  padding: 20px 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(104, 132, 168, 0.16);
+  background: linear-gradient(180deg, rgba(12, 18, 46, 0.88), rgba(10, 22, 54, 0.75));
+}
+
+.risk2-stat-value {
+  margin-top: 10px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1;
+  font-weight: 800;
+}
+
+.risk2-stat-note {
+  margin-top: 8px;
+  color: #d3e0f5;
+}
+
+.risk2-stat-subnote,
+.risk2-chart-copy {
+  margin-top: 4px;
+  color: #96a8c5;
+  font-size: 14px;
+}
+
+.risk2-chart-title {
+  color: #35efe6;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.risk2-allocation-row {
+  display: grid;
+  gap: 8px;
+}
+
+.risk2-allocation-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #eef5ff;
+}
+
+.risk2-allocation-track {
+  height: 34px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(27, 37, 69, 0.95), rgba(41, 56, 92, 0.8));
+}
+
+.risk2-allocation-fill {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 68px;
+  padding-right: 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 164, 26, 0.52), rgba(255, 166, 25, 0.96));
+  color: #ffffff;
+  font-weight: 700;
+  transition: width 420ms ease;
+}
+
+.risk2-justification-copy {
+  margin: 14px 0 0;
+  color: #d7e4f6;
+  line-height: 1.75;
+}
+
+.risk2-inline-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(104, 132, 168, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #c9d7ed;
+}
+
+.risk2-actionbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.risk2-footer {
+  color: rgba(150, 168, 197, 0.46);
+  font-size: 13px;
+  text-align: center;
+}
+
 @keyframes stage-in {
   from {
     opacity: 0;
@@ -747,6 +1152,11 @@ svg {
   .risk-sticky {
     position: static;
   }
+
+  .risk2-quiz-layout,
+  .risk2-stats {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 720px) {
@@ -796,5 +1206,41 @@ svg {
 
   .risk-sticky {
     overflow: visible;
+  }
+
+  .risk2-shell {
+    padding: 20px;
+  }
+
+  .risk2-panel,
+  .risk2-stat {
+    padding: 18px;
+  }
+
+  .risk2-title {
+    font-size: 2rem;
+  }
+
+  .risk2-tab {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .risk2-option {
+    grid-template-columns: 38px 1fr;
+    padding: 14px;
+  }
+
+  .risk2-option-score {
+    width: 36px;
+    height: 36px;
+  }
+
+  .risk2-controls {
+    justify-content: stretch;
+  }
+
+  .risk2-button {
+    width: 100%;
   }
 }

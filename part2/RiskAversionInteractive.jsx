@@ -2,45 +2,30 @@ import React, { useMemo, useState } from "react";
 import data from "../part2_outputs/part2_risk_profile_data.json";
 
 const theme = {
-  ink: "#1b2932",
-  muted: "#61727d",
-  line: "#d7cbb8",
-  panel: "#fffaf0",
-  soft: "#f6ecdb",
-  long: "#8f6846",
-  short: "#376da3",
-  accent: "#d58526",
-  good: "#5a9d47",
-  warning: "#cc3f5c",
+  shell: "#070d1f",
+  ink: "#eef5ff",
+  muted: "#96a8c5",
+  line: "rgba(104, 132, 168, 0.22)",
+  cyan: "#35efe6",
+  gold: "#ffb21d",
+  green: "#46f08c",
+  red: "#ff5d4d",
+  silver: "#aab8c9",
 };
 
-const cardStyle = {
-  background: "#ffffff",
-  border: `1px solid ${theme.line}`,
-  borderRadius: 22,
-  padding: 18,
-};
+const chart = { width: 980, height: 470, left: 84, right: 28, top: 24, bottom: 58 };
 
-const pillButtonStyle = (active) => ({
-  padding: "10px 14px",
-  borderRadius: 999,
-  border: `1px solid ${active ? theme.ink : theme.line}`,
-  background: active ? theme.ink : "#ffffff",
-  color: active ? "#ffffff" : theme.ink,
-  cursor: "pointer",
-  fontWeight: 600,
-  fontSize: 14,
-});
-
-const resetButtonStyle = {
-  padding: "10px 14px",
-  borderRadius: 999,
-  border: `1px solid rgba(213, 133, 38, 0.46)`,
-  background: "linear-gradient(135deg, rgba(245, 185, 77, 0.16), rgba(255, 255, 255, 0.94))",
-  color: theme.ink,
-  cursor: "pointer",
-  fontWeight: 600,
-  fontSize: 14,
+const tickerMap = {
+  "Nikko STI ETF": "STI ETF",
+  "Lion-OCBC HSTECH ETF": "HSTECH",
+  "ABF SG Bond": "ABF SG",
+  "Fidelity Global Tech": "FID TECH",
+  "PIMCO Income SGD-H": "PIMCO INC",
+  "JPM US Tech SGD": "JPM TECH",
+  "Schroder Asian Growth": "SCH ASIA",
+  "BlackRock World Gold": "BLK GOLD",
+  "Franklin India SGD": "FRANK IND",
+  "United SGD Fund": "UOB SGD",
 };
 
 const formatPercent = (value, digits = 2) => `${(value * 100).toFixed(digits)}%`;
@@ -52,16 +37,23 @@ function questionnaireBounds(questionnaire) {
 }
 
 function riskProfileLabel(aValue) {
-  if (aValue >= 7.5) {
-    return "Conservative";
-  }
-  if (aValue >= 5.0) {
-    return "Moderately Conservative";
-  }
-  if (aValue >= 3.0) {
-    return "Moderate Growth";
-  }
+  if (aValue >= 7.5) return "Conservative";
+  if (aValue >= 5.0) return "Moderately Conservative";
+  if (aValue >= 3.0) return "Moderate Growth";
   return "Aggressive Growth";
+}
+
+function displayRiskTone(aValue) {
+  if (aValue <= 3.0) {
+    return { label: "Aggressive", color: theme.gold };
+  }
+  if (aValue <= 5.0) {
+    return { label: "Growth", color: theme.cyan };
+  }
+  if (aValue <= 7.0) {
+    return { label: "Balanced", color: "#8fd6ff" };
+  }
+  return { label: "Conservative", color: "#c9d8ff" };
 }
 
 function scoreAnswers(answers, questionnaire) {
@@ -84,18 +76,18 @@ function scoreAnswers(answers, questionnaire) {
 
 function nearestPortfolio(portfolios, aValue) {
   return portfolios.reduce((best, current) =>
-    Math.abs(current.risk_aversion_a - aValue) < Math.abs(best.risk_aversion_a - aValue) ? current : best,
+    Math.abs(current.risk_aversion_a - aValue) < Math.abs(best.risk_aversion_a - aValue)
+      ? current
+      : best,
   );
 }
 
-function makeTicks(min, max, count = 6) {
-  if (min === max) {
-    return [min];
-  }
+function makeTicks(min, max, count = 5) {
+  if (min === max) return [min];
   return Array.from({ length: count }, (_, index) => min + ((max - min) * index) / (count - 1));
 }
 
-function frontierPath(points, xScale, yScale) {
+function pathFromPoints(points, xScale, yScale) {
   return points
     .map((point, index) => `${index === 0 ? "M" : "L"} ${xScale(point.risk)} ${yScale(point.return)}`)
     .join(" ");
@@ -120,38 +112,75 @@ function hoverPosition(event) {
   };
 }
 
-function StatBox({ label, value, note }) {
-  return (
-    <div className="stat-card">
-      <div style={{ fontSize: 12, color: theme.muted, textTransform: "uppercase", letterSpacing: "0.12em" }}>
-        {label}
-      </div>
-      <div style={{ marginTop: 6, fontSize: 24, fontWeight: 700 }}>{value}</div>
-      <div style={{ color: theme.muted, fontSize: 14, marginTop: 4 }}>{note}</div>
-    </div>
-  );
+function buildIndifferenceCurve(aValue, utility, maxRisk, points = 64) {
+  return Array.from({ length: points }, (_, index) => {
+    const risk = (maxRisk * index) / (points - 1);
+    return { risk, return: utility + (aValue * risk * risk) / 2 };
+  });
+}
+
+function chartCode(shortName) {
+  return tickerMap[shortName] ?? shortName.toUpperCase().replace(/\s+/g, "_").slice(0, 9);
+}
+
+function buildJustification({ scoring, portfolio, topRows, shortBenchmark }) {
+  const tone = displayRiskTone(scoring.riskAversionA);
+  const frontierZone =
+    portfolio.risk < 0.12
+      ? "lower-volatility section"
+      : portfolio.risk < 0.22
+        ? "middle section"
+        : "upper-right growth section";
+  const leadText =
+    topRows.length === 0
+      ? "the long-only opportunity set"
+      : topRows
+          .slice(0, 2)
+          .map((row) => `${row.fund} (${formatPercent(row.weight, 1)})`)
+          .join(" and ");
+  const benchmarkText = shortBenchmark
+    ? `The unconstrained short-sales benchmark for the same A would target ${formatPercent(
+        shortBenchmark.expected_return,
+      )} return at ${formatPercent(shortBenchmark.risk)} volatility, but the robo-adviser keeps the client recommendation long-only for retail implementation.`
+    : "";
+
+  return `Your risk aversion A = ${scoring.riskAversionA.toFixed(
+    2,
+  )} places you in the ${tone.label.toLowerCase()} segment. The recommended long-only portfolio maximizes U = r - (sigma^2 A)/2 at the tangency between the efficient frontier and your indifference curve, which places the solution in the ${frontierZone}. The biggest allocations are concentrated in ${leadText}, reflecting where the optimizer finds the best return per unit of risk under the long-only retail constraint. ${benchmarkText}`.trim();
+}
+
+function scrollToTop() {
+  if (typeof window !== "undefined") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
 export default function RiskAversionInteractive({ payload = data }) {
   const questionnaire = payload.questionnaire.questionnaire;
-  const defaultAnswers = payload.exampleInvestor.scores;
+  const bounds = useMemo(() => questionnaireBounds(questionnaire), [questionnaire]);
   const [answers, setAnswers] = useState({});
-  const [portfolioMode, setPortfolioMode] = useState(null);
-  const [chartScale, setChartScale] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState("quiz");
   const [chartTooltip, setChartTooltip] = useState(null);
 
+  const currentQuestion = questionnaire[currentIndex];
   const answeredCount = Object.keys(answers).length;
   const isComplete = answeredCount === questionnaire.length;
   const progressRatio = answeredCount / questionnaire.length;
+  const currentAnswer = currentQuestion ? Number(answers[currentQuestion.id] ?? 0) : 0;
 
   const scoring = useMemo(
     () => (isComplete ? scoreAnswers(answers, questionnaire) : null),
     [answers, isComplete, questionnaire],
   );
 
+  const tone = useMemo(
+    () => (scoring ? displayRiskTone(scoring.riskAversionA) : null),
+    [scoring],
+  );
+
   const fundMap = useMemo(
-    () =>
-      Object.fromEntries(payload.funds.map((fund) => [fund.shortName, `${fund.index}. ${fund.shortName}`])),
+    () => Object.fromEntries(payload.funds.map((fund) => [fund.shortName, fund.displayName])),
     [payload.funds],
   );
 
@@ -162,7 +191,8 @@ export default function RiskAversionInteractive({ payload = data }) {
         : null,
     [payload.optimalPortfolios.longOnly, scoring],
   );
-  const shortPortfolio = useMemo(
+
+  const shortBenchmark = useMemo(
     () =>
       scoring
         ? nearestPortfolio(payload.optimalPortfolios.shortSalesAllowed, scoring.riskAversionA)
@@ -170,716 +200,469 @@ export default function RiskAversionInteractive({ payload = data }) {
     [payload.optimalPortfolios.shortSalesAllowed, scoring],
   );
 
-  const activePortfolio =
-    portfolioMode === "longOnly"
-      ? longPortfolio
-      : portfolioMode === "shortSalesAllowed"
-        ? shortPortfolio
-        : null;
-  const comparisonPortfolio =
-    portfolioMode === "longOnly"
-      ? shortPortfolio
-      : portfolioMode === "shortSalesAllowed"
-        ? longPortfolio
-        : null;
+  const positiveRows = useMemo(() => {
+    if (!longPortfolio) return [];
+    return weightRows(longPortfolio.weights, fundMap).filter((row) => row.weight > 0.001);
+  }, [fundMap, longPortfolio]);
 
-  const activeRows = useMemo(
-    () => (activePortfolio ? weightRows(activePortfolio.weights, fundMap) : []),
-    [activePortfolio, fundMap],
-  );
-  const activeTopRows = activeRows.slice(0, 3);
+  const displayedRows = useMemo(() => {
+    if (positiveRows.length <= 6) return positiveRows;
+    const visible = positiveRows.slice(0, 5);
+    const otherWeight = positiveRows.slice(5).reduce((sum, row) => sum + row.weight, 0);
+    return [...visible, { shortName: "Other holdings", fund: "Other holdings", weight: otherWeight }];
+  }, [positiveRows]);
 
-  const effectiveChartScale = chartScale ?? "retail";
+  const chartModel = useMemo(() => {
+    const frontier = payload.frontiers.longOnly;
+    const maxRisk =
+      Math.max(
+        ...payload.funds.map((fund) => fund.annualVolatility),
+        ...frontier.map((point) => point.risk),
+        longPortfolio?.risk ?? 0,
+      ) + 0.03;
+    const curve =
+      scoring && longPortfolio
+        ? buildIndifferenceCurve(scoring.riskAversionA, longPortfolio.utility, maxRisk)
+        : [];
 
-  const retailDomain = useMemo(() => {
-    const assetRisk = Math.max(...payload.funds.map((fund) => fund.annualVolatility));
-    const longRisk = Math.max(...payload.frontiers.longOnly.map((point) => point.risk));
-    const assetReturn = Math.max(...payload.funds.map((fund) => fund.annualReturn));
-    const longReturn = Math.max(...payload.frontiers.longOnly.map((point) => point.return));
-    return {
-      minX: 0,
-      maxX: Math.max(assetRisk, longRisk, longPortfolio?.risk ?? 0) + 0.02,
-      minY: Math.min(...payload.funds.map((fund) => fund.annualReturn), 0) - 0.05,
-      maxY: Math.max(assetReturn, longReturn, longPortfolio?.expected_return ?? 0) + 0.04,
-    };
-  }, [longPortfolio, payload.funds, payload.frontiers.longOnly]);
+    const minY =
+      Math.min(
+        ...payload.funds.map((fund) => fund.annualReturn),
+        ...frontier.map((point) => point.return),
+        ...(curve.length > 0 ? curve.map((point) => point.return) : [0]),
+        0,
+      ) - 0.04;
+    const maxY =
+      Math.max(
+        ...payload.funds.map((fund) => fund.annualReturn),
+        ...frontier.map((point) => point.return),
+        ...(curve.length > 0 ? curve.map((point) => point.return) : [0]),
+        longPortfolio?.expected_return ?? 0,
+      ) + 0.04;
 
-  const fullDomain = useMemo(() => {
-    const allRisk = [
-      ...payload.funds.map((fund) => fund.annualVolatility),
-      ...payload.frontiers.shortSalesAllowed.map((point) => point.risk),
-      shortPortfolio?.risk ?? 0,
-    ];
-    const allReturn = [
-      ...payload.funds.map((fund) => fund.annualReturn),
-      ...payload.frontiers.shortSalesAllowed.map((point) => point.return),
-      shortPortfolio?.expected_return ?? 0,
-    ];
-    return {
-      minX: 0,
-      maxX: Math.max(...allRisk) + 0.05,
-      minY: Math.min(...payload.funds.map((fund) => fund.annualReturn), 0) - 0.05,
-      maxY: Math.max(...allReturn) + 0.2,
-    };
-  }, [payload.funds, payload.frontiers.shortSalesAllowed, shortPortfolio]);
-
-  const domain = effectiveChartScale === "retail" ? retailDomain : fullDomain;
-  const chart = { width: 880, height: 420, left: 70, right: 34, top: 22, bottom: 54 };
+    return { frontier, curve, minX: 0, maxX: maxRisk, minY, maxY };
+  }, [longPortfolio, payload.funds, payload.frontiers.longOnly, scoring]);
 
   const xScale = (value) =>
-    chart.left + ((value - domain.minX) / (domain.maxX - domain.minX || 1)) * (chart.width - chart.left - chart.right);
+    chart.left +
+    ((value - chartModel.minX) / (chartModel.maxX - chartModel.minX || 1)) *
+      (chart.width - chart.left - chart.right);
   const yScale = (value) =>
     chart.height -
     chart.bottom -
-    ((value - domain.minY) / (domain.maxY - domain.minY || 1)) * (chart.height - chart.top - chart.bottom);
+    ((value - chartModel.minY) / (chartModel.maxY - chartModel.minY || 1)) *
+      (chart.height - chart.top - chart.bottom);
 
-  const xTicks = makeTicks(domain.minX, domain.maxX, 6);
-  const yTicks = makeTicks(domain.minY, domain.maxY, 6);
-  const activePointVisible =
-    Boolean(activePortfolio) &&
-    activePortfolio.risk >= domain.minX &&
-    activePortfolio.risk <= domain.maxX &&
-    activePortfolio.expected_return >= domain.minY &&
-    activePortfolio.expected_return <= domain.maxY;
-  const selectedPointProgress = activePortfolio
-    ? activePortfolio.risk / (domain.maxX || 1)
-    : 0;
+  const xTicks = makeTicks(chartModel.minX, chartModel.maxX, 5);
+  const yTicks = makeTicks(chartModel.minY, chartModel.maxY, 5);
+  const justification = useMemo(
+    () =>
+      scoring && longPortfolio
+        ? buildJustification({
+            scoring,
+            portfolio: longPortfolio,
+            topRows: positiveRows,
+            shortBenchmark,
+          })
+        : "",
+    [longPortfolio, positiveRows, scoring, shortBenchmark],
+  );
+
+  const handleAnswerSelect = (score) => {
+    setAnswers((current) => ({ ...current, [currentQuestion.id]: score }));
+  };
+
+  const handleNext = () => {
+    if (!currentQuestion || !currentAnswer) return;
+    if (currentIndex === questionnaire.length - 1) {
+      setActiveTab("results");
+      setChartTooltip(null);
+      scrollToTop();
+      return;
+    }
+    setCurrentIndex((index) => Math.min(questionnaire.length - 1, index + 1));
+  };
+
+  const handlePrevious = () => {
+    setCurrentIndex((index) => Math.max(0, index - 1));
+  };
+
+  const handleRetake = () => {
+    setAnswers({});
+    setCurrentIndex(0);
+    setActiveTab("quiz");
+    setChartTooltip(null);
+    scrollToTop();
+  };
 
   return (
-    <section
-      className="motion-surface"
-      style={{
-        background:
-          "radial-gradient(circle at top left, rgba(245, 185, 77, 0.22), transparent 30%), linear-gradient(180deg, #fffdf8 0%, #f7ecdb 100%)",
-        border: `1px solid ${theme.line}`,
-        borderRadius: 28,
-        padding: 28,
-        color: theme.ink,
-        fontFamily: "IBM Plex Sans, Segoe UI, sans-serif",
-        boxShadow: "0 18px 42px rgba(29, 41, 50, 0.10)",
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
-        <div style={{ maxWidth: 720 }}>
-          <p style={{ margin: 0, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: theme.muted }}>
-            Robot Adviser Part 2
-          </p>
-          <h2 style={{ margin: "8px 0 10px", fontSize: 34, lineHeight: 1.05 }}>
-            Risk Aversion & Optimal Portfolio
-          </h2>
-          <p style={{ margin: 0, color: theme.muted, lineHeight: 1.55 }}>
-            Answer all eight questions, convert the result into a risk-aversion coefficient{" "}
-            <strong>A</strong>, then choose the implementation constraint you want to inspect.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-start" }}>
-          <button
-            type="button"
-            style={pillButtonStyle(portfolioMode === "longOnly")}
-            onClick={() => setPortfolioMode("longOnly")}
-            aria-pressed={portfolioMode === "longOnly"}
-          >
-            Long-only recommendation
-          </button>
-          <button
-            type="button"
-            style={pillButtonStyle(portfolioMode === "shortSalesAllowed")}
-            onClick={() => setPortfolioMode("shortSalesAllowed")}
-            aria-pressed={portfolioMode === "shortSalesAllowed"}
-          >
-            Short-sales benchmark
-          </button>
-          <button
-            type="button"
-            style={resetButtonStyle}
-            onClick={() => setAnswers(defaultAnswers)}
-          >
-            Reset example investor
-          </button>
-        </div>
-      </div>
-
-      <div className="risk-layout">
-        <div className="dashboard-card" style={cardStyle}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <div>
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                Questionnaire
-              </div>
-              <div style={{ marginTop: 6, color: theme.muted }}>
-                Answered {answeredCount} of {questionnaire.length} questions
-              </div>
-            </div>
-            <div style={{ padding: "8px 12px", borderRadius: 999, background: theme.panel, color: theme.ink, fontWeight: 600 }}>
-              {Math.round(progressRatio * 100)}% complete
-            </div>
+    <section className="motion-surface risk2-shell">
+      <div className="risk2-content">
+        <div style={{ textAlign: "center", maxWidth: 860, margin: "0 auto" }}>
+          <p className="risk2-kicker">Part 2: Risk Aversion & Optimal Portfolio</p>
+          <h2 className="risk2-title">Risk Questionnaire to Optimal Portfolio</h2>
+          <div className="risk2-subcopy">
+            U = r - (sigma^2 A)/2 | 10 FSMOne funds | {payload.metadata.return_observations} monthly returns
           </div>
 
-          <div className="question-stack" style={{ marginTop: 16 }}>
-            {questionnaire.map((question, index) => (
-              <div key={question.id} className="question-block">
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
-                  <div>
-                    <div style={{ fontWeight: 700 }}>
-                      {index + 1}. {question.dimension}
-                    </div>
-                    <div style={{ fontSize: 14, color: theme.muted, marginTop: 4 }}>{question.question}</div>
-                  </div>
-                  <div
-                    style={{
-                      alignSelf: "flex-start",
-                      background: theme.soft,
-                      borderRadius: 999,
-                      padding: "6px 10px",
-                      fontSize: 12,
-                      color: theme.muted,
-                    }}
-                  >
-                    Weight {question.weight}
-                  </div>
+          <div className="risk2-tabrow">
+            <button
+              type="button"
+              className={activeTab === "quiz" ? "risk2-tab risk2-tab-active" : "risk2-tab"}
+              onClick={() => {
+                setActiveTab("quiz");
+                setChartTooltip(null);
+                scrollToTop();
+              }}
+            >
+              Risk Questionnaire
+            </button>
+            <button
+              type="button"
+              className={
+                activeTab === "results"
+                  ? "risk2-tab risk2-tab-active"
+                  : isComplete
+                    ? "risk2-tab"
+                    : "risk2-tab risk2-tab-disabled"
+              }
+              onClick={() => {
+                if (!isComplete) return;
+                setActiveTab("results");
+                setChartTooltip(null);
+                scrollToTop();
+              }}
+              disabled={!isComplete}
+            >
+              Optimal Portfolio
+            </button>
+          </div>
+        </div>
+
+        {activeTab === "quiz" && (
+          <div className="risk2-quiz-layout">
+            <div className="risk2-panel">
+              <div className="risk2-question-top">
+                <div className="risk2-chip">Question {currentIndex + 1} of {questionnaire.length}</div>
+                <div className="risk2-chip">{currentQuestion.dimension}</div>
+                <div className="risk2-chip">Weight {currentQuestion.weight}</div>
+                {currentAnswer > 0 && <div className="risk2-chip">Selected {currentAnswer}/5</div>}
+              </div>
+
+              <div className="risk2-progressbar" style={{ marginTop: 18 }}>
+                <div
+                  className="risk2-progressfill"
+                  style={{
+                    width: `${((currentIndex + (currentAnswer > 0 ? 1 : 0)) / questionnaire.length) * 100}%`,
+                  }}
+                />
+              </div>
+
+              <div className="risk2-steprow">
+                {questionnaire.map((question, index) => {
+                  const answered = Number(answers[question.id] ?? 0) > 0;
+                  const classes = [
+                    "risk2-stepdot",
+                    index === currentIndex ? "risk2-stepdot-active" : "",
+                    answered ? "risk2-stepdot-complete" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+                  return (
+                    <button
+                      key={question.id}
+                      type="button"
+                      className={classes}
+                      onClick={() => setCurrentIndex(index)}
+                      aria-label={`Go to question ${index + 1}`}
+                    />
+                  );
+                })}
+              </div>
+
+              <h3 className="risk2-question-title">{currentQuestion.question}</h3>
+              <p className="risk2-subcopy" style={{ margin: "12px 0 0" }}>
+                Select the statement that best matches the investor profile you want the robo-adviser to serve.
+              </p>
+
+              <div className="risk2-options">
+                {currentQuestion.options.map((option) => {
+                  const active = currentAnswer === option.score;
+                  return (
+                    <button
+                      key={option.score}
+                      type="button"
+                      className={active ? "risk2-option risk2-option-active" : "risk2-option"}
+                      onClick={() => handleAnswerSelect(option.score)}
+                      aria-pressed={active}
+                    >
+                      <span className="risk2-option-score">{option.score}</span>
+                      <span style={{ fontSize: 16 }}>{option.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="risk2-controls">
+                <button
+                  type="button"
+                  className="risk2-button risk2-button-secondary"
+                  onClick={handlePrevious}
+                  disabled={currentIndex === 0}
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  className="risk2-button risk2-button-primary"
+                  onClick={handleNext}
+                  disabled={!currentAnswer}
+                >
+                  {currentIndex === questionnaire.length - 1 ? "Finish questionnaire" : "Next question"}
+                </button>
+              </div>
+            </div>
+
+            <div className="risk2-sidegrid">
+              <div className="risk2-panel">
+                <div className="risk2-panel-kicker">Question Map</div>
+                <h3 className="risk2-panel-title">Answered {answeredCount} of {questionnaire.length}</h3>
+                <div className="risk2-progressbar">
+                  <div className="risk2-progressfill" style={{ width: `${progressRatio * 100}%` }} />
                 </div>
 
-                <div style={{ display: "grid", gap: 8 }}>
-                  {question.options.map((option) => {
-                    const active = Number(answers[question.id]) === option.score;
+                <div className="risk2-map">
+                  {questionnaire.map((question, index) => {
+                    const answered = Number(answers[question.id] ?? 0) > 0;
+                    const classes = [
+                      "risk2-map-item",
+                      index === currentIndex ? "risk2-map-item-active" : "",
+                      answered ? "risk2-map-item-complete" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ");
+
                     return (
                       <button
-                        key={option.score}
+                        key={question.id}
                         type="button"
-                        className={active ? "question-option question-option-active" : "question-option"}
-                        onClick={() =>
-                          setAnswers((current) => ({
-                            ...current,
-                            [question.id]: option.score,
-                          }))
-                        }
-                        aria-pressed={active}
+                        className={classes}
+                        onClick={() => setCurrentIndex(index)}
                       >
-                        <span className="question-option-number">{option.score}</span>
-                        <span>{option.label}</span>
+                        <span>{index + 1}. {question.dimension}</span>
+                        <strong>{answered ? `${answers[question.id]}/5` : "--"}</strong>
                       </button>
                     );
                   })}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <aside className="risk-sidebar">
-          <div className="risk-sticky">
-            <div className="floating-summary">
-              <strong>
-                {portfolioMode === "longOnly"
-                  ? "Long-only recommendation selected"
-                  : portfolioMode === "shortSalesAllowed"
-                    ? "Short-sales benchmark selected"
-                    : "Choose a portfolio mode after answering"}
-              </strong>
-              <p>
-                {isComplete
-                  ? activePortfolio
-                    ? `Current profile ${scoring.profileLabel} with A = ${scoring.riskAversionA.toFixed(2)}. The chart and weight cards below update from the same Part 2 optimization output in real time.`
-                    : `All answers are complete. Pick either the long-only recommendation or the short-sales benchmark to activate the portfolio view.`
-                  : `The full right-hand module stack stays naturally expanded, without any separate sidebar scrolling or clipped viewport behavior.`}
-              </p>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                    Completion Status
-                  </div>
-                  <h3 style={{ margin: "8px 0 12px", fontSize: 25 }}>Progress and unlock state</h3>
-                  <div className="progress-track">
-                    <div className="progress-fill" style={{ width: `${progressRatio * 100}%` }} />
-                  </div>
-                  <div style={{ marginTop: 12, color: theme.muted, lineHeight: 1.55 }}>
-                    {isComplete
-                      ? "All eight questions are complete. You can now compare the long-only recommendation with the short-sales benchmark."
-                      : `Complete the remaining ${questionnaire.length - answeredCount} question${questionnaire.length - answeredCount === 1 ? "" : "s"} to unlock the final scoring output and optimal portfolio.`}
-                  </div>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                    Scoring Output
-                  </div>
-                  <div className="stat-grid" style={{ marginTop: 14 }}>
-                    <StatBox
-                      label="Weighted score"
-                      value={scoring ? scoring.weightedScore.toFixed(1) : "--"}
-                      note={`Range ${questionnaireBounds(questionnaire).min} to ${questionnaireBounds(questionnaire).max}`}
-                    />
-                    <StatBox
-                      label="Risk tolerance index"
-                      value={scoring ? scoring.riskToleranceIndex.toFixed(2) : "--"}
-                      note="Normalized to 0 to 1"
-                    />
-                    <StatBox
-                      label="Risk aversion A"
-                      value={scoring ? scoring.riskAversionA.toFixed(2) : "--"}
-                      note="A = 10 - 9T"
-                    />
-                    <StatBox
-                      label="Profile"
-                      value={scoring ? scoring.profileLabel : "Pending"}
-                      note="Higher A means more risk aversion"
-                    />
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: 14,
-                      borderRadius: 18,
-                      padding: 14,
-                      background: "#fcf5e8",
-                      border: `1px solid ${theme.line}`,
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-                      <strong>Risk profile continuum</strong>
-                      <span style={{ color: theme.muted }}>
-                        {scoring ? `T = ${scoring.riskToleranceIndex.toFixed(2)} | A = ${scoring.riskAversionA.toFixed(2)}` : "Waiting for all 8 answers"}
-                      </span>
-                    </div>
-                    <div className="mini-meter" style={{ marginTop: 10 }}>
-                      <span
-                        style={{
-                          width: `${Math.max(6, (scoring?.riskToleranceIndex ?? progressRatio * 0.35) * 100)}%`,
-                          background: "linear-gradient(90deg, #8f6846 0%, #d58526 54%, #376da3 100%)",
-                        }}
-                      />
-                    </div>
-                    <div style={{ marginTop: 10, color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
-                      Lower questionnaire scores map to a higher A and a more conservative implementation.
-                      Higher scores reduce A and allow the optimizer to accept more volatility for higher
-                      expected return.
-                    </div>
-                  </div>
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                    Portfolio Recommendation
-                  </div>
-                  {!activePortfolio ? (
-                    <div className="placeholder-card" style={{ marginTop: 12 }}>
-                      {isComplete
-                        ? "Choose either Long-only recommendation or Short-sales benchmark above to inspect the optimized portfolio."
-                        : "Complete all eight questions first, then choose the constraint set you want to analyze."}
-                    </div>
-                  ) : (
-                    <>
-                      <h3 style={{ margin: "8px 0 6px", fontSize: 25 }}>
-                        {portfolioMode === "longOnly"
-                          ? "Recommended long-only portfolio"
-                          : "Theoretical short-sales benchmark"}
-                      </h3>
-                      <p style={{ margin: 0, color: theme.muted, lineHeight: 1.5 }}>
-                        {portfolioMode === "longOnly"
-                          ? payload.recommendedPortfolio.rationale
-                          : "This benchmark maximizes the same utility function but allows unconstrained short positions, so it should be read as a theoretical comparison rather than a retail implementation."}
-                      </p>
-
-                      <div className="stat-grid" style={{ marginTop: 16 }}>
-                        <StatBox
-                          label="Return"
-                          value={formatPercent(activePortfolio.expected_return)}
-                          note="Annualized expected return"
-                        />
-                        <StatBox
-                          label="Volatility"
-                          value={formatPercent(activePortfolio.risk)}
-                          note="Annualized volatility"
-                        />
-                        <StatBox
-                          label="Utility"
-                          value={activePortfolio.utility.toFixed(4)}
-                          note="Quadratic utility"
-                        />
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: 14,
-                          borderRadius: 18,
-                          padding: 14,
-                          background: portfolioMode === "longOnly" ? "#f8efe2" : "#eaf2fb",
-                          border: `1px solid ${portfolioMode === "longOnly" ? "#dbc6a9" : "#bfd2ea"}`,
-                        }}
-                      >
-                        <div style={{ fontWeight: 700, marginBottom: 6 }}>
-                          Matched optimization record: A = {activePortfolio.risk_aversion_a.toFixed(2)}
-                        </div>
-                        <div style={{ color: theme.muted, fontSize: 14, lineHeight: 1.5 }}>
-                          Comparison portfolio on the other constraint set: return{" "}
-                          {formatPercent(comparisonPortfolio.expected_return)}, volatility{" "}
-                          {formatPercent(comparisonPortfolio.risk)}, utility {comparisonPortfolio.utility.toFixed(4)}.
-                        </div>
-                      </div>
-                    </>
-                  )}
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                    Weight Breakdown
-                  </div>
-                  {!activePortfolio ? (
-                    <div className="placeholder-card" style={{ marginTop: 12 }}>
-                      Portfolio weights will appear here after you finish the questionnaire and select a constraint set.
-                    </div>
-                  ) : (
-                    <div className="holdings-list" style={{ marginTop: 12 }}>
-                      {activeRows.map((row) => {
-                        const magnitude = Math.min(100, Math.abs(row.weight) * 100);
-                        return (
-                          <div key={row.shortName} className="holdings-row">
-                            <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                              <span>{row.fund}</span>
-                              <strong style={{ color: row.weight < 0 ? theme.warning : theme.ink }}>
-                                {formatPercent(row.weight)}
-                              </strong>
-                            </div>
-                            <div style={{ height: 10, borderRadius: 999, background: theme.soft, overflow: "hidden" }}>
-                              <div
-                                style={{
-                                  width: `${magnitude}%`,
-                                  height: "100%",
-                                  background: row.weight < 0 ? theme.warning : portfolioMode === "longOnly" ? theme.long : theme.short,
-                                }}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-            </div>
-
-            <div className="dashboard-card" style={cardStyle}>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-                    Interpretation
-                  </div>
-                  <div style={{ display: "grid", gap: 12, color: theme.muted, lineHeight: 1.55, marginTop: 12 }}>
-                    <div>
-                      <strong style={{ color: theme.ink }}>Questionnaire logic:</strong> the two behavioral questions have double
-                      weight because the ability to tolerate losses and remain invested during drawdowns has the most direct
-                      connection to practical risk capacity.
-                    </div>
-                    <div>
-                      <strong style={{ color: theme.ink }}>A mapping:</strong> a higher questionnaire score lowers the risk-aversion
-                      coefficient <strong>A</strong>, which allows the optimizer to accept more variance for more expected return.
-                    </div>
-                    <div>
-                      <strong style={{ color: theme.ink }}>Implementation choice:</strong> the long-only portfolio is the recommended
-                      robo-adviser solution because it avoids leverage and borrow constraints. The short-sales solution is shown only
-                      as a mathematical benchmark.
-                    </div>
-                  </div>
-
-                  <div style={{ marginTop: 18, padding: 16, borderRadius: 18, background: theme.panel, border: `1px solid ${theme.line}` }}>
-                    <div style={{ fontWeight: 700, marginBottom: 8 }}>Formula summary</div>
-                    <div style={{ fontFamily: "IBM Plex Mono, Consolas, monospace", fontSize: 13, lineHeight: 1.6 }}>
-                      S = sum(weight_i x score_i)
-                      <br />
-                      T = (S - 10) / 40
-                      <br />
-                      A = 10 - 9T
-                      <br />
-                      U = r - (A x sigma^2) / 2
-                    </div>
-                  </div>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <div className="dashboard-card" style={{ ...cardStyle, marginTop: 18 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 12,
-            alignItems: "center",
-            flexWrap: "wrap",
-            marginBottom: 12,
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-              Utility Frontier
-            </div>
-            <h3 style={{ margin: "8px 0 0", fontSize: 25 }}>Selected portfolio on the efficient frontier</h3>
-          </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button
-              type="button"
-              style={pillButtonStyle(chartScale === "retail")}
-              onClick={() => setChartScale("retail")}
-              aria-pressed={chartScale === "retail"}
-            >
-              Retail scale
-            </button>
-            <button
-              type="button"
-              style={pillButtonStyle(chartScale === "full")}
-              onClick={() => setChartScale("full")}
-              aria-pressed={chartScale === "full"}
-            >
-              Full theoretical scale
-            </button>
-          </div>
-        </div>
-
-        <div className="chart-shell">
-          <svg width={chart.width} height={chart.height} role="img" aria-label="Risk aversion frontier chart">
-            <rect x="0" y="0" width={chart.width} height={chart.height} rx="18" fill="#fffefb" />
-
-            {yTicks.map((tick) => (
-              <g key={`y-${tick}`}>
-                <line
-                  x1={chart.left}
-                  x2={chart.width - chart.right}
-                  y1={yScale(tick)}
-                  y2={yScale(tick)}
-                  stroke={theme.line}
-                  strokeDasharray="5 6"
-                />
-                <text x={chart.left - 12} y={yScale(tick) + 4} textAnchor="end" fontSize="12" fill={theme.muted}>
-                  {formatPercent(tick)}
-                </text>
-              </g>
-            ))}
-
-            {xTicks.map((tick) => (
-              <g key={`x-${tick}`}>
-                <line
-                  x1={xScale(tick)}
-                  x2={xScale(tick)}
-                  y1={chart.top}
-                  y2={chart.height - chart.bottom}
-                  stroke={theme.line}
-                  strokeDasharray="5 6"
-                />
-                <text x={xScale(tick)} y={chart.height - chart.bottom + 24} textAnchor="middle" fontSize="12" fill={theme.muted}>
-                  {formatPercent(tick)}
-                </text>
-              </g>
-            ))}
-
-            <line x1={chart.left} x2={chart.left} y1={chart.top} y2={chart.height - chart.bottom} stroke={theme.ink} />
-            <line
-              x1={chart.left}
-              x2={chart.width - chart.right}
-              y1={chart.height - chart.bottom}
-              y2={chart.height - chart.bottom}
-              stroke={theme.ink}
-            />
-
-            <text x={chart.width / 2} y={chart.height - 10} textAnchor="middle" fontSize="13" fill={theme.ink} fontWeight="600">
-              Annualized Volatility
-            </text>
-            <text
-              x="18"
-              y={chart.height / 2}
-              transform={`rotate(-90 18 ${chart.height / 2})`}
-              textAnchor="middle"
-              fontSize="13"
-              fill={theme.ink}
-              fontWeight="600"
-            >
-              Annualized Expected Return
-            </text>
-
-            <path
-              d={frontierPath(payload.frontiers.shortSalesAllowed, xScale, yScale)}
-              fill="none"
-              stroke={theme.short}
-              strokeWidth="3.5"
-            />
-            <path
-              d={frontierPath(payload.frontiers.longOnly, xScale, yScale)}
-              fill="none"
-              stroke={theme.good}
-              strokeWidth="3.5"
-              strokeDasharray="8 7"
-            />
-
-            {payload.funds.map((fund) => (
-              <g
-                key={fund.index}
-                onMouseEnter={(event) => {
-                  const position = hoverPosition(event);
-                  setChartTooltip({
-                    x: position.x,
-                    y: position.y,
-                    title: `${fund.index}. ${fund.shortName}`,
-                    lines: [
-                      `Expected return: ${formatPercent(fund.annualReturn)}`,
-                      `Volatility: ${formatPercent(fund.annualVolatility)}`,
-                    ],
-                  });
-                }}
-                onMouseMove={(event) => {
-                  const position = hoverPosition(event);
-                  setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
-                }}
-                onMouseLeave={() => setChartTooltip(null)}
-                style={{ cursor: "pointer" }}
-              >
-                <circle cx={xScale(fund.annualVolatility)} cy={yScale(fund.annualReturn)} r="6.5" fill={theme.accent} />
-                <text x={xScale(fund.annualVolatility) + 8} y={yScale(fund.annualReturn) - 8} fontSize="12" fontWeight="700" fill={theme.ink}>
-                  {fund.index}
-                </text>
-              </g>
-            ))}
-
-            {activePointVisible && (
-              <g
-                onMouseEnter={(event) => {
-                  const position = hoverPosition(event);
-                  setChartTooltip({
-                    x: position.x,
-                    y: position.y,
-                    title: portfolioMode === "longOnly" ? "Selected long-only portfolio" : "Selected short-sales benchmark",
-                    lines: [
-                      `Expected return: ${formatPercent(activePortfolio.expected_return)}`,
-                      `Volatility: ${formatPercent(activePortfolio.risk)}`,
-                      `Utility: ${activePortfolio.utility.toFixed(4)}`,
-                    ],
-                  });
-                }}
-                onMouseMove={(event) => {
-                  const position = hoverPosition(event);
-                  setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
-                }}
-                onMouseLeave={() => setChartTooltip(null)}
-                style={{ cursor: "pointer" }}
-              >
-                <line
-                  x1={xScale(activePortfolio.risk)}
-                  x2={xScale(activePortfolio.risk)}
-                  y1={chart.height - chart.bottom}
-                  y2={yScale(activePortfolio.expected_return)}
-                  stroke="rgba(27, 41, 50, 0.22)"
-                  strokeDasharray="6 6"
-                />
-                <line
-                  x1={chart.left}
-                  x2={xScale(activePortfolio.risk)}
-                  y1={yScale(activePortfolio.expected_return)}
-                  y2={yScale(activePortfolio.expected_return)}
-                  stroke="rgba(27, 41, 50, 0.22)"
-                  strokeDasharray="6 6"
-                />
-                <circle
-                  cx={xScale(activePortfolio.risk)}
-                  cy={yScale(activePortfolio.expected_return)}
-                  r="18"
-                  fill={portfolioMode === "longOnly" ? "rgba(143, 104, 70, 0.14)" : "rgba(55, 109, 163, 0.14)"}
-                />
-                <circle
-                  cx={xScale(activePortfolio.risk)}
-                  cy={yScale(activePortfolio.expected_return)}
-                  r="10"
-                  fill={portfolioMode === "longOnly" ? theme.long : theme.short}
-                  stroke="#111111"
-                  strokeWidth="2"
-                />
-                <text
-                  x={xScale(activePortfolio.risk)}
-                  y={yScale(activePortfolio.expected_return) + 4}
-                  textAnchor="middle"
-                  fontSize="10"
-                  fill="#ffffff"
-                  fontWeight="700"
-                >
-                  A
-                </text>
-              </g>
-            )}
-          </svg>
-
-          {chartTooltip && (
-            <div className="chart-tooltip" style={{ left: chartTooltip.x, top: chartTooltip.y }}>
-              <div style={{ fontWeight: 700, marginBottom: 6 }}>{chartTooltip.title}</div>
-              {chartTooltip.lines.map((line) => (
-                <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>
-                  {line}
+              <div className="risk2-panel">
+                <div className="risk2-panel-kicker">Scoring Framework</div>
+                <h3 className="risk2-panel-title">Utility-driven recommendation</h3>
+                <div className="risk2-note-block">
+                  <div>S = sum(weight_i x score_i)</div>
+                  <div>T = (S - {bounds.min}) / ({bounds.max - bounds.min})</div>
+                  <div>A = 10 - 9T</div>
+                  <div>U = r - (sigma^2 A)/2</div>
                 </div>
-              ))}
+                <p className="risk2-subcopy" style={{ margin: "14px 0 0" }}>
+                  Once all 8 answers are complete, the page switches into the optimal portfolio view and
+                  uses the Part 2 output data to draw the frontier, indifference curve, and long-only allocation.
+                </p>
+              </div>
             </div>
-          )}
-        </div>
-
-        {!isComplete && (
-          <div className="placeholder-card" style={{ marginTop: 12 }}>
-            Finish all eight questions to compute the investor score and plot the optimal portfolio point.
           </div>
         )}
 
-        {isComplete && !portfolioMode && (
-          <div className="placeholder-card" style={{ marginTop: 12 }}>
-            Your investor profile is ready. Select either Long-only recommendation or Short-sales benchmark to place the portfolio point on the frontier.
+        {activeTab === "results" && isComplete && longPortfolio && (
+          <div className="risk2-results">
+            <div className="risk2-stats">
+              <div className="risk2-stat">
+                <div className="risk2-stat-kicker">Risk Aversion (A)</div>
+                <div className="risk2-stat-value" style={{ color: tone.color }}>
+                  {scoring.riskAversionA.toFixed(2)}
+                </div>
+                <div className="risk2-stat-note" style={{ color: tone.color, fontWeight: 700 }}>
+                  {tone.label}
+                </div>
+                <div className="risk2-stat-subnote">{scoring.profileLabel}</div>
+              </div>
+
+              <div className="risk2-stat">
+                <div className="risk2-stat-kicker">Optimal Return</div>
+                <div className="risk2-stat-value" style={{ color: theme.green }}>
+                  {formatPercent(longPortfolio.expected_return)}
+                </div>
+                <div className="risk2-stat-note">Volatility: {formatPercent(longPortfolio.risk)}</div>
+                <div className="risk2-stat-subnote">Long-only retail implementation</div>
+              </div>
+
+              <div className="risk2-stat">
+                <div className="risk2-stat-kicker">Maximum Utility (U*)</div>
+                <div className="risk2-stat-value" style={{ color: "#ffe27a" }}>
+                  {longPortfolio.utility.toFixed(4)}
+                </div>
+                <div className="risk2-stat-note">U = r - (sigma^2 A)/2</div>
+                <div className="risk2-stat-subnote">Tangency of frontier and indifference curve</div>
+              </div>
+            </div>
+
+            <div className="risk2-panel risk2-chart-card">
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <div>
+                  <div className="risk2-chart-title">Efficient Frontier & Your Indifference Curve</div>
+                  <div className="risk2-chart-copy">
+                    Long-only efficient frontier with the utility curve implied by your completed questionnaire.
+                  </div>
+                </div>
+
+                <div className="risk2-badges">
+                  <span className="risk2-badge">{payload.metadata.sample_start} to {payload.metadata.sample_end}</span>
+                  <span className="risk2-badge">{payload.metadata.return_observations} monthly returns</span>
+                  <span className="risk2-badge">10 funds</span>
+                </div>
+              </div>
+
+              <div className="chart-shell" style={{ marginTop: 16 }}>
+                <svg width={chart.width} height={chart.height} role="img" aria-label="Efficient frontier and indifference curve">
+                  <rect x="0" y="0" width={chart.width} height={chart.height} rx="18" fill="rgba(8, 12, 30, 0.42)" stroke="rgba(83, 111, 147, 0.18)" />
+
+                  {yTicks.map((tick) => (
+                    <g key={`y-${tick}`}>
+                      <line x1={chart.left} x2={chart.width - chart.right} y1={yScale(tick)} y2={yScale(tick)} stroke="rgba(92, 118, 150, 0.16)" strokeDasharray="4 8" />
+                      <text x={chart.left - 12} y={yScale(tick) + 4} textAnchor="end" fontSize="12" fill={theme.muted}>
+                        {formatPercent(tick, 0)}
+                      </text>
+                    </g>
+                  ))}
+
+                  {xTicks.map((tick) => (
+                    <g key={`x-${tick}`}>
+                      <line x1={xScale(tick)} x2={xScale(tick)} y1={chart.top} y2={chart.height - chart.bottom} stroke="rgba(92, 118, 150, 0.16)" strokeDasharray="4 8" />
+                      <text x={xScale(tick)} y={chart.height - chart.bottom + 24} textAnchor="middle" fontSize="12" fill={theme.muted}>
+                        {formatPercent(tick, 0)}
+                      </text>
+                    </g>
+                  ))}
+
+                  <line x1={chart.left} x2={chart.left} y1={chart.top} y2={chart.height - chart.bottom} stroke="rgba(214, 228, 246, 0.26)" />
+                  <line x1={chart.left} x2={chart.width - chart.right} y1={chart.height - chart.bottom} y2={chart.height - chart.bottom} stroke="rgba(214, 228, 246, 0.26)" />
+
+                  <text x={chart.width / 2} y={chart.height - 8} textAnchor="middle" fontSize="13" fill="#87bdf2" fontWeight="600">
+                    Volatility (sigma)
+                  </text>
+                  <text x="22" y={chart.height / 2} transform={`rotate(-90 22 ${chart.height / 2})`} textAnchor="middle" fontSize="13" fill="#87bdf2" fontWeight="600">
+                    Return (mu)
+                  </text>
+
+                  <path d={pathFromPoints(chartModel.frontier, xScale, yScale)} fill="none" stroke={theme.red} strokeWidth="3.4" strokeLinecap="round" />
+                  <path d={pathFromPoints(chartModel.curve, xScale, yScale)} fill="none" stroke={theme.gold} strokeWidth="2.2" strokeDasharray="8 6" strokeLinecap="round" />
+
+                  {payload.funds.map((fund) => (
+                    <g
+                      key={fund.index}
+                      onMouseEnter={(event) => {
+                        const position = hoverPosition(event);
+                        setChartTooltip({
+                          x: position.x,
+                          y: position.y,
+                          title: fund.displayName,
+                          lines: [`Expected return: ${formatPercent(fund.annualReturn)}`, `Volatility: ${formatPercent(fund.annualVolatility)}`],
+                        });
+                      }}
+                      onMouseMove={(event) => {
+                        const position = hoverPosition(event);
+                        setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                      }}
+                      onMouseLeave={() => setChartTooltip(null)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <circle cx={xScale(fund.annualVolatility)} cy={yScale(fund.annualReturn)} r="6.5" fill={theme.silver} opacity="0.9" />
+                      <text x={xScale(fund.annualVolatility) + 8} y={yScale(fund.annualReturn) - 8} fontSize="11" fill="rgba(212, 223, 241, 0.72)">
+                        {chartCode(fund.shortName)}
+                      </text>
+                    </g>
+                  ))}
+
+                  <g
+                    onMouseEnter={(event) => {
+                      const position = hoverPosition(event);
+                      setChartTooltip({
+                        x: position.x,
+                        y: position.y,
+                        title: "Selected optimal portfolio",
+                        lines: [`Expected return: ${formatPercent(longPortfolio.expected_return)}`, `Volatility: ${formatPercent(longPortfolio.risk)}`, `Utility: ${longPortfolio.utility.toFixed(4)}`],
+                      });
+                    }}
+                    onMouseMove={(event) => {
+                      const position = hoverPosition(event);
+                      setChartTooltip((current) => (current ? { ...current, x: position.x, y: position.y } : current));
+                    }}
+                    onMouseLeave={() => setChartTooltip(null)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle cx={xScale(longPortfolio.risk)} cy={yScale(longPortfolio.expected_return)} r="18" fill="rgba(255, 178, 29, 0.16)" />
+                    <circle cx={xScale(longPortfolio.risk)} cy={yScale(longPortfolio.expected_return)} r="11" fill={theme.gold} stroke="#ffffff" strokeWidth="2.5" />
+                    <text x={xScale(longPortfolio.risk) + 18} y={yScale(longPortfolio.expected_return) - 6} fill="#ffffff" fontSize="12" fontWeight="700">
+                      Optimal
+                    </text>
+                  </g>
+                </svg>
+
+                {chartTooltip && (
+                  <div className="chart-tooltip" style={{ left: chartTooltip.x, top: chartTooltip.y }}>
+                    <div style={{ fontWeight: 700, marginBottom: 6 }}>{chartTooltip.title}</div>
+                    {chartTooltip.lines.map((line) => (
+                      <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>
+                        {line}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="risk2-panel">
+              <div className="risk2-chart-title">Optimal Allocation (Long Only)</div>
+              <div className="risk2-allocation-list">
+                {displayedRows.map((row) => (
+                  <div key={row.shortName} className="risk2-allocation-row">
+                    <div className="risk2-allocation-head">
+                      <span>{row.fund}</span>
+                      <strong>{formatPercent(row.weight, 1)}</strong>
+                    </div>
+                    <div className="risk2-allocation-track">
+                      <div className="risk2-allocation-fill" style={{ width: `${Math.max(8, row.weight * 100)}%` }}>
+                        {formatPercent(row.weight, 1)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="risk2-panel">
+              <div className="risk2-chart-title">Justification</div>
+              <p className="risk2-justification-copy">{justification}</p>
+              {shortBenchmark && (
+                <div className="risk2-inline-note">
+                  Short-sales benchmark: {formatPercent(shortBenchmark.expected_return)} return at {formatPercent(shortBenchmark.risk)} volatility.
+                </div>
+              )}
+            </div>
+
+            <div className="risk2-actionbar">
+              <button type="button" className="risk2-button risk2-button-outline" onClick={handleRetake}>
+                Retake Questionnaire
+              </button>
+            </div>
+
+            <div className="risk2-footer">
+              Financial Modeling — MSc Digital FinTech — Robot Adviser — All data from FSMOne
+            </div>
           </div>
         )}
-
-        {portfolioMode === "shortSalesAllowed" && !activePointVisible && activePortfolio && (
-          <div
-            style={{
-              marginTop: 12,
-              borderRadius: 14,
-              padding: 12,
-              background: "#fff5f7",
-              border: "1px solid #f1c4ce",
-              color: theme.warning,
-              fontSize: 14,
-            }}
-          >
-            The selected short-sales benchmark lies outside the retail-scale chart. Switch to{" "}
-            <strong>Full theoretical scale</strong> to display it.
-          </div>
-        )}
-
-        <div className="insight-grid" style={{ marginTop: 14 }}>
-          <div className="insight-card">
-            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-              Chart mode
-            </div>
-            <strong>{chartScale ?? "Pending"}</strong>
-            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
-              {chartScale
-                ? chartScale === "retail"
-                  ? "Focused on practical long-only scale."
-                  : "Expanded to the full theoretical opportunity set."
-                : "Select a chart scale to highlight the part of the frontier you want to inspect."}
-            </div>
-          </div>
-          <div className="insight-card">
-            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-              Selected point
-            </div>
-            <strong>{activePortfolio ? `${Math.round(selectedPointProgress * 100)}%` : "--"}</strong>
-            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
-              {activePortfolio
-                ? "Approximate horizontal position of the chosen portfolio on the current chart scale."
-                : "This unlocks after you finish the questionnaire and pick a portfolio mode."}
-            </div>
-          </div>
-          <div className="insight-card">
-            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: theme.muted }}>
-              Top holdings
-            </div>
-            <strong>{activeTopRows.length > 0 ? activeTopRows.length : "--"}</strong>
-            <div style={{ marginTop: 6, color: theme.muted, lineHeight: 1.45 }}>
-              {activeTopRows.length > 0
-                ? activeTopRows.map((row) => `${row.fund} ${formatPercent(row.weight)}`).join(", ")
-                : "The top allocations appear here once a portfolio is active."}
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
