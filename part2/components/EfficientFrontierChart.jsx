@@ -40,7 +40,7 @@ export default function EfficientFrontierChart({
     <div className="risklab-card">
       <div className="risklab-chart-header">
         <div>
-          <div className="risklab-chart-title">Efficient Frontier & Your Indifference Curve</div>
+          <div className="risklab-chart-title">Efficient Frontier &amp; Your Indifference Curve</div>
           <div className="risklab-chart-copy">
             {portfolioMode === "shortSalesAllowed"
               ? "Theoretical short-sales frontier with the same investor utility curve."
@@ -50,7 +50,12 @@ export default function EfficientFrontierChart({
       </div>
 
       <div className="chart-shell" style={{ marginTop: 14 }}>
-        <svg width={chartFrame.width} height={chartFrame.height} role="img" aria-label="Efficient frontier chart">
+        <svg
+          width={chartFrame.width}
+          height={chartFrame.height}
+          role="img"
+          aria-label="Efficient frontier chart"
+        >
           <rect
             x="0"
             y="0"
@@ -128,7 +133,7 @@ export default function EfficientFrontierChart({
             fill="#87bdf2"
             fontWeight="600"
           >
-            Volatility (σ)
+            Volatility
           </text>
           <text
             x="22"
@@ -139,7 +144,7 @@ export default function EfficientFrontierChart({
             fill="#87bdf2"
             fontWeight="600"
           >
-            Return (μ)
+            Expected Return
           </text>
 
           <path
@@ -204,7 +209,10 @@ export default function EfficientFrontierChart({
               setTooltip({
                 x: position.x,
                 y: position.y,
-                title: portfolioMode === "shortSalesAllowed" ? "Selected short-sales benchmark" : "Selected optimal portfolio",
+                title:
+                  portfolioMode === "shortSalesAllowed"
+                    ? "Selected short-sales benchmark"
+                    : "Selected optimal portfolio",
                 lines: [
                   `Expected return: ${formatPercent(activePortfolio.expected_return)}`,
                   `Volatility: ${formatPercent(activePortfolio.risk)}`,

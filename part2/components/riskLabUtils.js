@@ -192,7 +192,7 @@ export function buildJustification({
 
   return `Risk aversion A = ${scoring.riskAversionA.toFixed(
     2,
-  )} classifies the investor as ${tone.label.toLowerCase()}. The selected portfolio maximizes U = r - (sigma^2 A)/2 at the tangency between the efficient frontier and the investor's indifference curve. The optimizer concentrates in ${topText} because those exposures deliver the strongest utility trade-off at this level of risk aversion. ${constraintNote} ${comparisonText}`.trim();
+  )} classifies the investor as ${tone.label.toLowerCase()}. The selected portfolio maximizes utility, defined here as expected return minus one half of A multiplied by variance, at the tangency between the efficient frontier and the investor's indifference curve. The optimizer concentrates in ${topText} because those exposures deliver the strongest utility trade-off at this level of risk aversion. ${constraintNote} ${comparisonText}`.trim();
 }
 
 export function smoothScrollToTop() {

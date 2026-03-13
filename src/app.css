@@ -22,6 +22,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 html,
@@ -34,6 +35,7 @@ body,
 body {
   min-width: 320px;
   overflow-x: hidden;
+  overflow-y: scroll;
   background-attachment: fixed;
 }
 
@@ -121,15 +123,16 @@ svg {
 .app-shell {
   width: min(1440px, calc(100vw - 32px));
   margin: 0 auto;
-  padding: 250px 0 48px;
+  padding: 258px 0 48px;
 }
 
 .app-topbar {
   position: fixed;
   top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   width: min(1440px, calc(100vw - 32px));
+  margin-inline: auto;
   z-index: 20;
   display: grid;
   gap: 16px;
@@ -139,6 +142,7 @@ svg {
   background: var(--app-panel);
   box-shadow: var(--app-shadow);
   backdrop-filter: blur(10px);
+  isolation: isolate;
 }
 
 .topbar-row {
@@ -1162,7 +1166,7 @@ svg {
 @media (max-width: 720px) {
   .app-shell {
     width: min(100vw - 16px, 1440px);
-    padding-top: 330px;
+    padding-top: 338px;
   }
 
   .app-topbar {

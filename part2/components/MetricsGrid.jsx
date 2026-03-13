@@ -29,7 +29,9 @@ export default function MetricsGrid({ scoring, tone, activePortfolio }) {
         <div className="risklab-metric-value" style={{ color: "#ffe27a" }}>
           {activePortfolio.utility.toFixed(4)}
         </div>
-        <div className="risklab-metric-subcopy">U = r - (σ²A)/2</div>
+        <div className="risklab-metric-subcopy">
+          Expected return minus one half of A multiplied by variance
+        </div>
       </div>
     </div>
   );

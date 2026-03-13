@@ -8,6 +8,8 @@ export default function QuizWizard({
   currentAnswer,
   answers,
   answeredCount,
+  bounds,
+  notice,
   onSelect,
   onPrev,
   onNext,
@@ -26,9 +28,20 @@ export default function QuizWizard({
             ]
               .filter(Boolean)
               .join(" ");
-            return <button key={question.id} type="button" className={classes} onClick={() => onJump(index)} aria-label={`Question ${index + 1}`} />;
+
+            return (
+              <button
+                key={question.id}
+                type="button"
+                className={classes}
+                onClick={() => onJump(index)}
+                aria-label={`Question ${index + 1}`}
+              />
+            );
           })}
         </div>
+
+        {notice && <div className="risklab-notice">{notice}</div>}
 
         <QuestionCard
           question={currentQuestion}
@@ -41,19 +54,19 @@ export default function QuizWizard({
         <div className="risklab-nav-row">
           <button
             type="button"
-            className="risklab-outline-button"
+            className="risklab-nav-button risklab-nav-button-secondary"
             onClick={onPrev}
             disabled={currentIndex === 0}
           >
-            ← Prev
+            &larr; Prev
           </button>
           <button
             type="button"
-            className="risklab-outline-button"
+            className="risklab-nav-button risklab-nav-button-primary"
             onClick={onNext}
             disabled={!currentAnswer}
           >
-            Next →
+            Next &rarr;
           </button>
         </div>
       </div>
@@ -62,6 +75,7 @@ export default function QuizWizard({
         <div className="risklab-card">
           <div className="risklab-panel-kicker">Question Status</div>
           <h3 className="risklab-panel-title">{answeredCount}/{questionnaire.length} answered</h3>
+
           <div className="risklab-status-list">
             {questionnaire.map((question, index) => {
               const answered = Number(answers[question.id] ?? 0) > 0;
@@ -72,6 +86,7 @@ export default function QuizWizard({
               ]
                 .filter(Boolean)
                 .join(" ");
+
               return (
                 <button
                   key={question.id}
@@ -79,7 +94,9 @@ export default function QuizWizard({
                   className={classes}
                   onClick={() => onJump(index)}
                 >
-                  <span>{index + 1}. {question.dimension}</span>
+                  <span>
+                    {index + 1}. {question.dimension}
+                  </span>
                   <strong>{answered ? `${answers[question.id]}/5` : "--"}</strong>
                 </button>
               );
@@ -93,9 +110,22 @@ export default function QuizWizard({
             <div>
               <strong>Answered counter:</strong> {answeredCount}/{questionnaire.length} answered
             </div>
-            <div>
-              <strong>Formula summary:</strong> <code>S = Σ(weight_i × score_i)</code>, <code>T = (S - min) / (max - min)</code>, <code>A = 10 - 9T</code>, <code>U = r - (σ²A)/2</code>
+
+            <div className="risklab-formula-list">
+              <div className="risklab-formula-item">
+                <strong>Formula summary:</strong> weighted score S adds each answer score after multiplying it by the question weight.
+              </div>
+              <div className="risklab-formula-item">
+                <strong>Risk tolerance T:</strong> scale S from the minimum possible score of {bounds.min} to the maximum possible score of {bounds.max}.
+              </div>
+              <div className="risklab-formula-item">
+                <strong>Risk aversion A:</strong> 10 minus 9 times T.
+              </div>
+              <div className="risklab-formula-item">
+                <strong>Utility U:</strong> expected return minus one half of A multiplied by portfolio variance.
+              </div>
             </div>
+
             <div>
               <strong>Questionnaire logic:</strong> the two behavior-based questions carry double weight because drawdown discipline and loss tolerance are the strongest indicators of practical risk capacity.
             </div>
