@@ -125,11 +125,11 @@ svg {
 }
 
 .app-topbar {
-  display: flex;
-  justify-content: space-between;
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+  display: grid;
   gap: 16px;
-  align-items: flex-start;
-  flex-wrap: wrap;
   margin-bottom: 18px;
   padding: 20px 24px;
   border-radius: 26px;
@@ -137,6 +137,29 @@ svg {
   background: var(--app-panel);
   box-shadow: var(--app-shadow);
   backdrop-filter: blur(10px);
+}
+
+.topbar-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.topbar-heading {
+  min-width: 280px;
+}
+
+.topbar-helper {
+  align-self: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(208, 123, 42, 0.16);
+  color: var(--app-muted);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .eyebrow {
@@ -157,16 +180,45 @@ svg {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.56);
+  justify-content: flex-end;
+}
+
+.nav-banner {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 231, 0.88));
+  border: 1px solid rgba(208, 123, 42, 0.14);
+}
+
+.nav-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.nav-kicker {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6d7b86;
+}
+
+.nav-caption {
+  color: var(--app-muted);
+  font-size: 14px;
 }
 
 .nav-pill {
   border: 1px solid #d0c2ac;
   background: #fffefb;
   color: #16212b;
-  padding: 10px 14px;
+  min-height: 46px;
+  padding: 12px 18px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 600;
@@ -438,6 +490,111 @@ svg {
   gap: 6px;
 }
 
+.risk-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.04fr) minmax(320px, 0.96fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.risk-sidebar {
+  display: grid;
+  gap: 18px;
+}
+
+.risk-sticky {
+  position: sticky;
+  top: 116px;
+  display: grid;
+  gap: 18px;
+}
+
+.question-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.question-block {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(97, 114, 125, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(252, 248, 239, 0.92));
+}
+
+.question-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  border-radius: 16px;
+  padding: 11px 12px;
+  border: 1px solid rgba(97, 114, 125, 0.2);
+  background: #ffffff;
+  color: var(--app-ink);
+  cursor: pointer;
+}
+
+.question-option:hover {
+  border-color: rgba(208, 123, 42, 0.34);
+}
+
+.question-option-active {
+  background: linear-gradient(135deg, #15232f, #1b3242);
+  color: #ffffff;
+  border-color: #15232f;
+}
+
+.question-option-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(22, 33, 43, 0.08);
+  font-weight: 700;
+}
+
+.question-option-active .question-option-number {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.progress-track {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(22, 33, 43, 0.08);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8f6846 0%, #d58526 58%, #376da3 100%);
+  transition: width 280ms ease;
+}
+
+.placeholder-card {
+  border-radius: 18px;
+  padding: 16px;
+  background: linear-gradient(180deg, #fffaf2 0%, #f8efe1 100%);
+  border: 1px dashed rgba(208, 123, 42, 0.28);
+  color: var(--app-muted);
+  line-height: 1.55;
+}
+
+.reset-pill {
+  background: linear-gradient(135deg, rgba(245, 185, 77, 0.18), rgba(255, 255, 255, 0.95));
+  border-color: rgba(208, 123, 42, 0.42);
+  color: var(--app-ink);
+}
+
+.muted-pill {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--app-ink);
+}
+
 @keyframes stage-in {
   from {
     opacity: 0;
@@ -515,6 +672,14 @@ svg {
   .stat-grid {
     grid-template-columns: 1fr;
   }
+
+  .risk-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .risk-sticky {
+    position: static;
+  }
 }
 
 @media (max-width: 720px) {
@@ -542,5 +707,18 @@ svg {
 
   .chat-context {
     align-items: flex-start;
+  }
+
+  .nav-banner {
+    padding: 14px;
+  }
+
+  .view-nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-pill {
+    flex: 1 1 140px;
   }
 }

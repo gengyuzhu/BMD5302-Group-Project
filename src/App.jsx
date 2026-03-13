@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import "./app.css";
 
 const EfficientFrontierInteractive = lazy(() => import("../EfficientFrontierInteractive.jsx"));
@@ -42,27 +42,42 @@ export default function App() {
     [activeView],
   );
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeView]);
+
   return (
     <main className="app-shell">
       <header className="app-topbar">
-        <div>
-          <p className="eyebrow">BMD5302 Robot Adviser</p>
-          <h1 className="brand-title">Compass Wealth Interface</h1>
+        <div className="topbar-row">
+          <div className="topbar-heading">
+            <p className="eyebrow">BMD5302 Robot Adviser</p>
+            <h1 className="brand-title">Compass Wealth Interface</h1>
+          </div>
+
+          <div className="topbar-helper">Project navigation</div>
         </div>
 
-        <nav className="view-nav" aria-label="Primary views">
-          {views.map((view) => (
-            <button
-              key={view.id}
-              type="button"
-              className={view.id === activeView ? "nav-pill nav-pill-active" : "nav-pill"}
-              onClick={() => setActiveView(view.id)}
-              aria-pressed={view.id === activeView}
-            >
-              {view.title}
-            </button>
-          ))}
-        </nav>
+        <div className="nav-banner">
+          <div className="nav-copy">
+            <span className="nav-kicker">Quick Switch</span>
+            <span className="nav-caption">Move across Platform, Frontier Lab, and Risk Lab without losing context.</span>
+          </div>
+
+          <nav className="view-nav" aria-label="Primary views">
+            {views.map((view) => (
+              <button
+                key={view.id}
+                type="button"
+                className={view.id === activeView ? "nav-pill nav-pill-active" : "nav-pill"}
+                onClick={() => setActiveView(view.id)}
+                aria-pressed={view.id === activeView}
+              >
+                {view.title}
+              </button>
+            ))}
+          </nav>
+        </div>
       </header>
 
       <section className="hero">
