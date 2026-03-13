@@ -1,0 +1,463 @@
+.risklab-shell {
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  border-radius: 34px;
+  color: #eef5ff;
+  background:
+    radial-gradient(circle at top center, rgba(53, 239, 230, 0.12), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(255, 178, 29, 0.12), transparent 22%),
+    linear-gradient(135deg, #060a18 0%, #0b1231 52%, #0a1830 100%);
+  border: 1px solid rgba(86, 112, 145, 0.24);
+  box-shadow: 0 28px 70px rgba(5, 10, 24, 0.42);
+}
+
+.risklab-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.014), transparent 28%, transparent 72%, rgba(255, 255, 255, 0.014)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 32%);
+  pointer-events: none;
+}
+
+.risklab-header,
+.risklab-stage {
+  position: relative;
+  z-index: 1;
+}
+
+.risklab-header {
+  text-align: center;
+}
+
+.risklab-kicker {
+  margin: 0;
+  color: rgba(224, 233, 247, 0.76);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.risklab-title {
+  margin: 10px 0 8px;
+  font-size: clamp(2.1rem, 4vw, 3.3rem);
+  line-height: 1.02;
+  color: #f3f8ff;
+}
+
+.risklab-subtitle {
+  margin: 0;
+  color: #95a8c7;
+}
+
+.risklab-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.risklab-tab {
+  min-width: 188px;
+  min-height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(90, 116, 149, 0.28);
+  background: rgba(9, 16, 39, 0.74);
+  color: #bdd1eb;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.risklab-tab:hover,
+.risklab-outline-button:hover,
+.risklab-mode-button:hover,
+.risklab-retake-button:hover,
+.risklab-segment:hover,
+.risklab-status-item:hover {
+  box-shadow: none;
+}
+
+.risklab-tab-active {
+  border-color: #35efe6;
+  background: rgba(53, 239, 230, 0.12);
+  color: #35efe6;
+}
+
+.risklab-tab-disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.risklab-stage {
+  margin-top: 28px;
+  animation: stage-in 260ms ease;
+}
+
+.risklab-quiz-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 22px;
+}
+
+.risklab-main-column,
+.risklab-side-column,
+.risklab-status-list,
+.risklab-allocation-list,
+.risklab-breakdown-list {
+  display: grid;
+  gap: 18px;
+}
+
+.risklab-card,
+.risklab-metric-card {
+  border-radius: 24px;
+  border: 1px solid rgba(86, 112, 145, 0.16);
+  background:
+    linear-gradient(180deg, rgba(12, 18, 46, 0.92), rgba(10, 21, 50, 0.84));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.risklab-card {
+  padding: 24px;
+}
+
+.risklab-segmented-progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  gap: 8px;
+}
+
+.risklab-segment {
+  height: 10px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(82, 100, 133, 0.22);
+  padding: 0;
+  box-shadow: none;
+}
+
+.risklab-segment-active {
+  background: linear-gradient(90deg, rgba(53, 239, 230, 0.98), rgba(255, 178, 29, 0.9));
+}
+
+.risklab-segment-complete {
+  background: rgba(53, 239, 230, 0.6);
+}
+
+.risklab-question-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: #92a6c4;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.risklab-question-title {
+  margin: 18px 0 0;
+  font-size: clamp(1.85rem, 3vw, 2.7rem);
+  line-height: 1.16;
+}
+
+.risklab-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.risklab-option {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  text-align: left;
+  color: #eef5ff;
+  border-radius: 18px;
+  border: 1px solid rgba(86, 112, 145, 0.16);
+  background: rgba(12, 18, 44, 0.8);
+  box-shadow: none;
+}
+
+.risklab-option:hover {
+  border-color: rgba(53, 239, 230, 0.4);
+}
+
+.risklab-option-active {
+  border-color: #35efe6;
+  background: linear-gradient(135deg, rgba(53, 239, 230, 0.11), rgba(255, 178, 29, 0.12));
+}
+
+.risklab-option-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.risklab-option-active .risklab-option-index {
+  background: rgba(53, 239, 230, 0.18);
+  color: #35efe6;
+}
+
+.risklab-nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.risklab-outline-button {
+  min-width: 144px;
+  min-height: 48px;
+  border-radius: 15px;
+  border: 1px solid rgba(120, 150, 190, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+  color: #d9e5f8;
+  font-weight: 600;
+}
+
+.risklab-outline-button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.risklab-panel-kicker {
+  color: #8ca1bf;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.risklab-panel-title {
+  margin: 10px 0 0;
+  font-size: 24px;
+}
+
+.risklab-status-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  text-align: left;
+  color: #d8e5f7;
+  border-radius: 16px;
+  border: 1px solid rgba(86, 112, 145, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: none;
+}
+
+.risklab-status-item-active {
+  border-color: #35efe6;
+  background: rgba(53, 239, 230, 0.1);
+}
+
+.risklab-status-item-complete {
+  border-color: rgba(255, 178, 29, 0.28);
+}
+
+.risklab-footer-box code {
+  color: #ffe27a;
+}
+
+.risklab-footer-copy {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+  color: #d5e1f4;
+  line-height: 1.65;
+}
+
+.risklab-mode-row,
+.risklab-results-grid,
+.risklab-metrics-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.risklab-mode-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.risklab-mode-button {
+  min-height: 50px;
+  border-radius: 16px;
+  border: 1px solid rgba(90, 116, 149, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cfe0f5;
+  font-weight: 700;
+}
+
+.risklab-mode-button-active {
+  border-color: #35efe6;
+  background: rgba(53, 239, 230, 0.12);
+  color: #35efe6;
+}
+
+.risklab-metrics-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.risklab-metric-card {
+  padding: 20px 22px;
+}
+
+.risklab-metric-value {
+  margin-top: 10px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1;
+  font-weight: 800;
+}
+
+.risklab-metric-label {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.risklab-metric-subcopy {
+  margin-top: 8px;
+  color: #d1def3;
+}
+
+.risklab-chart-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.risklab-chart-title {
+  color: #35efe6;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.risklab-chart-copy {
+  margin-top: 4px;
+  color: #96a8c5;
+}
+
+.risklab-results-grid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+}
+
+.risklab-allocation-row {
+  display: grid;
+  gap: 8px;
+}
+
+.risklab-allocation-head,
+.risklab-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.risklab-breakdown-row {
+  padding: 10px 0;
+  border-top: 1px solid rgba(86, 112, 145, 0.12);
+  color: #e5eefc;
+}
+
+.risklab-allocation-track {
+  height: 34px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(29, 40, 71, 0.95), rgba(37, 51, 86, 0.82));
+}
+
+.risklab-allocation-fill {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 70px;
+  height: 100%;
+  padding-right: 12px;
+  border-radius: 11px;
+  color: #ffffff;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(255, 162, 28, 0.56), rgba(255, 170, 22, 0.96));
+  transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.risklab-allocation-fill-negative {
+  background: linear-gradient(90deg, rgba(255, 95, 95, 0.56), rgba(255, 93, 77, 0.96));
+}
+
+.risklab-justification-copy {
+  margin: 14px 0 0;
+  color: #d9e4f6;
+  line-height: 1.78;
+}
+
+.risklab-inline-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(86, 112, 145, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cddbef;
+}
+
+.risklab-retake-row {
+  display: flex;
+  justify-content: center;
+}
+
+.risklab-retake-button {
+  min-height: 50px;
+  padding: 12px 26px;
+  border-radius: 16px;
+  border: 1px solid #35efe6;
+  background: rgba(53, 239, 230, 0.08);
+  color: #35efe6;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .risklab-quiz-layout,
+  .risklab-results-grid,
+  .risklab-metrics-grid,
+  .risklab-mode-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .risklab-shell {
+    padding: 20px;
+  }
+
+  .risklab-card,
+  .risklab-metric-card {
+    padding: 18px;
+  }
+
+  .risklab-tab,
+  .risklab-mode-button,
+  .risklab-outline-button,
+  .risklab-retake-button {
+    width: 100%;
+  }
+
+  .risklab-nav-row {
+    flex-direction: column;
+  }
+
+  .risklab-option {
+    grid-template-columns: 38px 1fr;
+    padding: 14px;
+  }
+
+  .risklab-option-index {
+    width: 36px;
+    height: 36px;
+  }
+}
