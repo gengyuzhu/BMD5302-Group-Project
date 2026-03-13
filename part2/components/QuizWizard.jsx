@@ -111,19 +111,14 @@ export default function QuizWizard({
               <strong>Answered counter:</strong> {answeredCount}/{questionnaire.length} answered
             </div>
 
-            <div className="risklab-formula-list">
-              <div className="risklab-formula-item">
-                <strong>Formula summary:</strong> weighted score S adds each answer score after multiplying it by the question weight.
+            <div className="risklab-formula-block">
+              <strong>Formula summary</strong>
+              <div className="risklab-formula-equation">S = sum(weight_i x score_i)</div>
+              <div className="risklab-formula-equation">
+                T = (S - {bounds.min}) / {bounds.max - bounds.min}
               </div>
-              <div className="risklab-formula-item">
-                <strong>Risk tolerance T:</strong> scale S from the minimum possible score of {bounds.min} to the maximum possible score of {bounds.max}.
-              </div>
-              <div className="risklab-formula-item">
-                <strong>Risk aversion A:</strong> 10 minus 9 times T.
-              </div>
-              <div className="risklab-formula-item">
-                <strong>Utility U:</strong> expected return minus one half of A multiplied by portfolio variance.
-              </div>
+              <div className="risklab-formula-equation">A = 10 - 9T</div>
+              <div className="risklab-formula-equation">U = r - (A x sigma^2) / 2</div>
             </div>
 
             <div>

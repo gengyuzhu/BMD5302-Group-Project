@@ -47,59 +47,63 @@ export default function App() {
   }, [activeView]);
 
   return (
-    <main className="app-shell">
-      <header className="app-topbar">
-        <div className="topbar-row">
-          <div className="topbar-heading">
-            <p className="eyebrow">BMD5302 Robot Adviser</p>
-            <h1 className="brand-title">Compass Wealth Interface</h1>
+    <>
+      <header className="app-topbar-frame">
+        <div className="app-topbar">
+          <div className="topbar-row">
+            <div className="topbar-heading">
+              <p className="eyebrow">BMD5302 Robot Adviser</p>
+              <h1 className="brand-title">Compass Wealth Interface</h1>
+            </div>
+
+            <div className="topbar-helper">Project navigation</div>
           </div>
 
-          <div className="topbar-helper">Project navigation</div>
-        </div>
+          <div className="nav-banner">
+            <div className="nav-copy">
+              <span className="nav-kicker">Quick Switch</span>
+              <span className="nav-caption">Move across Platform, Frontier Lab, and Risk Lab without losing context.</span>
+            </div>
 
-        <div className="nav-banner">
-          <div className="nav-copy">
-            <span className="nav-kicker">Quick Switch</span>
-            <span className="nav-caption">Move across Platform, Frontier Lab, and Risk Lab without losing context.</span>
+            <nav className="view-nav" aria-label="Primary views">
+              {views.map((view) => (
+                <button
+                  key={view.id}
+                  type="button"
+                  className={view.id === activeView ? "nav-pill nav-pill-active" : "nav-pill"}
+                  onClick={() => setActiveView(view.id)}
+                  aria-pressed={view.id === activeView}
+                >
+                  {view.title}
+                </button>
+              ))}
+            </nav>
           </div>
-
-          <nav className="view-nav" aria-label="Primary views">
-            {views.map((view) => (
-              <button
-                key={view.id}
-                type="button"
-                className={view.id === activeView ? "nav-pill nav-pill-active" : "nav-pill"}
-                onClick={() => setActiveView(view.id)}
-                aria-pressed={view.id === activeView}
-              >
-                {view.title}
-              </button>
-            ))}
-          </nav>
         </div>
       </header>
 
-      <section className="hero">
-        <p className="eyebrow">{activeMeta.eyebrow}</p>
-        <h2>{activeMeta.heading}</h2>
-        <p className="intro">{activeMeta.intro}</p>
-        <div className="hero-metrics" aria-label="Current view highlights">
-          {activeMeta.metrics.map((metric) => (
-            <span key={metric} className="metric-chip">
-              {metric}
-            </span>
-          ))}
-        </div>
-      </section>
+      <main className="app-shell">
+        <section className="hero">
+          <p className="eyebrow">{activeMeta.eyebrow}</p>
+          <h2>{activeMeta.heading}</h2>
+          <p className="intro">{activeMeta.intro}</p>
+          <div className="hero-metrics" aria-label="Current view highlights">
+            {activeMeta.metrics.map((metric) => (
+              <span key={metric} className="metric-chip">
+                {metric}
+              </span>
+            ))}
+          </div>
+        </section>
 
-      <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
-        <div key={activeView} className="view-stage">
-          {activeView === "platform" && <PlatformExperience />}
-          {activeView === "frontier" && <EfficientFrontierInteractive />}
-          {activeView === "risk" && <RiskAversionInteractive />}
-        </div>
-      </Suspense>
-    </main>
+        <Suspense fallback={<section className="loading-card">Loading interface...</section>}>
+          <div key={activeView} className="view-stage">
+            {activeView === "platform" && <PlatformExperience />}
+            {activeView === "frontier" && <EfficientFrontierInteractive />}
+            {activeView === "risk" && <RiskAversionInteractive />}
+          </div>
+        </Suspense>
+      </main>
+    </>
   );
 }

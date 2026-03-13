@@ -328,16 +328,20 @@
   line-height: 1.65;
 }
 
-.risklab-formula-list {
+.risklab-formula-block {
   display: grid;
-  gap: 10px;
-}
-
-.risklab-formula-item {
-  padding: 11px 12px;
-  border-radius: 14px;
+  gap: 8px;
+  padding: 13px 14px;
+  border-radius: 16px;
   border: 1px solid rgba(86, 112, 145, 0.14);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.risklab-formula-equation {
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  color: #eef5ff;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .risklab-mode-row,
