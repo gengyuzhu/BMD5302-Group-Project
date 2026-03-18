@@ -1,3 +1,89 @@
+/* ═══════════════════════════════════════════════════════════
+   Risk Lab  –  Dark-theme stylesheet
+   Colors: dark blue gradient, cyan #35efe6, orange #ffb21d
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── KEYFRAME ANIMATIONS ─── */
+
+@keyframes stage-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ring-fill {
+  from { stroke-dashoffset: var(--ring-circumference, 565); }
+  to   { stroke-dashoffset: var(--ring-offset, 0); }
+}
+
+@keyframes count-up-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(53, 239, 230, 0.15); }
+  50%      { box-shadow: 0 0 22px rgba(53, 239, 230, 0.35); }
+}
+
+@keyframes glow-pulse-orange {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 178, 29, 0.15); }
+  50%      { box-shadow: 0 0 22px rgba(255, 178, 29, 0.35); }
+}
+
+@keyframes bar-slide-in {
+  from { width: 0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkmark-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes donut-spin {
+  from { transform: rotate(-90deg); }
+  to   { transform: rotate(-90deg); }
+}
+
+@keyframes gauge-needle {
+  from { transform: rotate(180deg); }
+}
+
+@keyframes confidence-grow {
+  from { width: 0; }
+}
+
+@keyframes optimal-pulse {
+  0%, 100% { r: 18; opacity: 0.16; }
+  50%      { r: 26; opacity: 0.28; }
+}
+
+@keyframes sparkline-dash {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes metric-bg-pulse {
+  0%, 100% { opacity: 0.04; }
+  50%      { opacity: 0.10; }
+}
+
+/* ─── SHELL ─── */
+
 .risklab-shell {
   position: relative;
   overflow: hidden;
@@ -21,6 +107,8 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 32%);
   pointer-events: none;
 }
+
+/* ─── HEADER ─── */
 
 .risklab-header,
 .risklab-stage {
@@ -52,6 +140,8 @@
   color: #95a8c7;
 }
 
+/* ─── TABS ─── */
+
 .risklab-tabs {
   display: flex;
   justify-content: center;
@@ -69,6 +159,7 @@
   color: #bdd1eb;
   font-weight: 600;
   box-shadow: none;
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease, box-shadow 200ms ease;
 }
 
 .risklab-tab:hover,
@@ -78,6 +169,10 @@
 .risklab-segment:hover,
 .risklab-status-item:hover {
   box-shadow: none;
+}
+
+.risklab-tab:hover {
+  border-color: rgba(53, 239, 230, 0.4);
 }
 
 .risklab-tab-active {
@@ -91,10 +186,20 @@
   cursor: not-allowed;
 }
 
+/* ─── STAGE ─── */
+
 .risklab-stage {
   margin-top: 28px;
   animation: stage-in 260ms ease;
 }
+
+.risklab-results-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── QUIZ LAYOUT ─── */
 
 .risklab-quiz-layout {
   display: grid;
@@ -111,6 +216,8 @@
   gap: 18px;
 }
 
+/* ─── CARDS ─── */
+
 .risklab-card,
 .risklab-metric-card {
   border-radius: 24px;
@@ -119,9 +226,10 @@
     linear-gradient(180deg, rgba(12, 18, 46, 0.92), rgba(10, 21, 50, 0.84));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background 220ms ease;
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 260ms ease,
+    box-shadow 260ms ease;
 }
 
 .risklab-card {
@@ -133,6 +241,8 @@
   transform: translateY(-2px);
   border-color: rgba(93, 128, 170, 0.24);
 }
+
+/* ─── PROGRESS BAR SEGMENTS ─── */
 
 .risklab-segmented-progress {
   display: grid;
@@ -147,6 +257,11 @@
   background: rgba(82, 100, 133, 0.22);
   padding: 0;
   box-shadow: none;
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+.risklab-segment:hover {
+  background: rgba(82, 100, 133, 0.38);
 }
 
 .risklab-segment-active {
@@ -155,6 +270,92 @@
 
 .risklab-segment-complete {
   background: rgba(53, 239, 230, 0.6);
+}
+
+/* ─── CIRCULAR PROGRESS RING ─── */
+
+.risklab-progress-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.risklab-progress-ring-svg {
+  transform: rotate(-90deg);
+}
+
+.risklab-progress-ring-bg {
+  fill: none;
+  stroke: rgba(82, 100, 133, 0.22);
+  stroke-width: 8;
+}
+
+.risklab-progress-ring-value {
+  fill: none;
+  stroke: url(#ringGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.risklab-progress-ring-text {
+  font-size: 22px;
+  font-weight: 800;
+  fill: #eef5ff;
+}
+
+.risklab-progress-ring-label {
+  font-size: 13px;
+  color: #8ca1bf;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ─── CONFIDENCE METER ─── */
+
+.risklab-confidence-meter {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(82, 100, 133, 0.22);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.risklab-confidence-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #35efe6, #ffb21d);
+  transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── QUESTION CARD ─── */
+
+.risklab-question-card {
+  padding: 32px 28px;
+}
+
+.risklab-question-card.risklab-slide-left {
+  animation: slide-in-left 320ms ease;
+}
+
+.risklab-question-card.risklab-slide-right {
+  animation: slide-in-right 320ms ease;
+}
+
+.risklab-question-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(53, 239, 230, 0.08);
+  border: 1px solid rgba(53, 239, 230, 0.18);
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
 .risklab-question-meta {
@@ -170,21 +371,21 @@
 .risklab-question-title {
   margin: 18px 0 0;
   font-size: clamp(1.55rem, 2.35vw, 2.1rem);
-  line-height: 1.22;
+  line-height: 1.28;
 }
 
 .risklab-options {
   display: grid;
-  gap: 12px;
-  margin-top: 22px;
+  gap: 14px;
+  margin-top: 26px;
 }
 
 .risklab-option {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 50px 1fr 28px;
   align-items: center;
   gap: 14px;
-  padding: 16px 18px;
+  padding: 18px 20px;
   text-align: left;
   color: #eef5ff;
   border-radius: 18px;
@@ -192,36 +393,71 @@
   background: rgba(12, 18, 44, 0.8);
   box-shadow: none;
   transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    background 180ms ease;
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+  cursor: pointer;
 }
 
 .risklab-option:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.015);
   border-color: rgba(53, 239, 230, 0.4);
+  box-shadow: 0 0 16px rgba(53, 239, 230, 0.12);
 }
 
 .risklab-option-active {
   border-color: #35efe6;
   background: linear-gradient(135deg, rgba(53, 239, 230, 0.11), rgba(255, 178, 29, 0.12));
+  box-shadow: 0 0 20px rgba(53, 239, 230, 0.18);
+}
+
+.risklab-option-active:hover {
+  box-shadow: 0 0 24px rgba(53, 239, 230, 0.25);
 }
 
 .risklab-option-index {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   font-weight: 700;
+  font-size: 16px;
+  transition: background 200ms ease, color 200ms ease, transform 200ms ease;
 }
 
 .risklab-option-active .risklab-option-index {
   background: rgba(53, 239, 230, 0.18);
   color: #35efe6;
+  transform: scale(1.08);
 }
+
+.risklab-option-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  transform: scale(0);
+  transition: none;
+}
+
+.risklab-option-active .risklab-option-check {
+  animation: checkmark-pop 360ms ease forwards;
+}
+
+.risklab-option-score-badge {
+  font-size: 11px;
+  color: #8ca1bf;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+/* ─── NAVIGATION ROW ─── */
 
 .risklab-nav-row {
   display: grid;
@@ -236,14 +472,15 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    background 180ms ease,
-    color 180ms ease;
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
 }
 
 .risklab-nav-button:hover:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .risklab-nav-button:disabled {
@@ -271,7 +508,10 @@
 .risklab-nav-button-primary:hover:not(:disabled) {
   border-color: rgba(53, 239, 230, 0.7);
   background: linear-gradient(135deg, rgba(53, 239, 230, 0.24), rgba(255, 178, 29, 0.18));
+  box-shadow: 0 0 16px rgba(53, 239, 230, 0.15);
 }
+
+/* ─── SIDEBAR ─── */
 
 .risklab-panel-kicker {
   color: #8ca1bf;
@@ -296,6 +536,11 @@
   border: 1px solid rgba(86, 112, 145, 0.12);
   background: rgba(255, 255, 255, 0.03);
   box-shadow: none;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.risklab-status-item:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .risklab-status-item-active {
@@ -318,6 +563,7 @@
   background: linear-gradient(135deg, rgba(255, 178, 29, 0.12), rgba(255, 93, 77, 0.08));
   color: #fff1c8;
   line-height: 1.6;
+  animation: fade-in-up 300ms ease;
 }
 
 .risklab-footer-copy {
@@ -344,6 +590,8 @@
   line-height: 1.55;
 }
 
+/* ─── RESULTS: MODE ROW ─── */
+
 .risklab-mode-row,
 .risklab-results-grid,
 .risklab-metrics-grid {
@@ -363,10 +611,16 @@
   color: #cfe0f5;
   font-weight: 700;
   transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    background 180ms ease,
-    color 180ms ease;
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.risklab-mode-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(53, 239, 230, 0.35);
 }
 
 .risklab-mode-button-active {
@@ -375,29 +629,251 @@
   color: #35efe6;
 }
 
+/* ─── RESULTS: PROFILE SUMMARY ─── */
+
+.risklab-profile-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+}
+
+.risklab-profile-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.risklab-profile-badge-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8ca1bf;
+}
+
+.risklab-profile-info {
+  display: grid;
+  gap: 10px;
+}
+
+.risklab-profile-name {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.risklab-profile-desc {
+  color: #b0c3de;
+  line-height: 1.55;
+}
+
+.risklab-profile-stats {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.risklab-profile-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.risklab-profile-stat-value {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.risklab-profile-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8ca1bf;
+}
+
+/* ─── RESULTS: METRICS GRID ─── */
+
 .risklab-metrics-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .risklab-metric-card {
-  padding: 20px 22px;
+  padding: 24px 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.risklab-metric-card-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.risklab-metric-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: radial-gradient(circle at top right, var(--metric-glow, transparent), transparent 70%);
+  opacity: 0.06;
+  pointer-events: none;
+  animation: metric-bg-pulse 4s ease-in-out infinite;
 }
 
 .risklab-metric-value {
-  margin-top: 10px;
-  font-size: clamp(2rem, 3vw, 3rem);
+  margin-top: 12px;
+  font-size: clamp(2.2rem, 3.2vw, 3.2rem);
   line-height: 1;
   font-weight: 800;
+  animation: count-up-fade 500ms ease both;
 }
 
 .risklab-metric-label {
-  margin-top: 8px;
+  margin-top: 10px;
   font-weight: 700;
+  font-size: 15px;
 }
 
 .risklab-metric-subcopy {
-  margin-top: 8px;
+  margin-top: 10px;
   color: #d1def3;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.risklab-metric-sparkline {
+  margin-top: 12px;
+}
+
+.risklab-metric-sparkline line {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: sparkline-dash 1.2s ease forwards;
+}
+
+/* ─── RESULTS: GAUGE CHART ─── */
+
+.risklab-gauge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.risklab-gauge-bg {
+  fill: none;
+  stroke: rgba(82, 100, 133, 0.25);
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+.risklab-gauge-value {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.risklab-gauge-needle {
+  fill: #eef5ff;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
+}
+
+.risklab-gauge-center {
+  fill: rgba(12, 18, 46, 0.95);
+  stroke: rgba(86, 112, 145, 0.3);
+  stroke-width: 2;
+}
+
+.risklab-gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 240px;
+  font-size: 11px;
+  color: #8ca1bf;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── RESULTS: DONUT CHART ─── */
+
+.risklab-donut-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.risklab-donut-svg {
+  overflow: visible;
+}
+
+.risklab-donut-slice {
+  transition: opacity 200ms ease;
+  cursor: pointer;
+}
+
+.risklab-donut-slice:hover {
+  opacity: 0.8;
+  filter: brightness(1.15);
+}
+
+.risklab-donut-center-text {
+  font-size: 16px;
+  font-weight: 800;
+  fill: #eef5ff;
+}
+
+.risklab-donut-center-label {
+  font-size: 11px;
+  fill: #8ca1bf;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.risklab-donut-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  width: 100%;
+}
+
+.risklab-donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #d1def3;
+}
+
+.risklab-donut-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ─── CHART AREA ─── */
+
+.chart-shell {
+  position: relative;
+  overflow: visible;
+}
+
+.chart-tooltip {
+  position: absolute;
+  z-index: 10;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(86, 112, 145, 0.22);
+  background: rgba(10, 16, 38, 0.95);
+  backdrop-filter: blur(6px);
+  color: #eef5ff;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: fade-in-up 150ms ease;
 }
 
 .risklab-chart-header {
@@ -418,14 +894,39 @@
   color: #96a8c5;
 }
 
+/* ─── CHART: CROSSHAIR ─── */
+
+.risklab-crosshair-line {
+  stroke: rgba(53, 239, 230, 0.3);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
+}
+
+/* ─── RESULTS GRID ─── */
+
 .risklab-results-grid {
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
 }
 
+/* ─── ALLOCATION BARS ─── */
+
 .risklab-allocation-row {
   display: grid;
   gap: 8px;
+  animation: fade-in-up 400ms ease both;
 }
+
+.risklab-allocation-row:nth-child(1) { animation-delay: 0ms; }
+.risklab-allocation-row:nth-child(2) { animation-delay: 60ms; }
+.risklab-allocation-row:nth-child(3) { animation-delay: 120ms; }
+.risklab-allocation-row:nth-child(4) { animation-delay: 180ms; }
+.risklab-allocation-row:nth-child(5) { animation-delay: 240ms; }
+.risklab-allocation-row:nth-child(6) { animation-delay: 300ms; }
+.risklab-allocation-row:nth-child(7) { animation-delay: 360ms; }
+.risklab-allocation-row:nth-child(8) { animation-delay: 420ms; }
+.risklab-allocation-row:nth-child(9) { animation-delay: 480ms; }
+.risklab-allocation-row:nth-child(10) { animation-delay: 540ms; }
 
 .risklab-allocation-head,
 .risklab-breakdown-row {
@@ -434,14 +935,12 @@
   gap: 12px;
 }
 
-.risklab-breakdown-row {
-  padding: 10px 0;
-  border-top: 1px solid rgba(86, 112, 145, 0.12);
-  color: #e5eefc;
+.risklab-allocation-head {
+  font-size: 14px;
 }
 
 .risklab-allocation-track {
-  height: 34px;
+  height: 36px;
   border-radius: 11px;
   overflow: hidden;
   background: linear-gradient(90deg, rgba(29, 40, 71, 0.95), rgba(37, 51, 86, 0.82));
@@ -457,13 +956,97 @@
   border-radius: 11px;
   color: #ffffff;
   font-weight: 700;
-  background: linear-gradient(90deg, rgba(255, 162, 28, 0.56), rgba(255, 170, 22, 0.96));
+  font-size: 13px;
+  background: linear-gradient(90deg, rgba(255, 162, 28, 0.56), rgba(255, 190, 40, 0.96));
+  animation: bar-slide-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .risklab-allocation-fill-negative {
   background: linear-gradient(90deg, rgba(255, 95, 95, 0.56), rgba(255, 93, 77, 0.96));
 }
+
+.risklab-allocation-pct-label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #eef5ff;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* ─── WEIGHT BREAKDOWN TABLE ─── */
+
+.risklab-breakdown-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.risklab-breakdown-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8ca1bf;
+  border-bottom: 1px solid rgba(86, 112, 145, 0.2);
+}
+
+.risklab-breakdown-table th:last-child {
+  text-align: right;
+}
+
+.risklab-breakdown-table td {
+  padding: 12px 14px;
+  color: #e5eefc;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(86, 112, 145, 0.08);
+  transition: background 200ms ease;
+}
+
+.risklab-breakdown-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+}
+
+.risklab-breakdown-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.risklab-breakdown-table tr:hover td {
+  background: rgba(53, 239, 230, 0.04);
+}
+
+.risklab-weight-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.risklab-weight-dot-positive {
+  background: #35efe6;
+}
+
+.risklab-weight-dot-negative {
+  background: #ff5d4d;
+}
+
+.risklab-weight-dot-zero {
+  background: rgba(82, 100, 133, 0.4);
+}
+
+/* Legacy breakdown row support */
+.risklab-breakdown-row {
+  padding: 10px 0;
+  border-top: 1px solid rgba(86, 112, 145, 0.12);
+  color: #e5eefc;
+}
+
+/* ─── JUSTIFICATION ─── */
 
 .risklab-justification-copy {
   margin: 14px 0 0;
@@ -480,6 +1063,8 @@
   color: #cddbef;
 }
 
+/* ─── RETAKE ─── */
+
 .risklab-retake-row {
   display: flex;
   justify-content: center;
@@ -494,15 +1079,121 @@
   color: #35efe6;
   font-weight: 700;
   transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    background 180ms ease,
-    color 180ms ease;
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
 }
 
 .risklab-retake-button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   background: rgba(53, 239, 230, 0.12);
+  box-shadow: 0 0 20px rgba(53, 239, 230, 0.15);
+}
+
+/* ─── RESPONSIVE ─── */
+
+/* ── Profile Summary Card ── */
+.risklab-profile-summary {
+  border: 1px solid rgba(53, 239, 230, .12);
+}
+
+.risklab-profile-summary-inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.risklab-profile-gauge-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 240px;
+}
+
+.risklab-profile-badge {
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 4px 16px;
+}
+
+.risklab-profile-donut-col {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* ── Donut legend ── */
+.risklab-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: .78rem;
+}
+
+.risklab-donut-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.risklab-donut-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.risklab-donut-legend-label {
+  flex: 1;
+  color: rgba(255, 255, 255, .7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.risklab-donut-legend-pct {
+  color: rgba(255, 255, 255, .5);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ── Allocation dot ── */
+.risklab-alloc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Weight breakdown header ── */
+.risklab-breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  margin-bottom: 4px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .35);
+}
+
+.risklab-breakdown-row-alt {
+  background: rgba(255, 255, 255, .02);
+  border-radius: 6px;
+}
+
+/* ── Justification card accent ── */
+.risklab-justification-card {
+  border-left: 3px solid rgba(53, 239, 230, .3);
 }
 
 @media (max-width: 1100px) {
@@ -510,6 +1201,19 @@
   .risklab-results-grid,
   .risklab-metrics-grid,
   .risklab-mode-row {
+    grid-template-columns: 1fr;
+  }
+
+  .risklab-profile-summary {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .risklab-profile-stats {
+    justify-content: center;
+  }
+
+  .risklab-donut-legend {
     grid-template-columns: 1fr;
   }
 }
@@ -536,12 +1240,16 @@
   }
 
   .risklab-option {
-    grid-template-columns: 38px 1fr;
+    grid-template-columns: 42px 1fr 24px;
     padding: 14px;
   }
 
   .risklab-option-index {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .risklab-question-card {
+    padding: 22px 18px;
   }
 }

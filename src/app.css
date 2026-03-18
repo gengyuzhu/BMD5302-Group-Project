@@ -1,10 +1,15 @@
+/* ═══════════════════════════════════════════════════════════════
+   Compass Wealth Interface — Global Stylesheet
+   Premium financial application design system
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
   color: #13202a;
   color-scheme: light;
   background:
     radial-gradient(circle at top left, rgba(245, 185, 77, 0.18), transparent 26%),
     linear-gradient(180deg, #fffaf1 0%, #f1e4d0 100%);
-  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   --app-ink: #16212b;
@@ -14,6 +19,16 @@
   --app-panel: rgba(255, 255, 255, 0.72);
   --app-shadow: 0 18px 42px rgba(39, 54, 66, 0.1);
   --app-shadow-strong: 0 24px 50px rgba(39, 54, 66, 0.14);
+  --app-accent: #d07b2a;
+  --app-accent-glow: rgba(208, 123, 42, 0.28);
+  --app-glass: rgba(255, 255, 255, 0.62);
+  --app-glass-border: rgba(255, 255, 255, 0.42);
+  --app-radius-sm: 14px;
+  --app-radius-md: 20px;
+  --app-radius-lg: 26px;
+  --app-radius-xl: 32px;
+  --app-transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --app-transition-slow: 420ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -76,12 +91,16 @@ textarea,
 select {
   font: inherit;
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease,
-    opacity 180ms ease;
+    transform var(--app-transition),
+    box-shadow var(--app-transition),
+    border-color var(--app-transition),
+    background-color var(--app-transition),
+    color var(--app-transition),
+    opacity var(--app-transition);
+}
+
+button {
+  cursor: pointer;
 }
 
 button:hover {
@@ -97,7 +116,7 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 3px solid rgba(208, 123, 42, 0.28);
+  outline: 3px solid var(--app-accent-glow);
   outline-offset: 2px;
 }
 
@@ -120,6 +139,8 @@ svg {
   background: rgba(208, 123, 42, 0.18);
 }
 
+/* ─── App Shell ─── */
+
 .app-shell {
   width: min(1440px, calc(100vw - 32px));
   margin: 0 auto;
@@ -137,11 +158,12 @@ svg {
   display: grid;
   gap: 16px;
   padding: 20px 24px;
-  border-radius: 26px;
+  border-radius: var(--app-radius-lg);
   border: 1px solid var(--app-line);
   background: var(--app-panel);
   box-shadow: var(--app-shadow);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   isolation: isolate;
   transform: translateZ(0);
 }
@@ -181,6 +203,10 @@ svg {
   margin: 0;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   line-height: 1;
+  background: linear-gradient(135deg, #16212b 0%, #3a5a7c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .view-nav {
@@ -230,47 +256,73 @@ svg {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(208, 123, 42, 0.06), transparent);
+  opacity: 0;
+  transition: opacity var(--app-transition);
+}
+
+.nav-pill:hover::after {
+  opacity: 1;
 }
 
 .nav-pill-active {
-  background: #16212b;
+  background: linear-gradient(135deg, #16212b, #2a4054);
   color: #ffffff;
   border-color: #16212b;
+  box-shadow: 0 8px 24px rgba(22, 33, 43, 0.24);
 }
+
+.nav-pill-active::after {
+  display: none;
+}
+
+/* ─── Hero Section ─── */
 
 .hero {
   position: relative;
   overflow: hidden;
   margin-bottom: 20px;
-  padding: 24px 26px;
-  border-radius: 26px;
+  padding: 28px 30px;
+  border-radius: var(--app-radius-lg);
   border: 1px solid var(--app-line);
   background: rgba(255, 255, 255, 0.68);
   box-shadow: var(--app-shadow);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .hero::after {
   content: "";
   position: absolute;
   inset: auto 18px 18px auto;
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(245, 185, 77, 0.16), transparent 70%);
+  background: radial-gradient(circle, rgba(245, 185, 77, 0.14), transparent 70%);
   pointer-events: none;
+  animation: float 8s ease-in-out infinite;
 }
 
 .hero h2 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1.02;
+  letter-spacing: -0.02em;
 }
 
 .intro {
   max-width: 820px;
   margin: 14px 0 0;
   color: #51626e;
+  line-height: 1.65;
 }
 
 .hero-metrics {
@@ -289,44 +341,54 @@ svg {
   font-size: 13px;
   font-weight: 600;
   box-shadow: 0 8px 20px rgba(39, 54, 66, 0.06);
+  animation: fade-up 600ms ease both;
 }
+
+.metric-chip:nth-child(1) { animation-delay: 100ms; }
+.metric-chip:nth-child(2) { animation-delay: 200ms; }
+.metric-chip:nth-child(3) { animation-delay: 300ms; }
+
+/* ─── Loading & Transitions ─── */
 
 .loading-card {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   min-height: 108px;
   padding: 28px;
-  border-radius: 24px;
+  border-radius: var(--app-radius-lg);
   border: 1px solid var(--app-line);
   background: var(--app-panel);
   box-shadow: var(--app-shadow);
   color: #51626e;
+  font-size: 15px;
 }
 
 .loading-card::before {
   content: "";
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 2px solid rgba(22, 33, 43, 0.16);
-  border-top-color: #16212b;
-  animation: spin 900ms linear infinite;
+  border: 2.5px solid rgba(22, 33, 43, 0.12);
+  border-top-color: var(--app-accent);
+  animation: spin 800ms linear infinite;
 }
 
 .view-stage {
-  animation: stage-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: stage-in 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .motion-surface {
   animation: surface-lift 560ms cubic-bezier(0.18, 0.9, 0.26, 1) both;
 }
 
+/* ─── Dashboard Cards ─── */
+
 .dashboard-card {
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease;
+    transform var(--app-transition),
+    box-shadow var(--app-transition),
+    border-color var(--app-transition);
 }
 
 .dashboard-card:hover {
@@ -334,14 +396,16 @@ svg {
   box-shadow: var(--app-shadow-strong);
 }
 
+/* ─── Chart Components ─── */
+
 .chart-shell {
   position: relative;
   overflow-x: auto;
 }
 
 .platform-chart-shell {
-  padding: 14px 14px 8px;
-  border-radius: 24px;
+  padding: 16px 16px 10px;
+  border-radius: var(--app-radius-lg);
   background: linear-gradient(180deg, #fffdf8, #f6eddd);
   border: 1px solid rgba(22, 33, 43, 0.08);
 }
@@ -386,6 +450,12 @@ svg {
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(249, 241, 227, 0.92));
   border: 1px solid rgba(22, 33, 43, 0.08);
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
+}
+
+.platform-chart-insight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(39, 54, 66, 0.08);
 }
 
 .platform-chart-insight span {
@@ -406,6 +476,8 @@ svg {
   line-height: 1.5;
 }
 
+/* ─── Data Tables ─── */
+
 .platform-data-table {
   width: 100%;
   min-width: 820px;
@@ -419,7 +491,7 @@ svg {
 }
 
 .platform-data-table tbody tr {
-  transition: background-color 180ms ease;
+  transition: background-color var(--app-transition);
 }
 
 .platform-data-table tbody tr:hover {
@@ -442,17 +514,19 @@ svg {
 .platform-sort-button:hover,
 .platform-sort-button-active {
   color: var(--app-ink);
+  transform: none;
+  box-shadow: none;
 }
 
 .platform-search-input {
   min-width: 240px;
   padding: 12px 14px;
-  border-radius: 14px;
+  border-radius: var(--app-radius-sm);
   border: 1px solid rgba(22, 33, 43, 0.12);
   background: #fffefb;
   color: var(--app-ink);
   font: inherit;
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: border-color var(--app-transition), box-shadow var(--app-transition), transform var(--app-transition);
 }
 
 .platform-search-input::placeholder {
@@ -468,6 +542,8 @@ svg {
   border-color: rgba(208, 123, 42, 0.44);
   box-shadow: 0 0 0 4px rgba(208, 123, 42, 0.12);
 }
+
+/* ─── Matrix ─── */
 
 .platform-matrix-shell {
   position: relative;
@@ -510,12 +586,13 @@ svg {
   min-width: 84px;
   padding: 10px 12px;
   border: none;
-  border-radius: 14px;
+  border-radius: var(--app-radius-sm);
   text-align: center;
   font-size: 13px;
   line-height: 1.1;
   box-shadow: none;
   cursor: default;
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
 }
 
 .platform-matrix-cell:hover,
@@ -524,17 +601,25 @@ svg {
   box-shadow: 0 10px 18px rgba(22, 33, 43, 0.08);
 }
 
+/* ─── Tooltips ─── */
+
 .chart-tooltip {
   position: absolute;
   min-width: 190px;
   background: rgba(23, 33, 40, 0.94);
   color: #ffffff;
-  border-radius: 14px;
-  padding: 10px 12px;
+  border-radius: var(--app-radius-sm);
+  padding: 12px 14px;
   pointer-events: none;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
   z-index: 3;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: tooltip-in 180ms ease;
 }
+
+/* ─── Insight Grid ─── */
 
 .insight-grid {
   display: grid;
@@ -547,6 +632,12 @@ svg {
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(249, 241, 227, 0.92));
   border: 1px solid rgba(22, 33, 43, 0.08);
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
+}
+
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(39, 54, 66, 0.08);
 }
 
 .insight-card strong {
@@ -566,8 +657,12 @@ svg {
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, #5a9d47 0%, #d58526 55%, #376da3 100%);
-  transition: width 220ms ease;
+  transition: width var(--app-transition);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Chat Components — Glassmorphism & Premium Styling
+   ═══════════════════════════════════════════════════════════════ */
 
 .chat-shell {
   display: grid;
@@ -580,10 +675,20 @@ svg {
   justify-content: space-between;
   gap: 10px;
   flex-wrap: wrap;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(31, 45, 55, 0.95), rgba(55, 109, 163, 0.92));
   color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-context::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), transparent);
+  pointer-events: none;
 }
 
 .chat-badges {
@@ -598,6 +703,8 @@ svg {
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.14);
   font-size: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .prompt-grid {
@@ -608,16 +715,35 @@ svg {
 
 .prompt-chip {
   box-shadow: none;
+  position: relative;
+  overflow: hidden;
 }
+
+.prompt-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(208, 123, 42, 0.08), transparent);
+  opacity: 0;
+  transition: opacity var(--app-transition);
+}
+
+.prompt-chip:hover::after {
+  opacity: 1;
+}
+
+/* ─── Chat Messages ─── */
 
 .assistant-card {
   display: grid;
   gap: 12px;
   max-width: 100%;
-  border-radius: 20px;
-  padding: 14px 16px;
+  border-radius: var(--app-radius-md);
+  padding: 16px 18px;
   background: linear-gradient(180deg, #fff9ef, #f8efdf);
   border: 1px solid rgba(22, 33, 43, 0.08);
+  box-shadow: 0 4px 16px rgba(39, 54, 66, 0.06);
+  animation: card-appear 400ms ease both;
 }
 
 .assistant-title {
@@ -642,9 +768,14 @@ svg {
   gap: 4px;
   min-width: 104px;
   padding: 10px 12px;
-  border-radius: 14px;
+  border-radius: var(--app-radius-sm);
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(22, 33, 43, 0.08);
+  transition: transform var(--app-transition);
+}
+
+.assistant-stat:hover {
+  transform: translateY(-1px);
 }
 
 .assistant-stat span {
@@ -698,6 +829,7 @@ svg {
   font-weight: 600;
   cursor: pointer;
   box-shadow: none;
+  transition: all var(--app-transition);
 }
 
 .assistant-suggestion {
@@ -712,10 +844,14 @@ svg {
 .assistant-mini-action:hover {
   border-color: rgba(208, 123, 42, 0.42);
   background: #ffffff;
+  box-shadow: 0 4px 12px rgba(208, 123, 42, 0.12);
+  transform: translateY(-1px);
 }
 
+/* ─── Chat Viewport ─── */
+
 .chat-log {
-  max-height: 420px;
+  max-height: 480px;
   overflow: auto;
   padding-right: 4px;
   scrollbar-width: thin;
@@ -731,7 +867,7 @@ svg {
 }
 
 .chat-bubble {
-  animation: bubble-in 240ms ease;
+  animation: bubble-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .chat-bubble-assistant {
@@ -742,19 +878,52 @@ svg {
 .chat-status {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--app-muted);
   font-size: 13px;
+  padding: 8px 0;
 }
 
 .chat-status::before {
   content: "";
+  display: flex;
+  gap: 4px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d07b2a;
+  background: var(--app-accent);
   animation: pulse 1000ms ease-in-out infinite;
 }
+
+/* ─── Typing indicator ─── */
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fff9ef, #f8efdf);
+  border: 1px solid rgba(22, 33, 43, 0.08);
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--app-accent);
+  animation: typing-bounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ─── Chat Scenario Cards ─── */
 
 .chat-scenario-strip {
   display: grid;
@@ -769,6 +938,12 @@ svg {
   border-radius: 18px;
   background: linear-gradient(180deg, #fffdf8, #f6ecdb);
   border: 1px solid rgba(22, 33, 43, 0.08);
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
+}
+
+.chat-scenario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(39, 54, 66, 0.08);
 }
 
 .chat-scenario-card span {
@@ -783,6 +958,8 @@ svg {
   line-height: 1.35;
 }
 
+/* ─── Persona & Fund Cards ─── */
+
 .persona-grid,
 .fund-shelf {
   display: grid;
@@ -795,17 +972,40 @@ svg {
 
 .persona-card {
   text-align: left;
-  padding: 14px;
+  padding: 16px;
   border-radius: 18px;
   border: 1px solid rgba(97, 114, 125, 0.16);
   background: #ffffff;
   cursor: pointer;
+  transition: all var(--app-transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.persona-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, transparent);
+  transition: background var(--app-transition);
+}
+
+.persona-card:hover::before {
+  background: linear-gradient(90deg, var(--app-accent), #376da3);
 }
 
 .persona-card-active {
-  background: #16212b;
+  background: linear-gradient(135deg, #16212b, #2a4054);
   color: #ffffff;
   border-color: #16212b;
+  box-shadow: 0 12px 32px rgba(22, 33, 43, 0.2);
+}
+
+.persona-card-active::before {
+  background: linear-gradient(90deg, var(--app-accent), #376da3);
 }
 
 .persona-card-active .muted-copy {
@@ -827,6 +1027,7 @@ svg {
   display: block;
   height: 100%;
   border-radius: 999px;
+  transition: width var(--app-transition-slow);
 }
 
 .stat-grid {
@@ -836,10 +1037,16 @@ svg {
 }
 
 .stat-card {
-  padding: 12px;
+  padding: 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(22, 33, 43, 0.08);
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(39, 54, 66, 0.06);
 }
 
 .fund-shelf {
@@ -857,16 +1064,17 @@ svg {
 .fund-card-interactive {
   cursor: pointer;
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease;
+    transform var(--app-transition),
+    box-shadow var(--app-transition),
+    border-color var(--app-transition),
+    background var(--app-transition);
 }
 
 .fund-card-interactive:hover {
   transform: translateY(-2px);
   border-color: rgba(208, 123, 42, 0.28);
   background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 24px rgba(39, 54, 66, 0.08);
 }
 
 .fund-card h4 {
@@ -883,6 +1091,8 @@ svg {
   display: grid;
   gap: 6px;
 }
+
+/* ─── Platform Layout ─── */
 
 .risk-layout {
   display: grid;
@@ -911,7 +1121,7 @@ svg {
 
 .question-block {
   padding: 16px;
-  border-radius: 20px;
+  border-radius: var(--app-radius-md);
   border: 1px solid rgba(97, 114, 125, 0.14);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(252, 248, 239, 0.92));
@@ -1003,10 +1213,14 @@ svg {
   line-height: 1.5;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   Risk Lab v2 — Dark Premium Theme
+   ═══════════════════════════════════════════════════════════════ */
+
 .risk2-shell {
   position: relative;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: var(--app-radius-xl);
   padding: 30px;
   color: #eef5ff;
   background:
@@ -1408,10 +1622,14 @@ svg {
   text-align: center;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════════════════ */
+
 @keyframes stage-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -1433,11 +1651,44 @@ svg {
 @keyframes bubble-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -1456,6 +1707,26 @@ svg {
   50% {
     opacity: 1;
     transform: scale(1.15);
+  }
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-10px, 10px, 0);
   }
 }
 
@@ -1478,6 +1749,120 @@ svg {
     transform: translate3d(26px, -18px, 0);
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(208, 123, 42, 0);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(208, 123, 42, 0.16);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ─── Utility animation classes ─── */
+
+.animate-fade-up {
+  animation: fade-up 500ms ease both;
+}
+
+.animate-slide-in {
+  animation: slide-in-right 400ms ease both;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+
+/* ─── Glassmorphism Utility ─── */
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.glass-dark {
+  background: rgba(12, 18, 40, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(104, 132, 168, 0.2);
+}
+
+/* ─── Error Boundary ─── */
+
+.error-boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 200px;
+  padding: 32px;
+  border-radius: var(--app-radius-lg);
+  background: linear-gradient(180deg, #fff8f0, #fdf0e0);
+  border: 1px solid rgba(208, 123, 42, 0.2);
+  text-align: center;
+}
+
+.error-boundary h3 {
+  margin: 0;
+  color: var(--app-ink);
+}
+
+.error-boundary p {
+  margin: 0;
+  color: var(--app-muted);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.error-boundary button {
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--app-accent);
+  background: rgba(208, 123, 42, 0.08);
+  color: var(--app-ink);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive Breakpoints
+   ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 980px) {
   .persona-grid,

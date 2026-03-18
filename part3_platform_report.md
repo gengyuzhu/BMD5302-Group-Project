@@ -165,26 +165,42 @@ The assistant can currently explain:
 
 This makes the chatbot much more useful for classroom demonstration because it behaves like an explainable copilot rather than a static FAQ.
 
+### Visual polish and interaction design
+
+The chatbot now features enterprise-grade visual design:
+
+- **Glass-morphism chat window** with backdrop-filter blur and subtle border glow
+- **Typing indicator** — three bouncing dots with randomized thinking labels (e.g., "Analyzing portfolio…", "Running the numbers…")
+- **In-chat donut charts** — SVG portfolio allocation visualizations rendered directly inside assistant messages
+- **Gradient user bubbles** with asymmetric border-radius for a modern messaging feel
+- **Green status dot** with pulse animation indicating "AI Copilot" is active
+- **Focus glow** on the chat input field when typing
+- **Smooth scroll** and message entrance animations
+- **6 thinking-label variants** with 600–900ms randomized delay for realistic feel
+
 ## Why the Platform Meets the Rubric
 
 ### Intuitive
 
-- clear top navigation
-- default client-facing landing view
-- visible metrics and portfolio cards
-- suggested prompts for the chatbot
+- clear top navigation with SVG icons and active-state gradient highlights
+- default client-facing landing view with animated hero section
+- visible metrics and portfolio cards with sparkline decorations
+- suggested prompts and interactive "Ask" shortcuts for the chatbot
+- React error boundary provides graceful fallback UI if any view encounters an error
 
 ### User-friendly
 
-- all key numbers are summarized in cards
-- visual hierarchy is strong
+- all key numbers are summarized in animated metric cards with count-up transitions
+- visual hierarchy is reinforced through glassmorphism panels and staggered animations
 - the user can compare personas without re-running any scripts
 - deeper analytical views remain accessible via tabs
-- the chatbot offers follow-up prompts instead of requiring the user to invent every question from scratch
+- the chatbot offers follow-up prompts and renders donut charts directly in messages
+- loading states with animated spinners for lazy-loaded views
 
 ### Portfolio-ready
 
-- the interface is polished enough for interview/demo use
+- the interface is polished to enterprise-grade standards for interview and demo use
+- premium visual elements: gauge charts, donut charts, gradient bars, glow effects, and smooth transitions
 - it is not only visual; it is backed by reproducible data and optimization outputs
 - the recommendation logic is practical because the long-only implementation is clearly prioritized
 

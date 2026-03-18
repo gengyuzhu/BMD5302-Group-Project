@@ -296,12 +296,16 @@ The current dashboard includes:
 
 `part2/RiskAversionInteractive.jsx` reads `part2_outputs/part2_risk_profile_data.json` and now operates through a modular front-end structure:
 
-- `QuizWizard.jsx` for the one-question-at-a-time risk questionnaire
-- `QuestionCard.jsx` for the current question and option set
-- `ResultsDashboard.jsx` for the completed output view
-- `MetricsGrid.jsx` for the top scoring cards
-- `EfficientFrontierChart.jsx` for the frontier and indifference-curve visualization
-- `AllocationBars.jsx` and `WeightBreakdown.jsx` for portfolio composition
+- `QuizWizard.jsx` for the step-wizard risk questionnaire with progress bar, navigation dots, and animated option cards
+- `QuestionCard.jsx` for the current question and option set with checkmark animations
+- `ResultsDashboard.jsx` for the completed output view with staggered fade-in sections, SVG gauge chart, SVG donut chart, and profile summary card
+- `MetricsGrid.jsx` for animated metric cards with count-up transitions and sparkline decorations
+- `EfficientFrontierChart.jsx` for the frontier and indifference-curve visualization with hover tooltips and gradient fills
+- `AllocationBars.jsx` for animated allocation bars with per-fund color coding, gradient fills, and glow effects
+- `WeightBreakdown.jsx` for the holdings table with alternating rows, color dots, and tabular-nums formatting
+- `riskLabUtils.js` for shared helpers including `buildGaugeData()` for SVG gauge rendering and `buildDonutData()` for SVG donut rendering
+
+All visualizations are built with custom SVG (no external charting libraries), keeping the bundle lightweight and fully self-contained.
 
 This keeps the full Risk Lab synchronized with the same scoring formulas, long-only recommendation, short-sales benchmark, and the dynamic display of expected return, volatility, utility, and portfolio weights reported above.
 

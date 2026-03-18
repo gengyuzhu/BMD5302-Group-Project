@@ -126,7 +126,13 @@ where:
 - compared:
   - **recommended long-only portfolio**
   - **theoretical short-sales benchmark**
-- built an interactive JSX interface for the questionnaire and portfolio recommendation
+- built an interactive JSX interface with:
+  - step-wizard quiz with progress tracking, animated option cards, and navigation dots
+  - SVG gauge chart for risk aversion visualization
+  - SVG donut chart for portfolio allocation
+  - animated metric cards with sparkline decorations
+  - staggered fade-in results dashboard with profile summary
+  - color-coded allocation bars with gradient fills and glow effects
 
 ### Main outputs
 
@@ -176,7 +182,7 @@ This comparison chart contrasts the recommended long-only portfolio with the muc
 
 ## Part 3: Web Platform + AI Chatbot
 
-Part 3 converts the analytical work into a client-facing digital platform.
+Part 3 converts the analytical work into a client-facing digital platform with a premium, enterprise-grade UI.
 
 ### Platform design
 
@@ -184,23 +190,34 @@ The web application is built as a React + Vite single-page interface with three 
 
 1. **Platform**
    - client-facing robo-adviser experience
-   - includes personas, portfolio recommendation, compact frontier visualization, fund shelf, and chatbot
+   - includes personas with mini risk-meter visualizations, portfolio recommendation cockpit, compact frontier chart, fund shelf with theme badges, and AI chatbot
 2. **Frontier Lab**
-   - interactive Part 1 efficient-frontier analysis
+   - interactive Part 1 efficient-frontier analysis with glassmorphism panels, animated value transitions, gradient-filled frontier areas, and tabbed exploration
 3. **Risk Lab**
-   - interactive Part 2 questionnaire and utility-optimization analysis
+   - interactive Part 2 questionnaire with step-wizard UI, SVG gauge chart for risk aversion, donut chart for allocation, animated metric cards with sparklines, and staggered fade-in results
+
+### Premium UI features
+
+The interface includes the following visual enhancements across all three views:
+
+- **Glassmorphism design** — frosted-glass panels with backdrop-filter blur effects
+- **Animated transitions** — smooth fade-in, slide-up, and count-up animations throughout
+- **Interactive data visualizations** — custom SVG donut charts, gauge charts, sparklines, and gradient-filled frontier areas (no external charting libraries)
+- **Error boundary** — React class component that catches rendering failures and presents a friendly recovery UI
+- **Loading states** — animated skeleton loaders for lazy-loaded views
+- **Responsive design** — adaptive layouts with breakpoints at 1100px and 720px
 
 ### AI chatbot
 
-The chatbot is implemented as a local AI-style advisory layer that can explain:
+The chatbot is implemented as an **AI-style advisory copilot** with a polished floating interface:
 
-- the current recommended portfolio
-- how the questionnaire maps to `A`
-- the meaning of the efficient frontier and GMVP
-- individual fund characteristics
-- why long-only implementation is preferred over short sales
+- **Visual design** — glass-morphism chat window, green status indicator, gradient user bubbles, asymmetric border-radius
+- **Typing indicator** — three bouncing dots with randomized thinking labels
+- **In-chat visualizations** — SVG donut charts rendered directly inside assistant messages showing portfolio allocation
+- **Interactive prompts** — pre-set suggestion chips and clickable "Ask" shortcuts from holdings and fund shelf
+- **Context awareness** — automatic context-update messages when persona or constraint mode changes
 
-Although it is local and lightweight, it is grounded in the exact Part 1 and Part 2 outputs, so its explanations remain numerically consistent with the dashboard.
+The chatbot is grounded in the exact Part 1 and Part 2 outputs, so its explanations remain numerically consistent with the dashboard.
 
 ### Main outputs
 

@@ -163,7 +163,9 @@ export default function RiskAversionInteractive({ data = payload }) {
         <p className="risklab-kicker">Part 2: Risk Aversion &amp; Optimal Portfolio</p>
         <h2 className="risklab-title">Risk Aversion &amp; Optimal Portfolio</h2>
         <p className="risklab-subtitle">
-          Quadratic utility framework applied to 10 FSMOne funds using {data.metadata.return_observations} monthly return observations.
+          Quadratic utility framework&nbsp;
+          <span style={{ opacity: .6 }}>(U&nbsp;=&nbsp;r&nbsp;&minus;&nbsp;&frac12;A&sigma;&sup2;)</span>&nbsp;
+          applied to 10 FSMOne funds using {data.metadata.return_observations} monthly return observations.
         </p>
 
         <div className="risklab-tabs">
@@ -172,7 +174,22 @@ export default function RiskAversionInteractive({ data = payload }) {
             className={activeTab === "quiz" ? "risklab-tab risklab-tab-active" : "risklab-tab"}
             onClick={() => handleTabChange("quiz")}
           >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
+              <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
             Risk Questionnaire
+            {answeredCount > 0 && !isComplete && (
+              <span style={{
+                marginLeft: 8,
+                fontSize: ".7rem",
+                background: "rgba(255,255,255,.1)",
+                padding: "2px 8px",
+                borderRadius: 10,
+                fontVariantNumeric: "tabular-nums",
+              }}>
+                {answeredCount}/{questionnaire.length}
+              </span>
+            )}
           </button>
           <button
             type="button"
@@ -186,7 +203,21 @@ export default function RiskAversionInteractive({ data = payload }) {
             onClick={() => handleTabChange("results")}
             disabled={!isComplete}
           >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
+              <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            </svg>
             Optimal Portfolio
+            {isComplete && (
+              <span style={{
+                marginLeft: 8,
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: "#46f08c",
+                display: "inline-block",
+                boxShadow: "0 0 6px #46f08c88",
+              }} />
+            )}
           </button>
         </div>
       </div>

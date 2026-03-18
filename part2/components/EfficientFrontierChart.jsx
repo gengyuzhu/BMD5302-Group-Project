@@ -16,6 +16,7 @@ export default function EfficientFrontierChart({
   portfolioMode,
 }) {
   const [tooltip, setTooltip] = useState(null);
+  const [crosshair, setCrosshair] = useState(null);
 
   const chartModel = useMemo(
     () => buildChartModel({ payload, scoring, activePortfolio, portfolioMode }),
@@ -36,6 +37,37 @@ export default function EfficientFrontierChart({
   const xTicks = makeTicks(chartModel.minX, chartModel.maxX, 5);
   const yTicks = makeTicks(chartModel.minY, chartModel.maxY, 5);
 
+  // Build fill path under frontier curve
+  const frontierFillPath = useMemo(() => {
+    if (chartModel.frontier.length === 0) return "";
+    const linePath = pathFromPoints(chartModel.frontier, xScale, yScale);
+    const lastPoint = chartModel.frontier[chartModel.frontier.length - 1];
+    const firstPoint = chartModel.frontier[0];
+    const bottomY = chartFrame.height - chartFrame.bottom;
+    return `${linePath} L ${xScale(lastPoint.risk)} ${bottomY} L ${xScale(firstPoint.risk)} ${bottomY} Z`;
+  }, [chartModel.frontier]);
+
+  const handleChartMouseMove = (event) => {
+    const svg = event.currentTarget;
+    const rect = svg.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (
+      x >= chartFrame.left &&
+      x <= chartFrame.width - chartFrame.right &&
+      y >= chartFrame.top &&
+      y <= chartFrame.height - chartFrame.bottom
+    ) {
+      setCrosshair({ x, y });
+    } else {
+      setCrosshair(null);
+    }
+  };
+
+  const handleChartMouseLeave = () => {
+    setCrosshair(null);
+  };
+
   return (
     <div className="risklab-card">
       <div className="risklab-chart-header">
@@ -55,7 +87,25 @@ export default function EfficientFrontierChart({
           height={chartFrame.height}
           role="img"
           aria-label="Efficient frontier chart"
+          onMouseMove={handleChartMouseMove}
+          onMouseLeave={handleChartMouseLeave}
+          style={{ overflow: "visible" }}
         >
+          <defs>
+            <linearGradient id="frontierFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#ff5d4d" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#ff5d4d" stopOpacity="0.02" />
+            </linearGradient>
+            <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#ffb21d" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#ffb21d" stopOpacity="0.01" />
+            </linearGradient>
+            <radialGradient id="optimalGlow">
+              <stop offset="0%" stopColor="#ffb21d" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#ffb21d" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
           <rect
             x="0"
             y="0"
@@ -82,6 +132,7 @@ export default function EfficientFrontierChart({
                 textAnchor="end"
                 fontSize="12"
                 fill="#96a8c5"
+                fontFamily="'IBM Plex Mono', Consolas, monospace"
               >
                 {formatPercent(tick, 0)}
               </text>
@@ -104,27 +155,32 @@ export default function EfficientFrontierChart({
                 textAnchor="middle"
                 fontSize="12"
                 fill="#96a8c5"
+                fontFamily="'IBM Plex Mono', Consolas, monospace"
               >
                 {formatPercent(tick, 0)}
               </text>
             </g>
           ))}
 
+          {/* Axes */}
           <line
             x1={chartFrame.left}
             x2={chartFrame.left}
             y1={chartFrame.top}
             y2={chartFrame.height - chartFrame.bottom}
-            stroke="rgba(214, 228, 246, 0.26)"
+            stroke="rgba(214, 228, 246, 0.3)"
+            strokeWidth="1.5"
           />
           <line
             x1={chartFrame.left}
             x2={chartFrame.width - chartFrame.right}
             y1={chartFrame.height - chartFrame.bottom}
             y2={chartFrame.height - chartFrame.bottom}
-            stroke="rgba(214, 228, 246, 0.26)"
+            stroke="rgba(214, 228, 246, 0.3)"
+            strokeWidth="1.5"
           />
 
+          {/* Axis labels */}
           <text
             x={chartFrame.width / 2}
             y={chartFrame.height - 8}
@@ -147,6 +203,12 @@ export default function EfficientFrontierChart({
             Expected Return
           </text>
 
+          {/* Frontier fill */}
+          {frontierFillPath && (
+            <path d={frontierFillPath} fill="url(#frontierFill)" />
+          )}
+
+          {/* Frontier line */}
           <path
             d={pathFromPoints(chartModel.frontier, xScale, yScale)}
             fill="none"
@@ -154,6 +216,8 @@ export default function EfficientFrontierChart({
             strokeWidth="3.4"
             strokeLinecap="round"
           />
+
+          {/* Indifference curve */}
           <path
             d={pathFromPoints(chartModel.curve, xScale, yScale)}
             fill="none"
@@ -163,6 +227,7 @@ export default function EfficientFrontierChart({
             strokeLinecap="round"
           />
 
+          {/* Fund dots */}
           {payload.funds.map((fund) => (
             <g
               key={fund.index}
@@ -203,6 +268,7 @@ export default function EfficientFrontierChart({
             </g>
           ))}
 
+          {/* Optimal portfolio point with pulse glow */}
           <g
             onMouseEnter={(event) => {
               const position = hoverPosition(event);
@@ -227,12 +293,26 @@ export default function EfficientFrontierChart({
             onMouseLeave={() => setTooltip(null)}
             style={{ cursor: "pointer" }}
           >
+            {/* Pulsing glow ring */}
             <circle
               cx={xScale(activePortfolio.risk)}
               cy={yScale(activePortfolio.expected_return)}
               r="18"
-              fill="rgba(255, 178, 29, 0.16)"
-            />
+              fill="url(#optimalGlow)"
+            >
+              <animate
+                attributeName="r"
+                values="18;28;18"
+                dur="2.5s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="opacity"
+                values="0.5;0.2;0.5"
+                dur="2.5s"
+                repeatCount="indefinite"
+              />
+            </circle>
             <circle
               cx={xScale(activePortfolio.risk)}
               cy={yScale(activePortfolio.expected_return)}
@@ -251,6 +331,26 @@ export default function EfficientFrontierChart({
               Optimal
             </text>
           </g>
+
+          {/* Crosshair */}
+          {crosshair && (
+            <g>
+              <line
+                className="risklab-crosshair-line"
+                x1={crosshair.x}
+                x2={crosshair.x}
+                y1={chartFrame.top}
+                y2={chartFrame.height - chartFrame.bottom}
+              />
+              <line
+                className="risklab-crosshair-line"
+                x1={chartFrame.left}
+                x2={chartFrame.width - chartFrame.right}
+                y1={crosshair.y}
+                y2={crosshair.y}
+              />
+            </g>
+          )}
         </svg>
 
         {tooltip && (

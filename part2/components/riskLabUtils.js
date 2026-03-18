@@ -200,3 +200,82 @@ export function smoothScrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
+
+/* ─── NEW HELPERS ─── */
+
+/**
+ * buildGaugeData(aValue)
+ * Returns SVG path data for a semi-circular gauge.
+ * aValue ranges from 1 to 10.
+ * Returns { backgroundArc, valueArc, needleAngle, normalized }
+ */
+export function buildGaugeData(aValue) {
+  const cx = 120;
+  const cy = 110;
+  const r = 90;
+  const startAngle = Math.PI;        // left (180 deg)
+  const endAngle = 2 * Math.PI;      // right (360 deg)
+  const normalized = Math.max(0, Math.min(1, (aValue - 1) / 9));
+  const valueAngle = startAngle + normalized * (endAngle - startAngle);
+
+  function arcPath(from, to, radius) {
+    const x1 = cx + radius * Math.cos(from);
+    const y1 = cy + radius * Math.sin(from);
+    const x2 = cx + radius * Math.cos(to);
+    const y2 = cy + radius * Math.sin(to);
+    const largeArc = to - from > Math.PI ? 1 : 0;
+    return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`;
+  }
+
+  const needleX = cx + (r - 12) * Math.cos(valueAngle);
+  const needleY = cy + (r - 12) * Math.sin(valueAngle);
+
+  return {
+    cx,
+    cy,
+    r,
+    backgroundArc: arcPath(startAngle, endAngle, r),
+    valueArc: arcPath(startAngle, valueAngle, r),
+    needleAngle: (valueAngle * 180) / Math.PI,
+    needleX,
+    needleY,
+    normalized,
+    svgWidth: 240,
+    svgHeight: 130,
+  };
+}
+
+/**
+ * buildDonutData(rows)
+ * Returns array of { shortName, fund, weight, startAngle, endAngle, color }
+ * for rendering a donut chart SVG.
+ * Only includes positive-weight rows.
+ */
+export function buildDonutData(rows) {
+  const COLORS = [
+    "#35efe6", "#ffb21d", "#ff5d4d", "#46f08c", "#8fd6ff",
+    "#ffe27a", "#c9a0ff", "#ff8fa3", "#7dd3fc", "#fbbf24",
+  ];
+
+  const positiveRows = rows.filter((row) => row.weight > 0.0001);
+  const totalWeight = positiveRows.reduce((sum, row) => sum + row.weight, 0);
+
+  if (totalWeight === 0) return [];
+
+  let cumulative = 0;
+  return positiveRows.map((row, index) => {
+    const fraction = row.weight / totalWeight;
+    const startAngle = cumulative * 2 * Math.PI - Math.PI / 2;
+    cumulative += fraction;
+    const endAngle = cumulative * 2 * Math.PI - Math.PI / 2;
+    return {
+      shortName: row.shortName,
+      fund: row.fund,
+      weight: row.weight,
+      fraction,
+      startAngle,
+      endAngle,
+      color: COLORS[index % COLORS.length],
+    };
+  });
+}
