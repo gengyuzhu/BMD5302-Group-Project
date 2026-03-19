@@ -131,7 +131,7 @@ export default function EfficientFrontierChart({
                 y={yScale(tick) + 4}
                 textAnchor="end"
                 fontSize="12"
-                fill="#96a8c5"
+                fill="#b8cce4"
                 fontFamily="'IBM Plex Mono', Consolas, monospace"
               >
                 {formatPercent(tick, 0)}
@@ -154,7 +154,7 @@ export default function EfficientFrontierChart({
                 y={chartFrame.height - chartFrame.bottom + 24}
                 textAnchor="middle"
                 fontSize="12"
-                fill="#96a8c5"
+                fill="#b8cce4"
                 fontFamily="'IBM Plex Mono', Consolas, monospace"
               >
                 {formatPercent(tick, 0)}
@@ -354,7 +354,13 @@ export default function EfficientFrontierChart({
         </svg>
 
         {tooltip && (
-          <div className="chart-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
+          <div
+            className="chart-tooltip"
+            style={{
+              left: Math.min(tooltip.x, chartFrame.width - 160),
+              top: Math.max(tooltip.y - 10, 4),
+            }}
+          >
             <div style={{ fontWeight: 700, marginBottom: 6 }}>{tooltip.title}</div>
             {tooltip.lines.map((line) => (
               <div key={line} style={{ fontSize: 13, lineHeight: 1.45 }}>

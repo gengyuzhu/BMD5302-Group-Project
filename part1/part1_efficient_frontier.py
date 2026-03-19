@@ -1,6 +1,15 @@
+"""Efficient frontier construction for a multi-fund portfolio.
+
+This module loads historical price data for ten funds, computes monthly and
+annualized return statistics, and derives both the analytical (short-sales
+allowed) and numerical (long-only) mean-variance efficient frontiers.  All
+results are persisted as CSV, JSON, and PNG artefacts.
+"""
+
 from __future__ import annotations
 
 import json
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -12,10 +21,16 @@ from matplotlib.ticker import PercentFormatter
 from scipy.optimize import minimize
 
 
-PROJECT_DIR = Path(r"E:\2025 NUS\BMD5302\Bmd5301_Project")
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 FUNDS_DIR = PROJECT_DIR / "funds"
 OUTPUT_DIR = PROJECT_DIR / "part1_outputs"
 ANNUALIZATION_FACTOR = 12
+
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.sans-serif": ["IBM Plex Sans", "Helvetica", "Arial", "sans-serif"],
+    "axes.unicode_minus": False,
+})
 
 
 @dataclass(frozen=True)
@@ -29,19 +44,72 @@ class FundSpec:
     date_format_label: str
 
 
+def weights_dict(names, weights):
+    """Convert parallel arrays of fund names and weights to a dictionary."""
+    return {name: float(w) for name, w in zip(names, weights)}
+
+
 def parse_mm_dd_yyyy(series: pd.Series) -> pd.Series:
+    """Parse dates in MM/DD/YYYY format.
+
+    Parameters
+    ----------
+    series : pd.Series
+        Raw date strings.
+
+    Returns
+    -------
+    pd.Series
+        Parsed datetime series.
+    """
     return pd.to_datetime(series, format="%m/%d/%Y", errors="raise")
 
 
 def parse_yy_mon(series: pd.Series) -> pd.Series:
+    """Parse dates in YY-Mon format (e.g. '24-Jan').
+
+    Parameters
+    ----------
+    series : pd.Series
+        Raw date strings.
+
+    Returns
+    -------
+    pd.Series
+        Parsed datetime series.
+    """
     return pd.to_datetime(series, format="%y-%b", errors="raise")
 
 
 def parse_mon_yy(series: pd.Series) -> pd.Series:
+    """Parse dates in Mon YY format (e.g. 'Jan 24').
+
+    Parameters
+    ----------
+    series : pd.Series
+        Raw date strings.
+
+    Returns
+    -------
+    pd.Series
+        Parsed datetime series.
+    """
     return pd.to_datetime(series, format="%b %y", errors="raise")
 
 
 def parse_d_mon_yy(series: pd.Series) -> pd.Series:
+    """Parse dates in D-Mon-YY format (e.g. '1-Jan-24').
+
+    Parameters
+    ----------
+    series : pd.Series
+        Raw date strings.
+
+    Returns
+    -------
+    pd.Series
+        Parsed datetime series.
+    """
     return pd.to_datetime(series, format="%d-%b-%y", errors="raise")
 
 
@@ -140,12 +208,36 @@ FUND_SPECS = [
 
 
 def clean_numeric(series: pd.Series) -> pd.Series:
+    """Strip formatting from a text series and convert to float.
+
+    Parameters
+    ----------
+    series : pd.Series
+        Raw text values that may contain commas or dashes.
+
+    Returns
+    -------
+    pd.Series
+        Numeric series with unparseable values set to NaN.
+    """
     text = series.astype(str).str.replace(",", "", regex=False).str.strip()
     text = text.replace({"-": np.nan, "nan": np.nan, "None": np.nan})
     return pd.to_numeric(text, errors="coerce")
 
 
 def load_fund(spec: FundSpec) -> tuple[pd.Series, dict]:
+    """Read a single fund CSV and return a monthly price series with metadata.
+
+    Parameters
+    ----------
+    spec : FundSpec
+        Specification describing the fund file layout.
+
+    Returns
+    -------
+    tuple[pd.Series, dict]
+        Monthly price series indexed by period, and a metadata dictionary.
+    """
     path = FUNDS_DIR / spec.file_name
     raw = pd.read_csv(path)
     dates = spec.date_parser(raw["Date"])
@@ -177,18 +269,70 @@ def load_fund(spec: FundSpec) -> tuple[pd.Series, dict]:
 
 
 def annualize_returns(monthly_returns: pd.Series) -> pd.Series:
+    """Scale monthly mean returns to an annual basis.
+
+    Parameters
+    ----------
+    monthly_returns : pd.Series
+        Average monthly returns per fund.
+
+    Returns
+    -------
+    pd.Series
+        Annualized returns.
+    """
     return monthly_returns * ANNUALIZATION_FACTOR
 
 
 def annualize_covariance(monthly_covariance: pd.DataFrame) -> pd.DataFrame:
+    """Scale a monthly covariance matrix to an annual basis.
+
+    Parameters
+    ----------
+    monthly_covariance : pd.DataFrame
+        Monthly return covariance matrix.
+
+    Returns
+    -------
+    pd.DataFrame
+        Annualized covariance matrix.
+    """
     return monthly_covariance * ANNUALIZATION_FACTOR
 
 
 def portfolio_return(weights: np.ndarray, mean_returns: np.ndarray) -> float:
+    """Compute the expected return of a portfolio.
+
+    Parameters
+    ----------
+    weights : np.ndarray
+        Asset weight vector.
+    mean_returns : np.ndarray
+        Expected return vector.
+
+    Returns
+    -------
+    float
+        Portfolio expected return.
+    """
     return float(weights @ mean_returns)
 
 
 def portfolio_variance(weights: np.ndarray, covariance: np.ndarray) -> float:
+    """Compute the variance of a portfolio.
+
+    Parameters
+    ----------
+    weights : np.ndarray
+        Asset weight vector.
+    covariance : np.ndarray
+        Covariance matrix.
+
+    Returns
+    -------
+    float
+        Portfolio variance.
+    """
     return float(weights @ covariance @ weights)
 
 
@@ -197,8 +341,33 @@ def analytical_frontier(
     covariance: pd.DataFrame,
     target_returns: np.ndarray,
 ) -> tuple[pd.DataFrame, dict]:
+    """Compute the analytical efficient frontier assuming short sales are allowed.
+
+    Parameters
+    ----------
+    mean_returns : pd.Series
+        Annualized expected returns per fund.
+    covariance : pd.DataFrame
+        Annualized covariance matrix.
+    target_returns : np.ndarray
+        Array of target return levels for frontier points.
+
+    Returns
+    -------
+    tuple[pd.DataFrame, dict]
+        DataFrame of frontier points and the global minimum-variance portfolio.
+    """
     mu = mean_returns.values
     sigma = covariance.values
+
+    cond = np.linalg.cond(sigma)
+    if cond > 1e10:
+        warnings.warn(
+            f"Covariance matrix is ill-conditioned "
+            f"(condition number: {cond:.2e}). "
+            f"Results may be numerically unstable."
+        )
+
     sigma_inv = np.linalg.inv(sigma)
     ones = np.ones(len(mu))
 
@@ -207,16 +376,25 @@ def analytical_frontier(
     c = float(mu @ sigma_inv @ mu)
     d = a * c - b**2
 
+    if abs(d) < 1e-12:
+        raise ValueError(
+            "Covariance matrix is singular or near-singular (d ~ 0). "
+            "Cannot compute analytical frontier."
+        )
+
     points = []
     for target in target_returns:
-        weights = sigma_inv @ (((c - b * target) / d) * ones + ((a * target - b) / d) * mu)
-        risk = np.sqrt(portfolio_variance(weights, sigma))
+        w = sigma_inv @ (
+            ((c - b * target) / d) * ones
+            + ((a * target - b) / d) * mu
+        )
+        risk = np.sqrt(portfolio_variance(w, sigma))
         points.append(
             {
                 "target_return": float(target),
                 "return": float(target),
                 "risk": float(risk),
-                "weights": {name: float(weight) for name, weight in zip(mean_returns.index, weights)},
+                "weights": weights_dict(mean_returns.index, w),
             }
         )
 
@@ -226,7 +404,7 @@ def analytical_frontier(
     gmvp = {
         "return": gmvp_return,
         "risk": gmvp_risk,
-        "weights": {name: float(weight) for name, weight in zip(mean_returns.index, gmvp_weights)},
+        "weights": weights_dict(mean_returns.index, gmvp_weights),
     }
 
     return pd.DataFrame(points), gmvp
@@ -238,6 +416,24 @@ def optimize_portfolio(
     allow_short: bool,
     target_return: float | None = None,
 ) -> np.ndarray:
+    """Find the minimum-variance portfolio via numerical optimisation.
+
+    Parameters
+    ----------
+    mean_returns : pd.Series
+        Expected return vector.
+    covariance : pd.DataFrame
+        Covariance matrix.
+    allow_short : bool
+        If True, weights are unconstrained; otherwise non-negative.
+    target_return : float or None
+        If given, constrain the portfolio to this expected return.
+
+    Returns
+    -------
+    np.ndarray
+        Optimal weight vector.
+    """
     mu = mean_returns.values
     sigma = covariance.values
     n_assets = len(mu)
@@ -246,7 +442,9 @@ def optimize_portfolio(
 
     constraints = [{"type": "eq", "fun": lambda w: np.sum(w) - 1.0}]
     if target_return is not None:
-        constraints.append({"type": "eq", "fun": lambda w, t=target_return: w @ mu - t})
+        constraints.append(
+            {"type": "eq", "fun": lambda w, t=target_return: w @ mu - t}
+        )
 
     result = minimize(
         lambda w: portfolio_variance(w, sigma),
@@ -254,11 +452,14 @@ def optimize_portfolio(
         method="SLSQP",
         bounds=bounds,
         constraints=constraints,
-        options={"ftol": 1e-12, "maxiter": 500},
+        options={"ftol": 1e-9, "maxiter": 500},
     )
 
     if not result.success:
-        raise RuntimeError(f"Optimization failed for target return {target_return}: {result.message}")
+        raise RuntimeError(
+            f"Optimization failed for target return "
+            f"{target_return}: {result.message}"
+        )
     return result.x
 
 
@@ -267,22 +468,47 @@ def long_only_frontier(
     covariance: pd.DataFrame,
     target_returns: np.ndarray,
 ) -> tuple[pd.DataFrame, dict]:
-    gmvp_weights = optimize_portfolio(mean_returns, covariance, allow_short=False)
+    """Compute the long-only efficient frontier via numerical optimisation.
+
+    Parameters
+    ----------
+    mean_returns : pd.Series
+        Annualized expected returns per fund.
+    covariance : pd.DataFrame
+        Annualized covariance matrix.
+    target_returns : np.ndarray
+        Array of target return levels.
+
+    Returns
+    -------
+    tuple[pd.DataFrame, dict]
+        DataFrame of frontier points and the long-only GMVP.
+    """
+    gmvp_weights = optimize_portfolio(
+        mean_returns, covariance, allow_short=False
+    )
     gmvp = {
         "return": portfolio_return(gmvp_weights, mean_returns.values),
-        "risk": np.sqrt(portfolio_variance(gmvp_weights, covariance.values)),
-        "weights": {name: float(weight) for name, weight in zip(mean_returns.index, gmvp_weights)},
+        "risk": np.sqrt(
+            portfolio_variance(gmvp_weights, covariance.values)
+        ),
+        "weights": weights_dict(mean_returns.index, gmvp_weights),
     }
 
     points = []
     for target in target_returns:
-        weights = optimize_portfolio(mean_returns, covariance, allow_short=False, target_return=float(target))
+        w = optimize_portfolio(
+            mean_returns, covariance,
+            allow_short=False, target_return=float(target),
+        )
         points.append(
             {
                 "target_return": float(target),
-                "return": portfolio_return(weights, mean_returns.values),
-                "risk": float(np.sqrt(portfolio_variance(weights, covariance.values))),
-                "weights": {name: float(weight) for name, weight in zip(mean_returns.index, weights)},
+                "return": portfolio_return(w, mean_returns.values),
+                "risk": float(
+                    np.sqrt(portfolio_variance(w, covariance.values))
+                ),
+                "weights": weights_dict(mean_returns.index, w),
             }
         )
 
@@ -290,6 +516,18 @@ def long_only_frontier(
 
 
 def format_weight_table(weight_dict: dict[str, float]) -> pd.DataFrame:
+    """Convert a weight dictionary to a two-column DataFrame.
+
+    Parameters
+    ----------
+    weight_dict : dict[str, float]
+        Mapping of fund name to weight.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with Fund and Weight columns.
+    """
     return pd.DataFrame(
         {
             "Fund": list(weight_dict.keys()),
@@ -306,6 +544,23 @@ def save_plot(
     gmvp_points: list[tuple[str, dict, str]],
     fund_specs: list[FundSpec],
 ) -> None:
+    """Render and save an efficient-frontier chart.
+
+    Parameters
+    ----------
+    destination : Path
+        Output PNG path.
+    title : str
+        Chart title.
+    assets : pd.DataFrame
+        Individual fund statistics for scatter overlay.
+    frontier_sets : list[tuple]
+        Each tuple is (label, frontier_df, color, linestyle).
+    gmvp_points : list[tuple]
+        Each tuple is (label, gmvp_dict, color).
+    fund_specs : list[FundSpec]
+        Fund specifications for the legend mapping.
+    """
     fig, ax = plt.subplots(figsize=(14, 8))
     plt.subplots_adjust(right=0.76)
 
@@ -352,7 +607,9 @@ def save_plot(
             zorder=5,
         )
 
-    mapping_text = "\n".join(f"{spec.index}. {spec.short_name}" for spec in fund_specs)
+    mapping_text = "\n".join(
+        f"{spec.index}. {spec.short_name}" for spec in fund_specs
+    )
     fig.text(
         0.79,
         0.5,
@@ -360,7 +617,11 @@ def save_plot(
         va="center",
         ha="left",
         fontsize=8.5,
-        bbox={"boxstyle": "round,pad=0.45", "facecolor": "#fafafa", "edgecolor": "#d0d0d0"},
+        bbox={
+            "boxstyle": "round,pad=0.45",
+            "facecolor": "#fafafa",
+            "edgecolor": "#d0d0d0",
+        },
     )
 
     ax.set_title(title, fontsize=14, weight="bold")
@@ -371,11 +632,13 @@ def save_plot(
     ax.grid(alpha=0.25)
     ax.legend(frameon=True, loc="lower right")
 
-    fig.savefig(destination, dpi=220, bbox_inches="tight")
+    fig.savefig(destination, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
 def main() -> None:
+    """Entry point: load data, compute frontiers, and write all outputs."""
+    np.random.seed(42)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     price_series = []
@@ -389,10 +652,20 @@ def main() -> None:
     common_periods = None
     for series in price_series:
         periods = set(series.index)
-        common_periods = periods if common_periods is None else common_periods & periods
+        common_periods = (
+            periods if common_periods is None
+            else common_periods & periods
+        )
 
     common_index = pd.PeriodIndex(sorted(common_periods), freq="M")
     normalized_prices = all_prices.loc[common_index]
+
+    # Clean numeric data and log any coerced NaN values
+    df = normalized_prices
+    nan_count = df.isna().sum().sum()
+    if nan_count > 0:
+        print(f"  \u26a0 {nan_count} values coerced to NaN during cleaning")
+
     monthly_returns = normalized_prices.pct_change().dropna()
 
     monthly_mean = monthly_returns.mean()
@@ -407,23 +680,41 @@ def main() -> None:
             "short_name": [spec.short_name for spec in FUND_SPECS],
             "monthly_average_return": monthly_mean.values,
             "annual_return": annual_mean.values,
-            "annual_volatility": np.sqrt(np.diag(annual_covariance.values)),
+            "annual_volatility": np.sqrt(
+                np.diag(annual_covariance.values)
+            ),
         }
     )
 
-    short_target_min = float(min(annual_mean.min(), 0.95 * annual_mean.min()) - 0.03)
-    short_target_max = float(max(annual_mean.max(), 1.05 * annual_mean.max()) + 0.03)
+    short_target_min = float(
+        min(annual_mean.min(), 0.95 * annual_mean.min()) - 0.03
+    )
+    short_target_max = float(
+        max(annual_mean.max(), 1.05 * annual_mean.max()) + 0.03
+    )
     short_targets = np.linspace(short_target_min, short_target_max, 250)
-    short_frontier, gmvp_short = analytical_frontier(annual_mean, annual_covariance, short_targets)
+    short_frontier, gmvp_short = analytical_frontier(
+        annual_mean, annual_covariance, short_targets
+    )
     short_frontier = (
-        short_frontier.loc[short_frontier["return"] >= gmvp_short["return"] - 1e-10]
+        short_frontier.loc[
+            short_frontier["return"] >= gmvp_short["return"] - 1e-10
+        ]
         .reset_index(drop=True)
     )
 
-    gmvp_long_initial_weights = optimize_portfolio(annual_mean, annual_covariance, allow_short=False)
-    gmvp_long_return = portfolio_return(gmvp_long_initial_weights, annual_mean.values)
-    long_targets = np.linspace(gmvp_long_return, float(annual_mean.max()), 200)
-    long_frontier, gmvp_long = long_only_frontier(annual_mean, annual_covariance, long_targets)
+    gmvp_long_initial_weights = optimize_portfolio(
+        annual_mean, annual_covariance, allow_short=False
+    )
+    gmvp_long_return = portfolio_return(
+        gmvp_long_initial_weights, annual_mean.values
+    )
+    long_targets = np.linspace(
+        gmvp_long_return, float(annual_mean.max()), 200
+    )
+    long_frontier, gmvp_long = long_only_frontier(
+        annual_mean, annual_covariance, long_targets
+    )
 
     metadata_frame = pd.DataFrame(metadata_rows)
     metadata_frame["common_sample_start"] = str(common_index.min())
@@ -432,25 +723,67 @@ def main() -> None:
     metadata_frame["common_return_observations"] = len(monthly_returns)
 
     normalized_prices_to_save = normalized_prices.copy()
-    normalized_prices_to_save.index = normalized_prices_to_save.index.astype(str)
+    normalized_prices_to_save.index = (
+        normalized_prices_to_save.index.astype(str)
+    )
     normalized_prices_to_save.index.name = "Period"
-    normalized_prices_to_save.to_csv(OUTPUT_DIR / "normalized_prices_common_window.csv")
+    # Returns are stored in decimal form, not percentage
+    normalized_prices_to_save.to_csv(
+        OUTPUT_DIR / "normalized_prices_common_window.csv",
+        float_format="%.6f",
+    )
 
     monthly_returns_to_save = monthly_returns.copy()
-    monthly_returns_to_save.index = monthly_returns_to_save.index.astype(str)
+    monthly_returns_to_save.index = (
+        monthly_returns_to_save.index.astype(str)
+    )
     monthly_returns_to_save.index.name = "Period"
-    monthly_returns_to_save.to_csv(OUTPUT_DIR / "monthly_returns_common_window.csv")
+    # Returns are stored in decimal form, not percentage
+    monthly_returns_to_save.to_csv(
+        OUTPUT_DIR / "monthly_returns_common_window.csv",
+        float_format="%.6f",
+    )
 
-    metadata_frame.to_csv(OUTPUT_DIR / "fund_metadata.csv", index=False)
-    asset_statistics.to_csv(OUTPUT_DIR / "individual_fund_statistics.csv", index=False)
-    monthly_mean.rename("monthly_average_return").to_csv(OUTPUT_DIR / "average_returns_monthly.csv", header=True)
-    annual_mean.rename("annualized_average_return").to_csv(OUTPUT_DIR / "average_returns_annualized.csv", header=True)
-    monthly_covariance.to_csv(OUTPUT_DIR / "covariance_matrix_monthly.csv")
-    annual_covariance.to_csv(OUTPUT_DIR / "covariance_matrix_annualized.csv")
-    short_frontier.drop(columns=["weights"]).to_csv(OUTPUT_DIR / "frontier_points_short_sales.csv", index=False)
-    long_frontier.drop(columns=["weights"]).to_csv(OUTPUT_DIR / "frontier_points_long_only.csv", index=False)
-    format_weight_table(gmvp_short["weights"]).to_csv(OUTPUT_DIR / "gmvp_weights_short_sales.csv", index=False)
-    format_weight_table(gmvp_long["weights"]).to_csv(OUTPUT_DIR / "gmvp_weights_long_only.csv", index=False)
+    metadata_frame.to_csv(
+        OUTPUT_DIR / "fund_metadata.csv", index=False
+    )
+    asset_statistics.to_csv(
+        OUTPUT_DIR / "individual_fund_statistics.csv",
+        index=False, float_format="%.6f",
+    )
+    monthly_mean.rename("monthly_average_return").to_csv(
+        OUTPUT_DIR / "average_returns_monthly.csv",
+        header=True, float_format="%.6f",
+    )
+    annual_mean.rename("annualized_average_return").to_csv(
+        OUTPUT_DIR / "average_returns_annualized.csv",
+        header=True, float_format="%.6f",
+    )
+    monthly_covariance.to_csv(
+        OUTPUT_DIR / "covariance_matrix_monthly.csv",
+        float_format="%.6f",
+    )
+    annual_covariance.to_csv(
+        OUTPUT_DIR / "covariance_matrix_annualized.csv",
+        float_format="%.6f",
+    )
+    # Returns are stored in decimal form, not percentage
+    short_frontier.drop(columns=["weights"]).to_csv(
+        OUTPUT_DIR / "frontier_points_short_sales.csv",
+        index=False, float_format="%.6f",
+    )
+    long_frontier.drop(columns=["weights"]).to_csv(
+        OUTPUT_DIR / "frontier_points_long_only.csv",
+        index=False, float_format="%.6f",
+    )
+    format_weight_table(gmvp_short["weights"]).to_csv(
+        OUTPUT_DIR / "gmvp_weights_short_sales.csv",
+        index=False, float_format="%.6f",
+    )
+    format_weight_table(gmvp_long["weights"]).to_csv(
+        OUTPUT_DIR / "gmvp_weights_long_only.csv",
+        index=False, float_format="%.6f",
+    )
 
     save_plot(
         OUTPUT_DIR / "efficient_frontier_comparison.png",
@@ -483,6 +816,9 @@ def main() -> None:
         FUND_SPECS,
     )
 
+    # NOTE: JSON keys use camelCase (e.g. displayName, shortName) to
+    # match the frontend convention. Do not rename without updating
+    # the frontend consumers.
     summary = {
         "metadata": {
             "sample_start": str(common_index.min()),
@@ -497,7 +833,9 @@ def main() -> None:
                 "index": int(row["fund_index"]),
                 "displayName": row["display_name"],
                 "shortName": row["short_name"],
-                "monthlyAverageReturn": float(row["monthly_average_return"]),
+                "monthlyAverageReturn": float(
+                    row["monthly_average_return"]
+                ),
                 "annualReturn": float(row["annual_return"]),
                 "annualVolatility": float(row["annual_volatility"]),
             }
@@ -508,11 +846,15 @@ def main() -> None:
             "longOnly": gmvp_long,
         },
         "frontiers": {
-            "shortSalesAllowed": short_frontier.to_dict(orient="records"),
+            "shortSalesAllowed": short_frontier.to_dict(
+                orient="records"
+            ),
             "longOnly": long_frontier.to_dict(orient="records"),
         },
     }
-    with open(OUTPUT_DIR / "efficient_frontier_data.json", "w", encoding="utf-8") as handle:
+    with open(
+        OUTPUT_DIR / "efficient_frontier_data.json", "w", encoding="utf-8"
+    ) as handle:
         json.dump(summary, handle, indent=2)
 
 

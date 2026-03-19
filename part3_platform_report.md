@@ -125,7 +125,15 @@ The chatbot is connected to the same outputs used by the platform:
 
 That means the chatbot does not invent a different recommendation from the dashboard. It is explainable and internally consistent.
 
-### Current implementation choice
+### Architecture: Global Floating Chatbot
+
+The chatbot is implemented as a **global floating component** (`src/GlobalChatbot.jsx`) that is lazy-loaded at the `App.jsx` level:
+
+- **Floating Action Button (FAB)** in the bottom-right corner with animated pulse ring
+- **Sliding glass-morphism panel** with `backdrop-filter: blur(28px)` and gradient border
+- **View-aware context** — automatically detects which view (Platform, Frontier Lab, Risk Lab) is active and adjusts suggestion prompts accordingly
+- **Cross-component communication** — PlatformExperience dispatches `CustomEvent("chatbot-ask")` events; the chatbot listens and opens automatically
+- **13 response pattern-matching rules** covering funds, personas, frontier concepts, utility formulas, and sensitivity analysis
 
 The chatbot is implemented locally without requiring external API keys. This keeps the platform:
 
@@ -206,13 +214,14 @@ The chatbot now features enterprise-grade visual design:
 
 ## Main Files
 
-- [`part3/PlatformExperience.jsx`](part3/PlatformExperience.jsx)
+- [`part3/PlatformExperience.jsx`](part3/PlatformExperience.jsx) — Platform view (persona selector, cockpit, fund shelf)
+- [`src/GlobalChatbot.jsx`](src/GlobalChatbot.jsx) — Global floating AI chatbot (available on all 3 views)
 - [`part3_platform_report.md`](part3_platform_report.md)
 
 ## Integration Files
 
-- [`src/App.jsx`](src/App.jsx)
-- [`src/app.css`](src/app.css)
+- [`src/App.jsx`](src/App.jsx) — Top-level shell with lazy loading and error boundary
+- [`src/app.css`](src/app.css) — Global design tokens, layout, and chatbot styles
 
 ## Data Sources Used by the Platform
 

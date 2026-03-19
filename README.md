@@ -1,12 +1,12 @@
-# BMD5302 Group Project
+# BMD5302 Group Project — Compass Wealth Interface
 
 This repository contains our **Robot Adviser** project for **BMD5302**, developed as a full workflow from quantitative portfolio analysis to a client-facing digital platform.
 
 The project is organized into three major parts:
 
-- **Part 1: Efficient Frontier**
-- **Part 2: Risk Aversion & Optimal Portfolio**
-- **Part 3: Web Platform + AI Chatbot**
+- **Part 1: Efficient Frontier** — interactive mean-variance portfolio analysis
+- **Part 2: Risk Aversion & Optimal Portfolio** — questionnaire-driven utility maximization
+- **Part 3: Web Platform + AI Chatbot** — premium client-facing robo-adviser interface
 
 ## Live Demo
 
@@ -18,213 +18,290 @@ GitHub Repository:
 
 - [https://github.com/gengyuzhu/BMD5302-Group-Project](https://github.com/gengyuzhu/BMD5302-Group-Project)
 
+---
+
 ## Project Overview
 
 The objective of this project is to design a robo-advisory prototype that:
 
 - analyzes a 10-fund investment universe
-- constructs and visualizes the efficient frontier
-- estimates investor risk aversion through a questionnaire
-- recommends an optimal portfolio using a utility-maximization framework
-- presents the result through a web interface and an AI-style chatbot
+- constructs and visualizes the efficient frontier (with and without short sales)
+- estimates investor risk aversion through a weighted questionnaire
+- recommends an optimal portfolio using a quadratic utility-maximization framework
+- presents the result through a polished web interface with an AI-style chatbot
 
-The same underlying dataset and optimization outputs are reused across all three parts, so the analysis, recommendation logic, and user interface remain consistent.
+The same underlying dataset and optimization outputs are reused across all three parts, so analysis, recommendation logic, and user interface remain numerically consistent.
 
+---
 
 ## Fund Universe
 
 The project uses historical price data from the following 10 funds:
 
-1. **Nikko AM Singapore STI ETF**
-2. **Lion-OCBC Hang Seng TECH ETF**
-3. **ABF SG Bond Index Fund**
-4. **Fidelity Global Technology A-ACC-USD**
-5. **PIMCO Income Fund Cl E Inc SGD-H**
-6. **JPMorgan US Technology A (acc) SGD**
-7. **Schroder Asian Growth A Dis SGD**
-8. **BlackRock World Gold Fund A2 SGD-H**
-9. **FTIF - Franklin India A (acc) SGD**
-10. **United SGD Fund - Class A SGD Acc**
+| # | Fund | Short Name |
+|---|------|------------|
+| 1 | Nikko AM Singapore STI ETF | STI ETF |
+| 2 | Lion-OCBC Hang Seng TECH ETF | HST ETF |
+| 3 | ABF SG Bond Index Fund | Bond ETF |
+| 4 | Fidelity Global Technology A-ACC-USD | Fid Tech |
+| 5 | PIMCO Income Fund Cl E Inc SGD-H | PIMCO Inc |
+| 6 | JPMorgan US Technology A (acc) SGD | JPM Tech |
+| 7 | Schroder Asian Growth A Dis SGD | Schroder |
+| 8 | BlackRock World Gold Fund A2 SGD-H | Gold Fund |
+| 9 | FTIF - Franklin India A (acc) SGD | India Fund |
+| 10 | United SGD Fund - Class A SGD Acc | SGD Fund |
 
-All source CSV files are stored in:
+All source CSV files are stored in [`funds/`](./funds/).
 
-- [`funds/`](./funds/)
-
-For consistency, all 10 funds were aligned to a **common monthly sample window from March 2022 to March 2026**, giving:
+All 10 funds were aligned to a **common monthly sample window from March 2022 to March 2026**:
 
 - `49` monthly price observations
 - `48` monthly return observations
 
+---
+
 ## Part 1: Efficient Frontier
 
-Part 1 focuses on the classical mean-variance portfolio construction problem.
+Part 1 focuses on classical mean-variance portfolio construction.
 
-### Main tasks completed
+### Tasks completed
 
-- normalized all 10 fund price series into a shared monthly dataset
-- computed monthly average returns
-- constructed the variance-covariance matrix
-- annualized expected returns and covariance for portfolio visualization
-- plotted the efficient frontier:
-  - **with short sales**
-  - **without short sales**
-- identified the **Global Minimum Variance Portfolio (GMVP)** in both settings
-- built an interactive JSX visualization for the frontier
+- Normalized all 10 fund price series into a shared monthly dataset
+- Computed monthly average returns and annualized expected returns
+- Constructed and annualized the variance-covariance matrix
+- Plotted the efficient frontier **with short sales** and **without short sales** (long-only)
+- Identified the **Global Minimum Variance Portfolio (GMVP)** in both settings
+- Built an interactive JSX visualization (`part1/EfficientFrontierInteractive.jsx`) with:
+  - Dual-frontier comparison chart (gradient-filled curves, individual fund scatter points)
+  - Tabbed analytics panels: Covariance Matrix, Statistics, Returns, and Weights
+  - Sortable weight breakdown table with colored dot indicators
+  - Slider with floating tooltip to explore any point on the frontier
+  - `aria-valuetext` on slider (return % and volatility % for each position)
+  - WCAG-compliant ARIA tab roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`)
+  - Responsive SVG chart with `viewBox` + `width="100%"` + `overflow: visible`
+  - `prefers-reduced-motion` support
 
-### Main outputs
-
-The key visual outputs for Part 1 are shown below.
+### Key outputs
 
 **1. Efficient Frontier Comparison**
 
-This chart compares the efficient frontier with short sales allowed versus the long-only frontier, while also showing the individual fund points and both GMVP locations.
-
 <p>
-  <img src="./part1_outputs/efficient_frontier_comparison.png" alt="Efficient Frontier Comparison" width="960">
+  <img src="./part1_outputs/efficient_frontier_comparison.png" alt="Efficient Frontier Comparison" width="960" loading="lazy">
 </p>
 
 **2. Efficient Frontier with Short Sales**
 
-This figure isolates the short-sales case and highlights the shape of the frontier together with the GMVP under short-selling assumptions.
-
 <p>
-  <img src="./part1_outputs/efficient_frontier_short_sales.png" alt="Efficient Frontier with Short Sales" width="960">
+  <img src="./part1_outputs/efficient_frontier_short_sales.png" alt="Efficient Frontier with Short Sales" width="960" loading="lazy">
 </p>
 
-**3. Efficient Frontier without Short Sales**
-
-This figure focuses on the practical long-only frontier, which is the more realistic setting for a retail robo-adviser implementation.
+**3. Efficient Frontier without Short Sales (Long-Only)**
 
 <p>
-  <img src="./part1_outputs/efficient_frontier_long_only.png" alt="Efficient Frontier without Short Sales" width="960">
+  <img src="./part1_outputs/efficient_frontier_long_only.png" alt="Efficient Frontier without Short Sales" width="960" loading="lazy">
 </p>
 
 ### Highlights
 
-- The **long-only GMVP** is effectively concentrated in **United SGD Fund**, which had the lowest volatility in the shared sample.
-- The **short-sales GMVP** achieves even lower theoretical volatility by combining a large positive weight in the low-volatility fund with offsetting short positions in other funds.
-- The efficient frontier clearly shows the trade-off between expected return and risk across the 10-fund universe.
+- The **long-only GMVP** concentrates heavily in **United SGD Fund**, which had the lowest volatility in the shared sample.
+- The **short-sales GMVP** achieves lower theoretical volatility by combining a large long position in the low-volatility fund with offsetting short positions in higher-volatility funds.
+- The frontier clearly shows the return/risk trade-off across the 10-fund universe.
+
+---
 
 ## Part 2: Risk Aversion & Optimal Portfolio
 
-Part 2 extends the frontier analysis by introducing investor preferences through a quadratic utility function:
+Part 2 extends the frontier by introducing investor preferences through the quadratic utility function:
 
-`U = r - (A * sigma^2) / 2`
+```
+U = r − (A × σ²) / 2
+```
 
 where:
 
-- `r` is expected portfolio return
-- `sigma^2` is portfolio variance
-- `A` is the investor's risk-aversion coefficient
+- `r` = expected portfolio return
+- `σ²` = portfolio variance
+- `A` = investor risk-aversion coefficient
 
-### Main tasks completed
+### Tasks completed
 
-- designed an 8-question investor risk questionnaire
-- assigned question weights to reflect behavioral importance
-- mapped questionnaire scores into a usable risk-aversion coefficient `A`
-- optimized the portfolio by maximizing investor utility
-- compared:
-  - **recommended long-only portfolio**
-  - **theoretical short-sales benchmark**
-- built an interactive JSX interface with:
-  - step-wizard quiz with progress tracking, animated option cards, and navigation dots
-  - SVG gauge chart for risk aversion visualization
-  - SVG donut chart for portfolio allocation
-  - animated metric cards with sparkline decorations
-  - staggered fade-in results dashboard with profile summary
-  - color-coded allocation bars with gradient fills and glow effects
+- Designed an **8-question investor risk questionnaire** covering five behavioral and preference dimensions
+- Assigned question weights (behavioral questions carry 2× weight) to reflect practical risk capacity
+- Mapped questionnaire scores into risk-aversion coefficient `A` using the formula:
 
-### Main outputs
+  ```
+  T = (S − S_min) / (S_max − S_min)
+  A = 10 − 9T
+  ```
 
-The main visual outputs for Part 2 are shown below.
+- Optimized the portfolio by maximizing investor utility `U` along the efficient frontier
+- Compared:
+  - **Recommended long-only portfolio** (practical implementation)
+  - **Theoretical short-sales benchmark** (mathematical reference)
+- Built an interactive JSX interface (`part2/RiskAversionInteractive.jsx`) with:
+  - Step-wizard quiz (`QuizWizard.jsx`) with animated segmented progress bar and circular completion ring
+  - Keyboard navigation: arrow keys ← / → to move between questions; number keys 1–5 to select options
+  - `role="radiogroup"` + `aria-label` on each option card for screen-reader compatibility
+  - Keyboard shortcut hint row visible below each question
+  - Retake confirmation modal (`role="dialog"`, backdrop blur, Escape-to-close)
+  - SVG gauge chart for risk aversion (`role="img"`, `aria-label` with A value and investor tone)
+  - SVG donut chart for portfolio allocation with animated stroke-dashoffset transition
+  - Animated metric cards with unique area-fill sparklines per metric (using `<linearGradient>`)
+  - Color-coded allocation bars with gradient fills and glow effects (`AllocationBars.jsx`)
+  - Weight breakdown table with accessible `role="list"` / `role="listitem"` markup (`WeightBreakdown.jsx`)
+  - Staggered fade-in results dashboard with profile summary
+  - Mode toggle (Long-Only / Short-Sales) with `aria-pressed` states
+
+### Key outputs
 
 **1. Utility Maximization on the Efficient Frontier**
 
-This chart shows how the investor's utility function selects an optimal portfolio point on the frontier and contrasts the recommended long-only solution with the theoretical short-sales benchmark.
-
 <p>
-  <img src="./part2_outputs/utility_frontier_example.png" alt="Utility Maximization on the Efficient Frontier" width="960">
+  <img src="./part2_outputs/utility_frontier_example.png" alt="Utility Maximization on the Efficient Frontier" width="960" loading="lazy">
 </p>
 
 **2. Recommended Long-Only Portfolio Weights**
 
-This figure presents the final recommended implementation portfolio for the example investor after mapping questionnaire answers into the risk-aversion coefficient `A`.
-
 <p>
-  <img src="./part2_outputs/recommended_long_only_weights.png" alt="Recommended Long-Only Portfolio Weights" width="960">
+  <img src="./part2_outputs/recommended_long_only_weights.png" alt="Recommended Long-Only Portfolio Weights" width="960" loading="lazy">
 </p>
 
 **3. Optimal Portfolio vs Risk Aversion**
 
-This sensitivity chart shows how expected return, volatility, and utility change as the investor becomes more or less risk averse.
-
 <p>
-  <img src="./part2_outputs/optimal_portfolio_vs_risk_aversion.png" alt="Optimal Portfolio vs Risk Aversion" width="960">
+  <img src="./part2_outputs/optimal_portfolio_vs_risk_aversion.png" alt="Optimal Portfolio vs Risk Aversion" width="960" loading="lazy">
 </p>
 
 **4. Example Investor Weight Comparison**
 
-This comparison chart contrasts the recommended long-only portfolio with the much more aggressive theoretical short-sales benchmark for the same investor profile.
-
 <p>
-  <img src="./part2_outputs/example_investor_weight_comparison.png" alt="Example Investor Weight Comparison" width="960">
+  <img src="./part2_outputs/example_investor_weight_comparison.png" alt="Example Investor Weight Comparison" width="960" loading="lazy">
 </p>
 
 ### Highlights
 
-- The questionnaire converts investor answers into a transparent risk-aversion score rather than an arbitrary label.
-- A higher questionnaire score implies greater risk tolerance and therefore a lower `A`.
-- For the example investor profile used in the report, the recommended long-only portfolio is mainly allocated to:
+- The questionnaire converts investor answers into a transparent, numerically grounded risk-aversion score rather than an arbitrary label.
+- A higher questionnaire score implies greater risk tolerance → lower `A` → more aggressive frontier point selected.
+- For the example investor profile, the recommended long-only portfolio is primarily allocated to:
   - **Fidelity Global Tech**
   - **BlackRock World Gold**
   - **Nikko STI ETF**
-- The short-sales solution is kept as a mathematical benchmark, but the long-only solution is recommended as the practical robo-adviser implementation.
+- The short-sales solution is retained as a mathematical benchmark; the long-only solution is the recommended practical implementation.
+
+---
 
 ## Part 3: Web Platform + AI Chatbot
 
-Part 3 converts the analytical work into a client-facing digital platform with a premium, enterprise-grade UI.
+Part 3 converts the analytical work into a client-facing digital platform with enterprise-grade UI.
 
-### Platform design
+### Platform architecture
 
-The web application is built as a React + Vite single-page interface with three navigation views:
+The web application is a **React 18 + Vite 5** single-page interface:
 
-1. **Platform**
-   - client-facing robo-adviser experience
-   - includes personas with mini risk-meter visualizations, portfolio recommendation cockpit, compact frontier chart, fund shelf with theme badges, and AI chatbot
-2. **Frontier Lab**
-   - interactive Part 1 efficient-frontier analysis with glassmorphism panels, animated value transitions, gradient-filled frontier areas, and tabbed exploration
-3. **Risk Lab**
-   - interactive Part 2 questionnaire with step-wizard UI, SVG gauge chart for risk aversion, donut chart for allocation, animated metric cards with sparklines, and staggered fade-in results
+```
+src/
+  main.jsx          — Vite entry point
+  App.jsx           — top-level shell: nav, lazy view loading, error boundary, skip link
+  GlobalChatbot.jsx — floating AI chatbot (available on all 3 views)
+  app.css           — global design tokens, layout, chat, animations
+part1/
+  EfficientFrontierInteractive.jsx   — Frontier Lab view
+part2/
+  RiskAversionInteractive.jsx        — Risk Lab view
+  risk-lab.css                       — Risk Lab scoped styles
+  components/
+    QuizWizard.jsx          — step-wizard questionnaire UI
+    QuestionCard.jsx        — animated option cards with keyboard shortcuts
+    ResultsDashboard.jsx    — results layout orchestrator
+    MetricsGrid.jsx         — animated sparkline metric cards
+    EfficientFrontierChart.jsx — mini frontier chart in results
+    AllocationBars.jsx      — gradient allocation bar chart
+    WeightBreakdown.jsx     — sortable weight table
+    riskLabUtils.js         — shared formatters and chart frame constants
+part3/
+  PlatformExperience.jsx   — Platform view (persona selector, cockpit, chatbot)
+```
+
+### Three navigation views
+
+**1. Platform**
+- Client-facing robo-adviser experience with glassmorphism card design
+- Persona selector with mini risk-meter bars (Conservative / Balanced / Growth)
+- Portfolio recommendation cockpit with animated count-up StatCards
+- Compact efficient frontier chart with clamped tooltip positioning
+- Fund shelf (10-fund universe) with theme badges and "Ask about fund" quick links
+- Auto-growing textarea chatbot with typing indicator and SVG donut chart responses
+- Pre-set suggestion chips with keyboard (Enter/Space) activation
+
+**2. Frontier Lab**
+- Full interactive Part 1 efficient-frontier analysis
+- Glassmorphism panels, gradient-filled frontier areas, animated value transitions
+- ARIA-accessible tabbed analytics with `role="tablist"` / `role="tab"` / `role="tabpanel"`
+- Slider with descriptive `aria-valuetext` (return % + volatility %)
+- Responsive SVG with `viewBox`, `preserveAspectRatio`, `overflow: visible`
+
+**3. Risk Lab**
+- Full interactive Part 2 questionnaire with step-wizard UI
+- SVG gauge, donut chart, sparkline metric cards, allocation bars
+- Full keyboard navigation (arrow keys + 1-5 number shortcuts)
+- WCAG-compliant focus rings, `aria-pressed`, `aria-label`, `role="dialog"` modal
+
+### Design system
+
+All visual tokens are defined in `app.css` (`:root`) and `risk-lab.css` (`.risklab-shell`):
+
+| Token | Value | Purpose |
+|-------|-------|---------|
+| `--app-radius-pill` | `999px` | Chip / badge radius |
+| `--app-radius-md` | `18px` | Card / insight block |
+| `--rl-radius-card` | `24px` | Risk Lab cards |
+| `--rl-radius-btn` | `14px` | Risk Lab buttons |
+| `--rl-cyan` | `#35efe6` | Primary accent |
+| `--rl-orange` | `#ffb21d` | Secondary accent |
+| `--metric-glow` | per-card color | Sparkline card radial glow |
 
 ### Premium UI features
 
-The interface includes the following visual enhancements across all three views:
+| Feature | Implementation |
+|---------|---------------|
+| Glassmorphism panels | `backdrop-filter: blur()` + semi-transparent backgrounds |
+| Skeleton loaders | `@keyframes shimmer-slide` CSS animation on lazy-loaded views |
+| Count-up animation | RAF-based `AnimatedNumber` component (600 ms cubic easing) |
+| Reduced-motion support | `@media (prefers-reduced-motion: reduce)` kills all animations |
+| WCAG focus rings | `4px` cyan `rgba(53,239,230,0.65)` rings on all interactive elements |
+| Skip navigation link | `<a href="#main-content">Skip to content</a>` before `<main>` |
+| Error boundary | `ErrorBoundary` class component with friendly recovery UI |
+| Auto-grow textarea | `scrollHeight` measurement capped at `120px` |
+| Responsive charts | `viewBox` + `width="100%"` + `height="auto"` on all SVG charts |
+| Tooltip clamping | `Math.min(x, containerWidth − 170)` prevents off-screen overflow |
 
-- **Glassmorphism design** — frosted-glass panels with backdrop-filter blur effects
-- **Animated transitions** — smooth fade-in, slide-up, and count-up animations throughout
-- **Interactive data visualizations** — custom SVG donut charts, gauge charts, sparklines, and gradient-filled frontier areas (no external charting libraries)
-- **Error boundary** — React class component that catches rendering failures and presents a friendly recovery UI
-- **Loading states** — animated skeleton loaders for lazy-loaded views
-- **Responsive design** — adaptive layouts with breakpoints at 1100px and 720px
+### AI chatbot (Global Floating Assistant)
 
-### AI chatbot
+The chatbot is an **AI-style advisory copilot** available across all three views, grounded in Part 1 and Part 2 outputs:
 
-The chatbot is implemented as an **AI-style advisory copilot** with a polished floating interface:
+- **Global scope** — `GlobalChatbot.jsx` is lazy-loaded at the `App.jsx` level, so the assistant persists while switching between Platform, Frontier Lab, and Risk Lab
+- **Floating action button (FAB)** — bottom-right corner with animated pulse ring and hover scale effect
+- **Sliding glass-morphism panel** — `backdrop-filter: blur(28px)` with gradient border, 400 ms slide-in transition
+- **View-aware context** — detects `currentView` changes and displays view-specific welcome messages and suggestion prompts
+- **Cross-component communication** — PlatformExperience dispatches `CustomEvent("chatbot-ask")` events; the chatbot listens and opens automatically
+- Typing indicator: three bouncing dots with randomized thinking labels
+- In-chat SVG donut charts rendered directly in assistant messages
+- Auto-growing `<textarea>` input: Enter submits, Shift+Enter inserts newline
+- Pre-set suggestion chips (keyboard accessible: Enter / Space), dynamic per view
+- Quick "Ask" links on portfolio holdings and fund shelf cards
+- Context-update messages when persona or constraint mode changes
+- 13 response pattern-matching rules covering funds, personas, frontier concepts, utility formulas, and sensitivity analysis
+- All responses remain numerically consistent with the dashboard data
 
-- **Visual design** — glass-morphism chat window, green status indicator, gradient user bubbles, asymmetric border-radius
-- **Typing indicator** — three bouncing dots with randomized thinking labels
-- **In-chat visualizations** — SVG donut charts rendered directly inside assistant messages showing portfolio allocation
-- **Interactive prompts** — pre-set suggestion chips and clickable "Ask" shortcuts from holdings and fund shelf
-- **Context awareness** — automatic context-update messages when persona or constraint mode changes
+### Accessibility (WCAG 2.1)
 
-The chatbot is grounded in the exact Part 1 and Part 2 outputs, so its explanations remain numerically consistent with the dashboard.
+- **1.4.3 Contrast** — all muted text upgraded to ≥ 4.5:1 ratio (`#b8cce4` on dark shell)
+- **2.1.1 Keyboard** — all interactive elements reachable via Tab; quiz supports arrow + number keys
+- **2.4.1 Bypass Blocks** — skip-link to `#main-content`
+- **2.4.3 Focus Order** — logical DOM order; `tabIndex=-1` on main view for skip-link target
+- **4.1.2 Name/Role/Value** — `aria-label`, `aria-pressed`, `aria-selected`, `aria-valuetext`, `role="tablist"`, `role="dialog"`, `role="list"` throughout
 
-### Main outputs
-
-- [`part3/PlatformExperience.jsx`](./part3/PlatformExperience.jsx)
-- [`part3_platform_report.md`](./part3_platform_report.md)
-- [`src/App.jsx`](./src/App.jsx)
-- [`src/app.css`](./src/app.css)
+---
 
 ## Local Development
 
@@ -252,16 +329,18 @@ Build for production:
 npm run build
 ```
 
+---
+
 ## Repository Structure
 
 ```text
-funds/                  Source CSV files for the 10 funds
-part1/                  Part 1 scripts and JSX component
-part1_outputs/          Part 1 generated statistics, charts, and JSON data
-part2/                  Part 2 scripts and JSX component
-part2_outputs/          Part 2 generated statistics, charts, and JSON data
-part3/                  Part 3 platform page assets and JSX component
-src/                    Main React application entry
+funds/                          Source CSV files for the 10 funds
+part1/                          Part 1 Python scripts + JSX component
+part1_outputs/                  Part 1 statistics, charts, and JSON data
+part2/                          Part 2 Python scripts + JSX components
+part2_outputs/                  Part 2 statistics, charts, and JSON data
+part3/                          Part 3 platform JSX component
+src/                            React application shell (App.jsx, GlobalChatbot.jsx, app.css, main.jsx)
 part1_efficient_frontier_report.md
 part2_risk_aversion_report.md
 part3_platform_report.md
@@ -269,13 +348,18 @@ package.json
 vite.config.js
 ```
 
-## Technical Notes
+---
 
-- Front-end framework: **React**
-- Build tool: **Vite**
-- Optimization and analytics: **Python**, **NumPy**, **Pandas**, **SciPy**, **Matplotlib**
-- Deployment: **GitHub Pages** via **GitHub Actions**
+## Technical Stack
 
-The deployed site uses GitHub Pages workflow automation and is configured for static hosting.
+| Layer | Technology |
+|-------|-----------|
+| Front-end framework | React 18.3.1 |
+| Build tool | Vite 5.4.10 |
+| Styling | Pure CSS (custom properties, no frameworks) |
+| Charts | Custom SVG (no external charting libraries) |
+| Fonts | IBM Plex Sans + IBM Plex Mono (Google Fonts) |
+| Analytics | Python 3, NumPy, Pandas, SciPy, Matplotlib |
+| Deployment | GitHub Pages via GitHub Actions |
 
-
+The deployed site uses GitHub Pages workflow automation and is configured for static hosting with `base` path set in `vite.config.js`.

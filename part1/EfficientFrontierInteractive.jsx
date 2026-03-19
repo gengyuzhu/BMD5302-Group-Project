@@ -263,12 +263,16 @@ function AnimatedValue({ value, style }) {
 }
 
 /* ───── tab button with animated underline ───── */
-function TabButton({ active, label, onClick }) {
+function TabButton({ active, label, onClick, tabId, panelId }) {
   return (
     <button
       type="button"
+      role="tab"
       onClick={onClick}
-      aria-pressed={active}
+      aria-selected={active}
+      aria-controls={panelId}
+      id={tabId}
+      tabIndex={active ? 0 : -1}
       style={{
         position: "relative",
         padding: "10px 18px",
@@ -556,9 +560,8 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
 
   const baseline = chartSize.height - chartSize.paddingBottom;
 
-  /* ═══════════════════════════════════════════
-     ANALYTICS PANEL
-     ═══════════════════════════════════════════ */
+  /* ══════════════════════════════════════════�?     ANALYTICS PANEL
+     ══════════════════════════════════════════�?*/
   const analyticsPanel = (
     <div style={{ ...glassCard({ marginTop: 24, padding: 24 }) }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 20, flexWrap: "wrap", alignItems: "flex-start" }}>
@@ -574,7 +577,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
               className="platform-chart-insight"
               style={{ minHeight: 92, background: "rgba(255,248,234,0.6)", borderRadius: 14, padding: 12, border: `1px solid ${theme.line}` }}
             >
-              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: theme.muted }}>{item.label}</span>
+              <span style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.1em", color: theme.muted }}>{item.label}</span>
               <strong style={{ display: "block", marginTop: 6, fontSize: 14, wordBreak: "break-word" }}>{item.value}</strong>
             </div>
           ))}
@@ -582,14 +585,21 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
       </div>
 
       {/* ── tab bar ── */}
-      <div style={{ display: "flex", gap: 0, marginTop: 20, borderBottom: `1px solid ${theme.line}` }}>
-        <TabButton active={analyticsView === "statistics"} label="Fund Statistics" onClick={() => switchAnalytics("statistics")} />
-        <TabButton active={analyticsView === "correlation"} label="Correlation" onClick={() => switchAnalytics("correlation")} />
-        <TabButton active={analyticsView === "covariance"} label="Covariance" onClick={() => switchAnalytics("covariance")} />
+      <div role="tablist" aria-label="Analytics views" style={{ display: "flex", gap: 0, marginTop: 20, borderBottom: `1px solid ${theme.line}` }}>
+        <TabButton active={analyticsView === "statistics"} label="Fund Statistics" onClick={() => switchAnalytics("statistics")} tabId="tab-statistics" panelId="panel-statistics" />
+        <TabButton active={analyticsView === "correlation"} label="Correlation" onClick={() => switchAnalytics("correlation")} tabId="tab-correlation" panelId="panel-correlation" />
+        <TabButton active={analyticsView === "covariance"} label="Covariance" onClick={() => switchAnalytics("covariance")} tabId="tab-covariance" panelId="panel-covariance" />
       </div>
 
       {/* ── tab content with fade-in ── */}
-      <div key={analyticsKey} style={{ animation: "ef-fade-in 0.35s ease-out" }}>
+      <div
+        key={analyticsKey}
+        role="tabpanel"
+        id={`panel-${analyticsView}`}
+        aria-labelledby={`tab-${analyticsView}`}
+        tabIndex={0}
+        style={{ animation: "ef-fade-in 0.35s ease-out" }}
+      >
         {analyticsView === "statistics" ? (
           <div style={{ marginTop: 18 }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
@@ -682,14 +692,14 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
                   <tr>
                     <th className="platform-matrix-corner" style={{ padding: "8px 10px", fontSize: 12 }}>Fund</th>
                     {safeArr(analyticsView === "correlation" ? correlationMatrix?.headers : covarianceMatrix?.headers).map((h) => (
-                      <th key={h} style={{ padding: "8px 6px", fontSize: 11, textAlign: "center" }}>{tickerCode(h)}</th>
+                      <th key={h} style={{ padding: "8px 6px", fontSize: 12, textAlign: "center" }}>{tickerCode(h)}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {safeArr(analyticsView === "correlation" ? correlationMatrix?.rows : covarianceMatrix?.rows).map((row, ri) => (
                     <tr key={safeStr(row?.rowLabel)}>
-                      <th style={{ padding: "8px 10px", fontSize: 11, textAlign: "left", fontWeight: 600 }}>{tickerCode(safeStr(row?.rowLabel))}</th>
+                      <th style={{ padding: "8px 10px", fontSize: 12, textAlign: "left", fontWeight: 600 }}>{tickerCode(safeStr(row?.rowLabel))}</th>
                       {safeArr(row?.values).map((val, ci) => {
                         const diagonal = ri === ci;
                         const colLabel =
@@ -804,9 +814,8 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
     </div>
   );
 
-  /* ═══════════════════════════════════════════
-     RENDER
-     ═══════════════════════════════════════════ */
+  /* ══════════════════════════════════════════�?     RENDER
+     ══════════════════════════════════════════�?*/
   return (
     <section
       className="motion-surface"
@@ -905,13 +914,15 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
             WebkitMaskComposite: "xor",
           }}
         />
-        <div style={{ position: "relative", zIndex: 1, background: "rgba(255,254,251,0.95)", borderRadius: 20, padding: 10 }}>
+        <div className="ef-chart-scroll" style={{ position: "relative", zIndex: 1, background: "rgba(255,254,251,0.95)", borderRadius: 20, padding: 10 }}>
           <svg
             width={chartSize.width}
             height={chartSize.height}
+            viewBox={`0 0 ${chartSize.width} ${chartSize.height}`}
+            preserveAspectRatio="xMidYMid meet"
             role="img"
-            aria-label="Efficient frontier chart"
-            style={{ display: "block", maxWidth: "100%" }}
+            aria-label="Efficient frontier �?shows long-only and short-sales frontiers with individual fund scatter points"
+            style={{ display: "block", width: "100%", height: "auto", maxWidth: chartSize.width, overflow: "visible" }}
           >
             <defs>
               <linearGradient id="ef-fill-short" x1="0" x2="0" y1="0" y2="1">
@@ -975,11 +986,11 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
               Annualized Volatility
             </text>
             <text
-              x="16"
+              x="12"
               y={chartSize.height / 2}
-              transform={`rotate(-90 16 ${chartSize.height / 2})`}
+              transform={`rotate(-90 12 ${chartSize.height / 2})`}
               textAnchor="middle"
-              fontSize="14"
+              fontSize="13"
               fill={theme.ink}
               fontWeight="700"
             >
@@ -1305,6 +1316,10 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
               value={boundedIndex}
               onChange={(e) => setPortfolioIndex(Number(e.target.value))}
               className="ef-slider-track"
+              aria-label="Portfolio position on efficient frontier"
+              aria-valuetext={selectedPortfolio
+                ? `Portfolio ${boundedIndex + 1} of ${activeFrontier.length}: return ${formatPercent(selectedPortfolio.return)}, volatility ${formatPercent(selectedPortfolio.risk)}`
+                : `Portfolio ${boundedIndex + 1} of ${activeFrontier.length}`}
             />
           </div>
 
@@ -1327,7 +1342,7 @@ export default function EfficientFrontierInteractive({ data = frontierData }) {
               { label: "Volatility", val: formatPercent(selectedPortfolio?.risk) },
             ].map((s) => (
               <div key={s.label} className="stat-card" style={{ background: "rgba(255,248,234,0.5)", borderRadius: 14, padding: 12, border: `1px solid ${theme.line}` }}>
-                <div style={{ color: theme.muted, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.12em" }}>{s.label}</div>
+                <div style={{ color: theme.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>{s.label}</div>
                 <div style={{ marginTop: 6, fontWeight: 700, fontSize: 16, transition: "all 0.3s ease" }}>{s.val}</div>
               </div>
             ))}

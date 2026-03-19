@@ -11,10 +11,7 @@ export default function AllocationBars({ rows, portfolioMode }) {
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setAnimate(true));
-    return () => {
-      cancelAnimationFrame(id);
-      setAnimate(false);
-    };
+    return () => cancelAnimationFrame(id);
   }, [rows]);
 
   return (
@@ -29,7 +26,7 @@ export default function AllocationBars({ rows, portfolioMode }) {
       </div>
 
       <div className="risklab-allocation-list">
-        {rows.map((row, index) => {
+        {rows.filter((row) => Math.abs(row.weight) > 0.0001).map((row, index) => {
           const width = Math.max(8, Math.min(100, Math.abs(row.weight) * 100));
           const negative = row.weight < 0;
           const color = BAR_COLORS[index % BAR_COLORS.length];

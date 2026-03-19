@@ -1,5 +1,6 @@
 import { Component, Suspense, lazy, useEffect, useMemo, useState } from "react";
 import "./app.css";
+const GlobalChatbot = lazy(() => import("./GlobalChatbot.jsx"));
 
 const EfficientFrontierInteractive = lazy(() => import("../part1/EfficientFrontierInteractive.jsx"));
 const RiskAversionInteractive = lazy(() => import("../part2/RiskAversionInteractive.jsx"));
@@ -48,6 +49,10 @@ class ErrorBoundary extends Component {
     return { hasError: true };
   }
 
+  componentDidCatch(error, errorInfo) {
+    console.error("ErrorBoundary caught:", error, errorInfo);
+  }
+
   render() {
     if (this.state.hasError) {
       return (
@@ -59,7 +64,7 @@ class ErrorBoundary extends Component {
           </svg>
           <h3>Something went wrong</h3>
           <p>This section encountered an unexpected error. Please try refreshing or switch to another view.</p>
-          <button type="button" onClick={() => this.setState({ hasError: false })}>
+          <button type="button" className="error-boundary-btn" onClick={() => this.setState({ hasError: false })}>
             Try Again
           </button>
         </div>
@@ -71,9 +76,23 @@ class ErrorBoundary extends Component {
 
 function LoadingState() {
   return (
-    <section className="loading-card">
-      <span>Loading interface...</span>
-    </section>
+    <div className="skeleton-shell" aria-busy="true" aria-label="Loading view…">
+      <div className="skeleton-hero">
+        <div className="skeleton-line skeleton-line-sm" />
+        <div className="skeleton-line skeleton-line-lg" />
+        <div className="skeleton-line skeleton-line-md" />
+        <div className="skeleton-chips">
+          <div className="skeleton-chip" />
+          <div className="skeleton-chip" />
+          <div className="skeleton-chip" />
+        </div>
+      </div>
+      <div className="skeleton-cards">
+        <div className="skeleton-card skeleton-card-tall" />
+        <div className="skeleton-card" />
+        <div className="skeleton-card" />
+      </div>
+    </div>
   );
 }
 
@@ -97,6 +116,8 @@ export default function App() {
   }, [activeView]);
 
   return (
+    <>
+    <a href="#main-content" className="skip-link">Skip to content</a>
     <main className="app-shell">
       <header className="app-topbar-frame">
         <div className="app-topbar">
@@ -149,7 +170,7 @@ export default function App() {
 
       <ErrorBoundary key={activeView}>
         <Suspense fallback={<LoadingState />}>
-          <div key={activeView} className="view-stage">
+          <div id="main-content" key={activeView} className="view-stage" tabIndex={-1}>
             {activeView === "platform" && <PlatformExperience />}
             {activeView === "frontier" && <EfficientFrontierInteractive />}
             {activeView === "risk" && <RiskAversionInteractive />}
@@ -157,5 +178,7 @@ export default function App() {
         </Suspense>
       </ErrorBoundary>
     </main>
+    <Suspense fallback={null}><GlobalChatbot currentView={activeView} /></Suspense>
+    </>
   );
 }

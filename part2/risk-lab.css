@@ -1,7 +1,23 @@
-/* ═══════════════════════════════════════════════════════════
-   Risk Lab  –  Dark-theme stylesheet
+/* ══════════════════════════════════════════════════════════�?   Risk Lab  �? Dark-theme stylesheet
    Colors: dark blue gradient, cyan #35efe6, orange #ffb21d
-   ═══════════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════════�?*/
+
+/* ─── Design tokens (scoped to Risk Lab) ─── */
+.risklab-shell {
+  --rl-radius-card:   20px;
+  --rl-radius-btn:    14px;
+  --rl-radius-pill:   999px;
+  --rl-radius-inner:  10px;
+  --rl-space-sm:  12px;
+  --rl-space-md:  20px;
+  --rl-space-lg:  28px;
+  --rl-cyan:   #35efe6;
+  --rl-orange: #ffb21d;
+  --rl-red:    #ff5d4d;
+  --rl-green:  #46f08c;
+  --rl-text:   #eef5ff;
+  --rl-muted:  #b8cce4;
+}
 
 /* ─── KEYFRAME ANIMATIONS ─── */
 
@@ -88,7 +104,7 @@
   position: relative;
   overflow: hidden;
   padding: 30px;
-  border-radius: 34px;
+  border-radius: 28px;
   color: #eef5ff;
   background:
     radial-gradient(circle at top center, rgba(53, 239, 230, 0.12), transparent 24%),
@@ -130,14 +146,14 @@
 
 .risklab-title {
   margin: 10px 0 8px;
-  font-size: clamp(2.1rem, 4vw, 3.3rem);
+  font-size: clamp(1.5rem, 4vw, 3.3rem);
   line-height: 1.02;
   color: #f3f8ff;
 }
 
 .risklab-subtitle {
   margin: 0;
-  color: #95a8c7;
+  color: #b8cce4;
 }
 
 /* ─── TABS ─── */
@@ -388,7 +404,7 @@
   padding: 18px 20px;
   text-align: left;
   color: #eef5ff;
-  border-radius: 18px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(86, 112, 145, 0.16);
   background: rgba(12, 18, 44, 0.8);
   box-shadow: none;
@@ -451,7 +467,7 @@
 }
 
 .risklab-option-score-badge {
-  font-size: 11px;
+  font-size: 12px;
   color: #8ca1bf;
   margin-top: 2px;
   opacity: 0.7;
@@ -468,7 +484,7 @@
 .risklab-nav-button {
   min-height: 54px;
   padding: 0 18px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   font-weight: 700;
   letter-spacing: 0.01em;
   transition:
@@ -532,7 +548,7 @@
   padding: 12px 14px;
   text-align: left;
   color: #d8e5f7;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(86, 112, 145, 0.12);
   background: rgba(255, 255, 255, 0.03);
   box-shadow: none;
@@ -558,7 +574,7 @@
 
 .risklab-notice {
   padding: 14px 16px;
-  border-radius: 18px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(255, 178, 29, 0.32);
   background: linear-gradient(135deg, rgba(255, 178, 29, 0.12), rgba(255, 93, 77, 0.08));
   color: #fff1c8;
@@ -578,7 +594,7 @@
   display: grid;
   gap: 8px;
   padding: 13px 14px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(86, 112, 145, 0.14);
   background: rgba(255, 255, 255, 0.03);
 }
@@ -605,7 +621,7 @@
 
 .risklab-mode-button {
   min-height: 50px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(90, 116, 149, 0.24);
   background: rgba(255, 255, 255, 0.04);
   color: #cfe0f5;
@@ -688,7 +704,7 @@
 }
 
 .risklab-profile-stat-label {
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #8ca1bf;
@@ -715,7 +731,7 @@
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  background: radial-gradient(circle at top right, var(--metric-glow, transparent), transparent 70%);
+  background: radial-gradient(circle at top right, var(--metric-glow, rgba(53, 239, 230, 0.2)), transparent 70%);
   opacity: 0.06;
   pointer-events: none;
   animation: metric-bg-pulse 4s ease-in-out infinite;
@@ -791,7 +807,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 240px;
-  font-size: 11px;
+  font-size: 12px;
   color: #8ca1bf;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -810,41 +826,12 @@
   overflow: visible;
 }
 
-.risklab-donut-slice {
-  transition: opacity 200ms ease;
-  cursor: pointer;
-}
-
-.risklab-donut-slice:hover {
-  opacity: 0.8;
-  filter: brightness(1.15);
-}
-
-.risklab-donut-center-text {
-  font-size: 16px;
-  font-weight: 800;
-  fill: #eef5ff;
-}
-
-.risklab-donut-center-label {
-  font-size: 11px;
-  fill: #8ca1bf;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.risklab-donut-legend {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 16px;
-  width: 100%;
-}
-
+/* donut legend �?used in ResultsDashboard */
 .risklab-donut-legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 13px;
   color: #d1def3;
 }
 
@@ -866,7 +853,7 @@
   position: absolute;
   z-index: 10;
   padding: 14px 18px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(86, 112, 145, 0.22);
   background: rgba(10, 16, 38, 0.95);
   backdrop-filter: blur(6px);
@@ -891,7 +878,7 @@
 
 .risklab-chart-copy {
   margin-top: 4px;
-  color: #96a8c5;
+  color: #b8cce4;
 }
 
 /* ─── CHART: CROSSHAIR ─── */
@@ -944,6 +931,7 @@
   border-radius: 11px;
   overflow: hidden;
   background: linear-gradient(90deg, rgba(29, 40, 71, 0.95), rgba(37, 51, 86, 0.82));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .risklab-allocation-fill {
@@ -974,76 +962,17 @@
   text-align: right;
 }
 
-/* ─── WEIGHT BREAKDOWN TABLE ─── */
+/* ─── Small weight bar helpers ─── */
 
-.risklab-breakdown-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+.risklab-allocation-bar-tiny {
+  min-width: 8px;
 }
 
-.risklab-breakdown-table th {
-  padding: 10px 14px;
-  text-align: left;
+.risklab-allocation-label-outside {
+  position: absolute;
+  left: calc(100% + 6px);
+  white-space: nowrap;
   font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #8ca1bf;
-  border-bottom: 1px solid rgba(86, 112, 145, 0.2);
-}
-
-.risklab-breakdown-table th:last-child {
-  text-align: right;
-}
-
-.risklab-breakdown-table td {
-  padding: 12px 14px;
-  color: #e5eefc;
-  font-size: 14px;
-  border-bottom: 1px solid rgba(86, 112, 145, 0.08);
-  transition: background 200ms ease;
-}
-
-.risklab-breakdown-table td:last-child {
-  text-align: right;
-  font-weight: 600;
-  font-family: "IBM Plex Mono", Consolas, monospace;
-}
-
-.risklab-breakdown-table tr:nth-child(even) td {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.risklab-breakdown-table tr:hover td {
-  background: rgba(53, 239, 230, 0.04);
-}
-
-.risklab-weight-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-
-.risklab-weight-dot-positive {
-  background: #35efe6;
-}
-
-.risklab-weight-dot-negative {
-  background: #ff5d4d;
-}
-
-.risklab-weight-dot-zero {
-  background: rgba(82, 100, 133, 0.4);
-}
-
-/* Legacy breakdown row support */
-.risklab-breakdown-row {
-  padding: 10px 0;
-  border-top: 1px solid rgba(86, 112, 145, 0.12);
-  color: #e5eefc;
 }
 
 /* ─── JUSTIFICATION ─── */
@@ -1057,7 +986,7 @@
 .risklab-inline-note {
   margin-top: 16px;
   padding: 12px 14px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid rgba(86, 112, 145, 0.16);
   background: rgba(255, 255, 255, 0.04);
   color: #cddbef;
@@ -1073,7 +1002,7 @@
 .risklab-retake-button {
   min-height: 50px;
   padding: 12px 26px;
-  border-radius: 16px;
+  border-radius: var(--rl-radius-btn);
   border: 1px solid #35efe6;
   background: rgba(53, 239, 230, 0.08);
   color: #35efe6;
@@ -1152,6 +1081,7 @@
 
 .risklab-donut-legend-label {
   flex: 1;
+  max-width: 140px;
   color: rgba(255, 255, 255, .7);
   white-space: nowrap;
   overflow: hidden;
@@ -1176,19 +1106,41 @@
 .risklab-breakdown-header {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, .08);
-  margin-bottom: 4px;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .08em;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .10);
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .10em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .35);
+  color: rgba(185, 204, 230, .60);
+}
+
+.risklab-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background 160ms ease;
+}
+
+.risklab-breakdown-row:hover {
+  background: rgba(53, 239, 230, 0.05);
 }
 
 .risklab-breakdown-row-alt {
-  background: rgba(255, 255, 255, .02);
-  border-radius: 6px;
+  background: rgba(255, 255, 255, .025);
+  border-radius: 8px;
+}
+
+/* Weight value monospace formatting */
+.risklab-breakdown-row strong {
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Justification card accent ── */
@@ -1251,5 +1203,116 @@
 
   .risklab-question-card {
     padding: 22px 18px;
+  }
+}
+
+/* ─── Tooltip override for dark shell ─── */
+
+.risklab-shell .chart-tooltip {
+  background: rgba(8, 14, 36, 0.96);
+  border: 1px solid rgba(53, 239, 230, 0.18);
+  box-shadow: 0 16px 40px rgba(4, 8, 22, 0.6), 0 0 0 1px rgba(53, 239, 230, 0.06);
+  color: #e8f2ff;
+}
+
+.risklab-shell .chart-tooltip > div:first-child {
+  color: #35efe6;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.risklab-shell .chart-tooltip > div {
+  color: #b8cce4;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ─── Keyboard hint ─── */
+
+.risklab-keyboard-hint {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: rgba(185, 204, 230, 0.40);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.risklab-keyboard-hint kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(185, 204, 230, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: 11px;
+  color: rgba(185, 204, 230, 0.55);
+}
+
+/* ─── Focus Rings (dark shell overrides) ─── */
+
+.risklab-shell button:focus-visible,
+.risklab-shell input:focus-visible,
+.risklab-shell select:focus-visible {
+  outline: 3px solid rgba(53, 239, 230, 0.65);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(53, 239, 230, 0.12);
+}
+
+.risklab-option:focus-visible {
+  outline: 3px solid rgba(53, 239, 230, 0.65);
+  outline-offset: 3px;
+  border-color: #35efe6;
+}
+
+.risklab-tab:focus-visible {
+  outline: 3px solid rgba(53, 239, 230, 0.65);
+  outline-offset: 3px;
+}
+
+.risklab-mode-button:focus-visible,
+.risklab-nav-button:focus-visible,
+.risklab-retake-button:focus-visible {
+  outline: 3px solid rgba(53, 239, 230, 0.65);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(53, 239, 230, 0.10);
+}
+
+/* ─── Skeleton loading for results ─── */
+
+.risklab-skeleton {
+  background: linear-gradient(90deg, rgba(53, 239, 230, 0.05) 25%, rgba(53, 239, 230, 0.1) 50%, rgba(53, 239, 230, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: risklab-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--rl-radius-card, 24px);
+  min-height: 120px;
+}
+
+@keyframes risklab-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .risklab-allocation-fill,
+  .risklab-option,
+  .risklab-metric-card,
+  .risklab-stage {
+    animation: none;
+    transition: none;
   }
 }

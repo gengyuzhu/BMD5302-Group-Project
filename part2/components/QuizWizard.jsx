@@ -1,5 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import QuestionCard from "./QuestionCard.jsx";
+
+const RING_RADIUS = 54;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 export default function QuizWizard({
   questionnaire,
@@ -23,14 +26,22 @@ export default function QuizWizard({
       : "";
   prevIndexRef.current = currentIndex;
 
+  // Arrow-key navigation: ← Prev, → Next (only when answer selected)
+  useEffect(() => {
+    function handleKey(e) {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      if (e.key === "ArrowRight" && currentAnswer) onNext();
+      if (e.key === "ArrowLeft") onPrev();
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [currentAnswer, onNext, onPrev]);
+
   const completionPct = questionnaire.length > 0
     ? Math.round((answeredCount / questionnaire.length) * 100)
     : 0;
 
-  // SVG ring dimensions
-  const ringRadius = 54;
-  const ringCircumference = 2 * Math.PI * ringRadius;
-  const ringOffset = ringCircumference - (completionPct / 100) * ringCircumference;
+  const ringOffset = RING_CIRCUMFERENCE - (completionPct / 100) * RING_CIRCUMFERENCE;
 
   return (
     <div className="risklab-stage risklab-quiz-layout">
@@ -52,7 +63,8 @@ export default function QuizWizard({
                 type="button"
                 className={classes}
                 onClick={() => onJump(index)}
-                aria-label={`Question ${index + 1}`}
+                aria-label={`Q${index + 1}: ${question.dimension} — ${answered ? `answered ${answers[question.id]}/5` : "unanswered"}`}
+                title={`Q${index + 1}: ${question.dimension} ${answered ? `(${answers[question.id]}/5)` : "(unanswered)"}`}
               />
             );
           })}
@@ -75,6 +87,7 @@ export default function QuizWizard({
             className="risklab-nav-button risklab-nav-button-secondary"
             onClick={onPrev}
             disabled={currentIndex === 0}
+            aria-label="Previous question"
           >
             &larr; Prev
           </button>
@@ -83,6 +96,7 @@ export default function QuizWizard({
             className="risklab-nav-button risklab-nav-button-primary"
             onClick={onNext}
             disabled={!currentAnswer}
+            aria-label={currentIndex === (questionnaire?.length ?? 1) - 1 ? "Finish questionnaire" : "Next question"}
           >
             Next &rarr;
           </button>
@@ -104,14 +118,14 @@ export default function QuizWizard({
                 className="risklab-progress-ring-bg"
                 cx="66"
                 cy="66"
-                r={ringRadius}
+                r={RING_RADIUS}
               />
               <circle
                 className="risklab-progress-ring-value"
                 cx="66"
                 cy="66"
-                r={ringRadius}
-                strokeDasharray={ringCircumference}
+                r={RING_RADIUS}
+                strokeDasharray={RING_CIRCUMFERENCE}
                 strokeDashoffset={ringOffset}
               />
               <text
@@ -120,7 +134,6 @@ export default function QuizWizard({
                 y="66"
                 textAnchor="middle"
                 dominantBaseline="central"
-                transform="rotate(90 66 66)"
               >
                 {completionPct}%
               </text>
@@ -163,11 +176,12 @@ export default function QuizWizard({
                   type="button"
                   className={classes}
                   onClick={() => onJump(index)}
+                  aria-label={`Jump to Q${index + 1}: ${question.dimension} — ${answered ? `answered ${answers[question.id]}/5` : "not yet answered"}`}
                 >
-                  <span>
-                    {index + 1}. {question.dimension}
-                  </span>
-                  <strong>{answered ? `${answers[question.id]}/5` : "--"}</strong>
+                  <span>{index + 1}. {question.dimension}</span>
+                  <strong style={{ color: answered ? "#46f08c" : "rgba(185,204,230,0.4)" }}>
+                    {answered ? `${answers[question.id]}/5` : "--"}
+                  </strong>
                 </button>
               );
             })}
@@ -177,10 +191,6 @@ export default function QuizWizard({
         <div className="risklab-card risklab-footer-box">
           <div className="risklab-panel-kicker">Interpretation</div>
           <div className="risklab-footer-copy">
-            <div>
-              <strong>Answered counter:</strong> {answeredCount}/{questionnaire.length} answered
-            </div>
-
             <div className="risklab-formula-block">
               <strong>Formula summary</strong>
               <div className="risklab-formula-equation">S = sum(weight_i x score_i)</div>

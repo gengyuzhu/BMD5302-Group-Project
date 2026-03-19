@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MetricsGrid from "./MetricsGrid.jsx";
 import EfficientFrontierChart from "./EfficientFrontierChart.jsx";
 import AllocationBars from "./AllocationBars.jsx";
@@ -8,9 +8,13 @@ import { formatPercent, buildGaugeData, buildDonutData } from "./riskLabUtils.js
 /* ── tiny fade-in wrapper ── */
 function FadeIn({ children, delay = 0, className = "" }) {
   const [visible, setVisible] = useState(false);
+  const mountedRef = useRef(true);
   useEffect(() => {
-    const id = setTimeout(() => setVisible(true), delay);
-    return () => clearTimeout(id);
+    mountedRef.current = true;
+    const id = setTimeout(() => {
+      if (mountedRef.current) setVisible(true);
+    }, delay);
+    return () => { mountedRef.current = false; clearTimeout(id); };
   }, [delay]);
 
   return (
@@ -32,7 +36,14 @@ function RiskGauge({ aValue, tone }) {
   const g = buildGaugeData(aValue);
 
   return (
-    <svg width={g.svgWidth} height={g.svgHeight} viewBox={`0 0 ${g.svgWidth} ${g.svgHeight}`} style={{ overflow: "visible" }}>
+    <svg
+      width={g.svgWidth}
+      height={g.svgHeight}
+      viewBox={`0 0 ${g.svgWidth} ${g.svgHeight}`}
+      role="img"
+      aria-label={`Risk aversion gauge: A = ${aValue.toFixed(2)}, ${tone.label} investor`}
+      style={{ overflow: "visible" }}
+    >
       {/* background arc */}
       <path d={g.backgroundArc} fill="none" stroke="rgba(255,255,255,.08)" strokeWidth="14" strokeLinecap="round" />
       {/* value arc */}
@@ -43,7 +54,7 @@ function RiskGauge({ aValue, tone }) {
       <text x={g.cx} y={g.cy - 8} textAnchor="middle" fill={tone.color} fontSize="26" fontWeight="700" fontFamily="inherit">
         {aValue.toFixed(2)}
       </text>
-      <text x={g.cx} y={g.cy + 12} textAnchor="middle" fill="rgba(255,255,255,.5)" fontSize="11" fontFamily="inherit">
+      <text x={g.cx} y={g.cy + 14} textAnchor="middle" fill="rgba(255,255,255,.55)" fontSize="12" fontFamily="inherit">
         Risk Aversion (A)
       </text>
     </svg>
@@ -146,6 +157,8 @@ export default function ResultsDashboard({
                 : "risklab-mode-button"
             }
             onClick={() => onPortfolioModeChange("longOnly")}
+            aria-pressed={portfolioMode === "longOnly"}
+            aria-label="Show Long-Only implementation portfolio"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -160,6 +173,8 @@ export default function ResultsDashboard({
                 : "risklab-mode-button"
             }
             onClick={() => onPortfolioModeChange("shortSalesAllowed")}
+            aria-pressed={portfolioMode === "shortSalesAllowed"}
+            aria-label="Show Short-Sales allowed benchmark portfolio"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>

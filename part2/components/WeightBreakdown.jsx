@@ -16,8 +16,8 @@ export default function WeightBreakdown({ rows }) {
         Weight Breakdown
       </div>
 
-      <div className="risklab-breakdown-list">
-        <div className="risklab-breakdown-header">
+      <div className="risklab-breakdown-list" role="list" aria-label="Portfolio weight breakdown">
+        <div className="risklab-breakdown-header" role="presentation">
           <span>Fund</span>
           <span>Weight</span>
         </div>
@@ -27,6 +27,7 @@ export default function WeightBreakdown({ rows }) {
           return (
             <div
               key={row.shortName}
+              role="listitem"
               className={`risklab-breakdown-row ${index % 2 === 0 ? "risklab-breakdown-row-alt" : ""}`}
             >
               <span style={{ display: "flex", alignItems: "center", gap: 6 }}>

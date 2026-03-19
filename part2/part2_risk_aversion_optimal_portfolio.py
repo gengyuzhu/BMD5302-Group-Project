@@ -1,3 +1,12 @@
+"""Risk-aversion-based optimal portfolio selection for a robo-adviser.
+
+This module implements a questionnaire-driven risk profiling workflow,
+maps the investor's risk tolerance to a mean-variance utility function,
+and determines the optimal portfolio weights under both long-only and
+short-sales-allowed constraints.  Results are exported as CSV, JSON,
+and PNG artefacts.
+"""
+
 from __future__ import annotations
 
 import json
@@ -11,13 +20,19 @@ from matplotlib.ticker import PercentFormatter
 from scipy.optimize import minimize
 
 
-PROJECT_DIR = Path(r"E:\2025 NUS\BMD5302\Bmd5301_Project")
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 PART2_DIR = PROJECT_DIR / "part2"
 OUTPUT_DIR = PROJECT_DIR / "part2_outputs"
 PART1_OUTPUT_DIR = PROJECT_DIR / "part1_outputs"
 PART1_DIR = PROJECT_DIR / "part1"
 A_MIN = 1.0
 A_MAX = 10.0
+
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.sans-serif": ["IBM Plex Sans", "Helvetica", "Arial", "sans-serif"],
+    "axes.unicode_minus": False,
+})
 
 
 if str(PROJECT_DIR) not in sys.path:
@@ -29,12 +44,20 @@ if str(PART1_DIR) not in sys.path:
 import part1_efficient_frontier as part1  # noqa: E402
 
 
+def weights_dict(names, weights):
+    """Convert parallel arrays of fund names and weights to a dictionary."""
+    return {name: float(w) for name, w in zip(names, weights)}
+
+
 QUESTIONNAIRE = [
     {
         "id": "investment_horizon",
         "dimension": "Time horizon",
         "weight": 1,
-        "question": "How long can you keep this portfolio invested before you need to use most of the money?",
+        "question": (
+            "How long can you keep this portfolio invested before "
+            "you need to use most of the money?"
+        ),
         "options": [
             {"score": 1, "label": "Less than 1 year"},
             {"score": 2, "label": "1 to 3 years"},
@@ -47,20 +70,52 @@ QUESTIONNAIRE = [
         "id": "income_resilience",
         "dimension": "Financial resilience",
         "weight": 1,
-        "question": "How stable are your income and emergency savings today?",
+        "question": (
+            "How stable are your income and emergency savings today?"
+        ),
         "options": [
-            {"score": 1, "label": "Income is uncertain and emergency savings are limited"},
-            {"score": 2, "label": "Some stability, but reserves are still thin"},
-            {"score": 3, "label": "Reasonably stable income and a basic cash buffer"},
-            {"score": 4, "label": "Stable income and at least 6 months of reserves"},
-            {"score": 5, "label": "Very stable income and strong reserves beyond 12 months"},
+            {
+                "score": 1,
+                "label": (
+                    "Income is uncertain and emergency savings "
+                    "are limited"
+                ),
+            },
+            {
+                "score": 2,
+                "label": (
+                    "Some stability, but reserves are still thin"
+                ),
+            },
+            {
+                "score": 3,
+                "label": (
+                    "Reasonably stable income and a basic cash buffer"
+                ),
+            },
+            {
+                "score": 4,
+                "label": (
+                    "Stable income and at least 6 months of reserves"
+                ),
+            },
+            {
+                "score": 5,
+                "label": (
+                    "Very stable income and strong reserves "
+                    "beyond 12 months"
+                ),
+            },
         ],
     },
     {
         "id": "liquidity_need",
         "dimension": "Liquidity",
         "weight": 1,
-        "question": "How likely are you to need part of this portfolio for spending in the next 3 years?",
+        "question": (
+            "How likely are you to need part of this portfolio "
+            "for spending in the next 3 years?"
+        ),
         "options": [
             {"score": 1, "label": "Very likely"},
             {"score": 2, "label": "Likely"},
@@ -73,7 +128,10 @@ QUESTIONNAIRE = [
         "id": "loss_tolerance",
         "dimension": "Loss tolerance",
         "weight": 2,
-        "question": "What one-year decline would you tolerate before feeling the need to exit the portfolio?",
+        "question": (
+            "What one-year decline would you tolerate before "
+            "feeling the need to exit the portfolio?"
+        ),
         "options": [
             {"score": 1, "label": "Less than 5%"},
             {"score": 2, "label": "5% to 10%"},
@@ -86,52 +144,119 @@ QUESTIONNAIRE = [
         "id": "drawdown_reaction",
         "dimension": "Behavior under stress",
         "weight": 2,
-        "question": "If markets fall sharply by 20%, what would you most likely do?",
+        "question": (
+            "If markets fall sharply by 20%, what would you "
+            "most likely do?"
+        ),
         "options": [
-            {"score": 1, "label": "Sell immediately to avoid further loss"},
+            {
+                "score": 1,
+                "label": "Sell immediately to avoid further loss",
+            },
             {"score": 2, "label": "Sell part of the portfolio"},
             {"score": 3, "label": "Hold and review carefully"},
-            {"score": 4, "label": "Stay invested and rebalance if needed"},
-            {"score": 5, "label": "Add more capital while prices are lower"},
+            {
+                "score": 4,
+                "label": "Stay invested and rebalance if needed",
+            },
+            {
+                "score": 5,
+                "label": "Add more capital while prices are lower",
+            },
         ],
     },
     {
         "id": "return_objective",
         "dimension": "Investment objective",
         "weight": 1,
-        "question": "Which objective best matches why you are investing?",
+        "question": (
+            "Which objective best matches why you are investing?"
+        ),
         "options": [
-            {"score": 1, "label": "Preserve capital with minimal fluctuation"},
-            {"score": 2, "label": "Earn income with limited volatility"},
-            {"score": 3, "label": "Balance moderate growth and moderate risk"},
-            {"score": 4, "label": "Seek long-term growth and accept sizable swings"},
-            {"score": 5, "label": "Maximize growth and accept very high volatility"},
+            {
+                "score": 1,
+                "label": "Preserve capital with minimal fluctuation",
+            },
+            {
+                "score": 2,
+                "label": "Earn income with limited volatility",
+            },
+            {
+                "score": 3,
+                "label": (
+                    "Balance moderate growth and moderate risk"
+                ),
+            },
+            {
+                "score": 4,
+                "label": (
+                    "Seek long-term growth and accept sizable swings"
+                ),
+            },
+            {
+                "score": 5,
+                "label": (
+                    "Maximize growth and accept very high volatility"
+                ),
+            },
         ],
     },
     {
         "id": "investment_experience",
         "dimension": "Investment experience",
         "weight": 1,
-        "question": "How experienced are you with diversified investment products such as funds and ETFs?",
+        "question": (
+            "How experienced are you with diversified investment "
+            "products such as funds and ETFs?"
+        ),
         "options": [
             {"score": 1, "label": "No prior investing experience"},
             {"score": 2, "label": "Limited experience"},
-            {"score": 3, "label": "Some experience across several products"},
-            {"score": 4, "label": "Experienced and comfortable with market volatility"},
-            {"score": 5, "label": "Highly experienced and disciplined through market cycles"},
+            {
+                "score": 3,
+                "label": "Some experience across several products",
+            },
+            {
+                "score": 4,
+                "label": (
+                    "Experienced and comfortable with "
+                    "market volatility"
+                ),
+            },
+            {
+                "score": 5,
+                "label": (
+                    "Highly experienced and disciplined "
+                    "through market cycles"
+                ),
+            },
         ],
     },
     {
         "id": "balance_sheet_strength",
         "dimension": "Balance sheet strength",
         "weight": 1,
-        "question": "How would you describe your debt burden and other near-term financial obligations?",
+        "question": (
+            "How would you describe your debt burden and other "
+            "near-term financial obligations?"
+        ),
         "options": [
-            {"score": 1, "label": "High debt or major obligations due soon"},
+            {
+                "score": 1,
+                "label": "High debt or major obligations due soon",
+            },
             {"score": 2, "label": "Noticeable debt burden"},
-            {"score": 3, "label": "Manageable debt and obligations"},
+            {
+                "score": 3,
+                "label": "Manageable debt and obligations",
+            },
             {"score": 4, "label": "Low debt relative to income"},
-            {"score": 5, "label": "Very low debt and strong financial flexibility"},
+            {
+                "score": 5,
+                "label": (
+                    "Very low debt and strong financial flexibility"
+                ),
+            },
         ],
     },
 ]
@@ -150,6 +275,7 @@ EXAMPLE_INVESTOR_SCORES = {
 
 
 def ensure_part1_outputs() -> None:
+    """Run part 1 pipeline if its output files are missing."""
     required = [
         PART1_OUTPUT_DIR / "average_returns_annualized.csv",
         PART1_OUTPUT_DIR / "covariance_matrix_annualized.csv",
@@ -160,7 +286,17 @@ def ensure_part1_outputs() -> None:
         part1.main()
 
 
-def load_part1_inputs() -> tuple[pd.Series, pd.DataFrame, dict, pd.DataFrame]:
+def load_part1_inputs() -> tuple[
+    pd.Series, pd.DataFrame, dict, pd.DataFrame
+]:
+    """Load pre-computed Part 1 outputs from disk.
+
+    Returns
+    -------
+    tuple[pd.Series, pd.DataFrame, dict, pd.DataFrame]
+        Annualized mean returns, covariance matrix, frontier JSON data,
+        and individual fund statistics.
+    """
     annual_mean = pd.read_csv(
         PART1_OUTPUT_DIR / "average_returns_annualized.csv",
         index_col=0,
@@ -169,25 +305,73 @@ def load_part1_inputs() -> tuple[pd.Series, pd.DataFrame, dict, pd.DataFrame]:
         PART1_OUTPUT_DIR / "covariance_matrix_annualized.csv",
         index_col=0,
     )
-    with open(PART1_OUTPUT_DIR / "efficient_frontier_data.json", "r", encoding="utf-8") as handle:
+    with open(
+        PART1_OUTPUT_DIR / "efficient_frontier_data.json",
+        "r", encoding="utf-8",
+    ) as handle:
         frontier_data = json.load(handle)
-    asset_statistics = pd.read_csv(PART1_OUTPUT_DIR / "individual_fund_statistics.csv")
+    asset_statistics = pd.read_csv(
+        PART1_OUTPUT_DIR / "individual_fund_statistics.csv"
+    )
     return annual_mean, annual_covariance, frontier_data, asset_statistics
 
 
-def questionnaire_bounds(questionnaire: list[dict]) -> tuple[float, float]:
-    min_score = sum(question["weight"] * 1 for question in questionnaire)
-    max_score = sum(question["weight"] * 5 for question in questionnaire)
+def questionnaire_bounds(
+    questionnaire: list[dict],
+) -> tuple[float, float]:
+    """Compute the theoretical min and max weighted scores.
+
+    Parameters
+    ----------
+    questionnaire : list[dict]
+        List of question definitions with weights.
+
+    Returns
+    -------
+    tuple[float, float]
+        (minimum_possible_score, maximum_possible_score).
+    """
+    min_score = sum(q["weight"] * 1 for q in questionnaire)
+    max_score = sum(q["weight"] * 5 for q in questionnaire)
     return float(min_score), float(max_score)
 
 
-def score_questionnaire(scores: dict[str, int], questionnaire: list[dict]) -> dict:
+def score_questionnaire(
+    scores: dict[str, int],
+    questionnaire: list[dict],
+) -> dict:
+    """Score an investor's questionnaire answers and derive risk aversion.
+
+    Parameters
+    ----------
+    scores : dict[str, int]
+        Mapping of question id to the selected score (1-5).
+    questionnaire : list[dict]
+        Full questionnaire definition.
+
+    Returns
+    -------
+    dict
+        Scoring breakdown including weighted score, risk tolerance
+        index, risk aversion coefficient, and profile label.
+    """
+    # Validate all answers before scoring
+    for q in questionnaire:
+        score = scores.get(q["id"])
+        if score is None or not (1 <= int(score) <= 5):
+            raise ValueError(
+                f"Invalid score for question {q['id']}: {score}"
+            )
+
     min_score, max_score = questionnaire_bounds(questionnaire)
     weighted_score = 0.0
     detailed_rows = []
     for question in questionnaire:
         selected_score = int(scores[question["id"]])
-        selected_option = next(option for option in question["options"] if option["score"] == selected_score)
+        selected_option = next(
+            option for option in question["options"]
+            if option["score"] == selected_score
+        )
         contribution = question["weight"] * selected_score
         weighted_score += contribution
         detailed_rows.append(
@@ -201,7 +385,9 @@ def score_questionnaire(scores: dict[str, int], questionnaire: list[dict]) -> di
             }
         )
 
-    tolerance_score = (weighted_score - min_score) / (max_score - min_score)
+    tolerance_score = (
+        (weighted_score - min_score) / (max_score - min_score)
+    )
     risk_aversion = A_MAX - (A_MAX - A_MIN) * tolerance_score
     return {
         "weighted_score": float(weighted_score),
@@ -215,6 +401,18 @@ def score_questionnaire(scores: dict[str, int], questionnaire: list[dict]) -> di
 
 
 def risk_profile_label(a_value: float) -> str:
+    """Map a risk aversion coefficient to a human-readable label.
+
+    Parameters
+    ----------
+    a_value : float
+        Risk aversion coefficient.
+
+    Returns
+    -------
+    str
+        Profile label such as 'Conservative' or 'Aggressive Growth'.
+    """
     if a_value >= 7.5:
         return "Conservative"
     if a_value >= 5.0:
@@ -224,7 +422,30 @@ def risk_profile_label(a_value: float) -> str:
     return "Aggressive Growth"
 
 
-def portfolio_metrics(weights: np.ndarray, mean_returns: pd.Series, covariance: pd.DataFrame, a_value: float) -> dict:
+def portfolio_metrics(
+    weights: np.ndarray,
+    mean_returns: pd.Series,
+    covariance: pd.DataFrame,
+    a_value: float,
+) -> dict:
+    """Compute return, variance, risk, and utility for a portfolio.
+
+    Parameters
+    ----------
+    weights : np.ndarray
+        Asset weight vector.
+    mean_returns : pd.Series
+        Expected return vector.
+    covariance : pd.DataFrame
+        Covariance matrix.
+    a_value : float
+        Risk aversion coefficient.
+
+    Returns
+    -------
+    dict
+        Keys: expected_return, variance, risk, utility.
+    """
     mu = mean_returns.values
     sigma = covariance.values
     expected_return = float(weights @ mu)
@@ -245,6 +466,24 @@ def optimize_utility(
     a_value: float,
     allow_short: bool,
 ) -> np.ndarray:
+    """Find the portfolio that maximises quadratic utility.
+
+    Parameters
+    ----------
+    mean_returns : pd.Series
+        Expected return vector.
+    covariance : pd.DataFrame
+        Covariance matrix.
+    a_value : float
+        Risk aversion coefficient.
+    allow_short : bool
+        If True, weights are unconstrained; otherwise non-negative.
+
+    Returns
+    -------
+    np.ndarray
+        Optimal weight vector.
+    """
     mu = mean_returns.values
     sigma = covariance.values
     n_assets = len(mu)
@@ -253,15 +492,20 @@ def optimize_utility(
     constraints = [{"type": "eq", "fun": lambda w: np.sum(w) - 1.0}]
 
     result = minimize(
-        lambda w: -(float(w @ mu) - 0.5 * a_value * float(w @ sigma @ w)),
+        lambda w: -(
+            float(w @ mu) - 0.5 * a_value * float(w @ sigma @ w)
+        ),
         x0=x0,
         method="SLSQP",
         bounds=bounds,
         constraints=constraints,
-        options={"ftol": 1e-12, "maxiter": 600},
+        options={"ftol": 1e-9, "maxiter": 600},
     )
     if not result.success:
-        raise RuntimeError(f"Optimization failed for A={a_value}, allow_short={allow_short}: {result.message}")
+        raise RuntimeError(
+            f"Optimization failed for A={a_value}, "
+            f"allow_short={allow_short}: {result.message}"
+        )
     return result.x
 
 
@@ -271,6 +515,24 @@ def build_portfolio_record(
     mean_returns: pd.Series,
     covariance: pd.DataFrame,
 ) -> dict:
+    """Build a full portfolio record with metrics and weights.
+
+    Parameters
+    ----------
+    a_value : float
+        Risk aversion coefficient.
+    weights : np.ndarray
+        Asset weight vector.
+    mean_returns : pd.Series
+        Expected return vector.
+    covariance : pd.DataFrame
+        Covariance matrix.
+
+    Returns
+    -------
+    dict
+        Portfolio record including risk aversion, metrics, and weights.
+    """
     metrics = portfolio_metrics(weights, mean_returns, covariance, a_value)
     return {
         "risk_aversion_a": float(a_value),
@@ -279,11 +541,23 @@ def build_portfolio_record(
         "variance": metrics["variance"],
         "risk": metrics["risk"],
         "utility": metrics["utility"],
-        "weights": {name: float(weight) for name, weight in zip(mean_returns.index, weights)},
+        "weights": weights_dict(mean_returns.index, weights),
     }
 
 
 def to_summary_frame(records: list[dict]) -> pd.DataFrame:
+    """Extract scalar metrics from portfolio records into a DataFrame.
+
+    Parameters
+    ----------
+    records : list[dict]
+        List of portfolio records.
+
+    Returns
+    -------
+    pd.DataFrame
+        Summary with one row per risk aversion level.
+    """
     return pd.DataFrame(
         [
             {
@@ -299,14 +573,49 @@ def to_summary_frame(records: list[dict]) -> pd.DataFrame:
     )
 
 
-def weights_to_frame(weights: dict[str, float], asset_statistics: pd.DataFrame) -> pd.DataFrame:
-    mapping = asset_statistics.set_index("short_name")[["fund_index", "display_name"]]
-    frame = pd.DataFrame({"short_name": list(weights.keys()), "weight": list(weights.values())})
+def weights_to_frame(
+    weights: dict[str, float],
+    asset_statistics: pd.DataFrame,
+) -> pd.DataFrame:
+    """Join a weight dictionary with fund metadata into a DataFrame.
+
+    Parameters
+    ----------
+    weights : dict[str, float]
+        Mapping of short_name to weight.
+    asset_statistics : pd.DataFrame
+        Fund statistics with fund_index and display_name columns.
+
+    Returns
+    -------
+    pd.DataFrame
+        Merged frame sorted by fund_index.
+    """
+    mapping = asset_statistics.set_index("short_name")[
+        ["fund_index", "display_name"]
+    ]
+    frame = pd.DataFrame(
+        {"short_name": list(weights.keys()),
+         "weight": list(weights.values())}
+    )
     frame = frame.join(mapping, on="short_name")
-    return frame[["fund_index", "display_name", "short_name", "weight"]].sort_values("fund_index")
+    return frame[
+        ["fund_index", "display_name", "short_name", "weight"]
+    ].sort_values("fund_index")
 
 
-def save_questionnaire_csv(questionnaire: list[dict], destination: Path) -> None:
+def save_questionnaire_csv(
+    questionnaire: list[dict], destination: Path
+) -> None:
+    """Flatten the questionnaire definition to a CSV file.
+
+    Parameters
+    ----------
+    questionnaire : list[dict]
+        Full questionnaire definition.
+    destination : Path
+        Output CSV path.
+    """
     rows = []
     for question in questionnaire:
         for option in question["options"]:
@@ -331,13 +640,41 @@ def plot_frontier_with_utility(
     short_record: dict,
     a_value: float,
 ) -> None:
-    short_frontier = pd.DataFrame(frontier_data["frontiers"]["shortSalesAllowed"])
-    long_frontier = pd.DataFrame(frontier_data["frontiers"]["longOnly"])
+    """Plot the efficient frontier with investor utility curves.
+
+    Parameters
+    ----------
+    destination : Path
+        Output PNG path.
+    frontier_data : dict
+        Pre-computed frontier JSON from Part 1.
+    asset_statistics : pd.DataFrame
+        Individual fund statistics.
+    long_record : dict
+        Long-only optimal portfolio record.
+    short_record : dict
+        Short-sales optimal portfolio record.
+    a_value : float
+        Risk aversion coefficient.
+    """
+    short_frontier = pd.DataFrame(
+        frontier_data["frontiers"]["shortSalesAllowed"]
+    )
+    long_frontier = pd.DataFrame(
+        frontier_data["frontiers"]["longOnly"]
+    )
 
     fig, axes = plt.subplots(1, 2, figsize=(15.5, 7.8))
 
-    retail_x_max = max(asset_statistics["annual_volatility"].max(), long_frontier["risk"].max()) + 0.02
-    retail_y_max = max(asset_statistics["annual_return"].max(), long_frontier["return"].max(), long_record["expected_return"]) + 0.04
+    retail_x_max = max(
+        asset_statistics["annual_volatility"].max(),
+        long_frontier["risk"].max(),
+    ) + 0.02
+    retail_y_max = max(
+        asset_statistics["annual_return"].max(),
+        long_frontier["return"].max(),
+        long_record["expected_return"],
+    ) + 0.04
 
     for ax in axes:
         ax.scatter(
@@ -358,17 +695,27 @@ def plot_frontier_with_utility(
                 weight="bold",
             )
 
-        ax.plot(short_frontier["risk"], short_frontier["return"], color="#376da3", linewidth=2.4, label="Short-sales frontier")
-        ax.plot(long_frontier["risk"], long_frontier["return"], color="#5a9d47", linewidth=2.4, linestyle="--", label="Long-only frontier")
+        ax.plot(
+            short_frontier["risk"],
+            short_frontier["return"],
+            color="#376da3", linewidth=2.4,
+            label="Short-sales frontier",
+        )
+        ax.plot(
+            long_frontier["risk"],
+            long_frontier["return"],
+            color="#5a9d47", linewidth=2.4,
+            linestyle="--", label="Long-only frontier",
+        )
         ax.scatter(
             long_record["risk"],
             long_record["expected_return"],
-            marker="*",
-            s=240,
-            color="#8f6846",
-            edgecolors="black",
-            linewidth=0.8,
-            label=f"Recommended long-only optimum (A={a_value:.2f})",
+            marker="*", s=240, color="#8f6846",
+            edgecolors="black", linewidth=0.8,
+            label=(
+                f"Recommended long-only optimum "
+                f"(A={a_value:.2f})"
+            ),
             zorder=4,
         )
         ax.xaxis.set_major_formatter(PercentFormatter(1.0))
@@ -376,115 +723,253 @@ def plot_frontier_with_utility(
         ax.grid(alpha=0.25)
         ax.set_xlabel("Annualized Volatility")
 
-    axes[0].set_title("Retail-scale view", fontsize=13, weight="bold")
+    axes[0].set_title(
+        "Retail-scale view", fontsize=13, weight="bold"
+    )
     axes[0].set_ylabel("Annualized Expected Return")
     axes[0].set_xlim(0.0, retail_x_max)
-    axes[0].set_ylim(min(asset_statistics["annual_return"].min(), 0.0) - 0.05, retail_y_max)
+    axes[0].set_ylim(
+        min(asset_statistics["annual_return"].min(), 0.0) - 0.05,
+        retail_y_max,
+    )
 
     sigma_grid_retail = np.linspace(0.0, retail_x_max, 240)
-    long_utility_curve = long_record["utility"] + 0.5 * a_value * sigma_grid_retail**2
-    axes[0].plot(sigma_grid_retail, long_utility_curve, color="#8f6846", linewidth=1.5, alpha=0.75, linestyle=":")
+    long_utility_curve = (
+        long_record["utility"]
+        + 0.5 * a_value * sigma_grid_retail**2
+    )
+    axes[0].plot(
+        sigma_grid_retail, long_utility_curve,
+        color="#8f6846", linewidth=1.5, alpha=0.75, linestyle=":",
+    )
 
-    axes[1].set_title("Full theoretical view", fontsize=13, weight="bold")
-    axes[1].set_xlim(0.0, max(short_record["risk"], short_frontier["risk"].max(), asset_statistics["annual_volatility"].max()) + 0.05)
-    axes[1].set_ylim(min(asset_statistics["annual_return"].min(), 0.0) - 0.05, short_record["expected_return"] + 0.2)
+    axes[1].set_title(
+        "Full theoretical view", fontsize=13, weight="bold"
+    )
+    axes[1].set_ylabel("Annualized Expected Return")
+    axes[1].set_xlim(
+        0.0,
+        max(
+            short_record["risk"],
+            short_frontier["risk"].max(),
+            asset_statistics["annual_volatility"].max(),
+        ) + 0.05,
+    )
+    axes[1].set_ylim(
+        min(asset_statistics["annual_return"].min(), 0.0) - 0.05,
+        short_record["expected_return"] + 0.2,
+    )
     axes[1].scatter(
         short_record["risk"],
         short_record["expected_return"],
-        marker="*",
-        s=240,
-        color="#cc3f5c",
-        edgecolors="black",
-        linewidth=0.8,
-        label=f"Theoretical short-sales optimum (A={a_value:.2f})",
+        marker="*", s=240, color="#cc3f5c",
+        edgecolors="black", linewidth=0.8,
+        label=(
+            f"Theoretical short-sales optimum "
+            f"(A={a_value:.2f})"
+        ),
         zorder=4,
     )
-    sigma_grid_full = np.linspace(0.0, axes[1].get_xlim()[1], 320)
-    short_utility_curve = short_record["utility"] + 0.5 * a_value * sigma_grid_full**2
-    axes[1].plot(sigma_grid_full, short_utility_curve, color="#cc3f5c", linewidth=1.5, alpha=0.75, linestyle=":")
+    sigma_grid_full = np.linspace(
+        0.0, axes[1].get_xlim()[1], 320
+    )
+    short_utility_curve = (
+        short_record["utility"]
+        + 0.5 * a_value * sigma_grid_full**2
+    )
+    axes[1].plot(
+        sigma_grid_full, short_utility_curve,
+        color="#cc3f5c", linewidth=1.5, alpha=0.75, linestyle=":",
+    )
 
     handles, labels = axes[1].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=3, frameon=True, bbox_to_anchor=(0.5, -0.01))
-    fig.suptitle("Utility Maximization on the Efficient Frontier", fontsize=15, weight="bold")
-    fig.savefig(destination, dpi=220, bbox_inches="tight")
+    fig.legend(
+        handles, labels, loc="lower center", ncol=3,
+        frameon=True, bbox_to_anchor=(0.5, -0.01),
+    )
+    fig.suptitle(
+        "Utility Maximization on the Efficient Frontier",
+        fontsize=15, weight="bold",
+    )
+    fig.savefig(destination, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
-def plot_portfolios_vs_risk_aversion(destination: Path, long_df: pd.DataFrame, short_df: pd.DataFrame) -> None:
+def plot_portfolios_vs_risk_aversion(
+    destination: Path,
+    long_df: pd.DataFrame,
+    short_df: pd.DataFrame,
+) -> None:
+    """Plot return, volatility, and utility vs. risk aversion.
+
+    Parameters
+    ----------
+    destination : Path
+        Output PNG path.
+    long_df : pd.DataFrame
+        Long-only summary across risk aversion grid.
+    short_df : pd.DataFrame
+        Short-sales summary across risk aversion grid.
+    """
     fig, axes = plt.subplots(3, 1, figsize=(12.5, 12), sharex=True)
 
-    axes[0].plot(long_df["risk_aversion_a"], long_df["expected_return"], color="#5a9d47", linewidth=2.3, label="Long-only")
-    axes[0].plot(short_df["risk_aversion_a"], short_df["expected_return"], color="#376da3", linewidth=2.3, label="Short sales")
+    axes[0].plot(
+        long_df["risk_aversion_a"],
+        long_df["expected_return"],
+        color="#5a9d47", linewidth=2.3, label="Long-only",
+    )
+    axes[0].plot(
+        short_df["risk_aversion_a"],
+        short_df["expected_return"],
+        color="#376da3", linewidth=2.3, label="Short sales",
+    )
     axes[0].set_ylabel("Expected Return")
     axes[0].yaxis.set_major_formatter(PercentFormatter(1.0))
     axes[0].grid(alpha=0.25)
     axes[0].legend()
 
-    axes[1].plot(long_df["risk_aversion_a"], long_df["risk"], color="#5a9d47", linewidth=2.3)
-    axes[1].plot(short_df["risk_aversion_a"], short_df["risk"], color="#376da3", linewidth=2.3)
+    axes[1].plot(
+        long_df["risk_aversion_a"], long_df["risk"],
+        color="#5a9d47", linewidth=2.3,
+    )
+    axes[1].plot(
+        short_df["risk_aversion_a"], short_df["risk"],
+        color="#376da3", linewidth=2.3,
+    )
     axes[1].set_ylabel("Volatility")
     axes[1].yaxis.set_major_formatter(PercentFormatter(1.0))
     axes[1].grid(alpha=0.25)
 
-    axes[2].plot(long_df["risk_aversion_a"], long_df["utility"], color="#5a9d47", linewidth=2.3)
-    axes[2].plot(short_df["risk_aversion_a"], short_df["utility"], color="#376da3", linewidth=2.3)
+    axes[2].plot(
+        long_df["risk_aversion_a"], long_df["utility"],
+        color="#5a9d47", linewidth=2.3,
+    )
+    axes[2].plot(
+        short_df["risk_aversion_a"], short_df["utility"],
+        color="#376da3", linewidth=2.3,
+    )
     axes[2].set_ylabel("Utility")
     axes[2].set_xlabel("Risk Aversion (A)")
     axes[2].grid(alpha=0.25)
 
-    fig.suptitle("How the Optimal Portfolio Changes with Risk Aversion", fontsize=15, weight="bold")
-    fig.savefig(destination, dpi=220, bbox_inches="tight")
+    fig.suptitle(
+        "How the Optimal Portfolio Changes with Risk Aversion",
+        fontsize=15, weight="bold",
+    )
+    fig.savefig(destination, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
-def plot_weight_comparison(destination: Path, long_record: dict, short_record: dict, asset_statistics: pd.DataFrame) -> None:
-    ordered_names = asset_statistics.sort_values("fund_index")["short_name"].tolist()
-    long_weights = [long_record["weights"][name] for name in ordered_names]
-    short_weights = [short_record["weights"][name] for name in ordered_names]
-    labels = asset_statistics.sort_values("fund_index")["fund_index"].astype(str).tolist()
+def plot_weight_comparison(
+    destination: Path,
+    long_record: dict,
+    short_record: dict,
+    asset_statistics: pd.DataFrame,
+) -> None:
+    """Bar chart comparing long-only and short-sales weights.
+
+    Parameters
+    ----------
+    destination : Path
+        Output PNG path.
+    long_record : dict
+        Long-only optimal portfolio record.
+    short_record : dict
+        Short-sales optimal portfolio record.
+    asset_statistics : pd.DataFrame
+        Fund statistics for ordering and labelling.
+    """
+    ordered_names = (
+        asset_statistics.sort_values("fund_index")["short_name"]
+        .tolist()
+    )
+    long_weights = [
+        long_record["weights"][name] for name in ordered_names
+    ]
+    short_weights = [
+        short_record["weights"][name] for name in ordered_names
+    ]
+    labels = (
+        asset_statistics.sort_values("fund_index")["fund_index"]
+        .astype(str).tolist()
+    )
 
     x = np.arange(len(labels))
     width = 0.38
 
     fig, ax = plt.subplots(figsize=(13, 6.8))
-    ax.bar(x - width / 2, long_weights, width=width, color="#8f6846", label="Recommended long-only")
-    ax.bar(x + width / 2, short_weights, width=width, color="#376da3", label="Short-sales benchmark")
+    ax.bar(
+        x - width / 2, long_weights,
+        width=width, color="#8f6846",
+        label="Recommended long-only",
+    )
+    ax.bar(
+        x + width / 2, short_weights,
+        width=width, color="#376da3",
+        label="Short-sales benchmark",
+    )
     ax.axhline(0, color="#222222", linewidth=0.8)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.yaxis.set_major_formatter(PercentFormatter(1.0))
     ax.set_xlabel("Fund Number")
     ax.set_ylabel("Portfolio Weight")
-    ax.set_title("Example Investor: Portfolio Weights by Constraint Set", fontsize=14, weight="bold")
+    ax.set_title(
+        "Example Investor: Portfolio Weights by Constraint Set",
+        fontsize=14, weight="bold",
+    )
     ax.grid(axis="y", alpha=0.25)
     ax.legend()
 
     mapping_text = "\n".join(
         f"{int(row['fund_index'])}. {row['short_name']}"
-        for _, row in asset_statistics.sort_values("fund_index").iterrows()
+        for _, row in asset_statistics.sort_values(
+            "fund_index"
+        ).iterrows()
     )
     fig.text(
-        0.84,
-        0.5,
-        mapping_text,
-        va="center",
-        ha="left",
-        fontsize=8.5,
-        bbox={"boxstyle": "round,pad=0.45", "facecolor": "#fafafa", "edgecolor": "#d0d0d0"},
+        0.84, 0.5, mapping_text,
+        va="center", ha="left", fontsize=8.5,
+        bbox={
+            "boxstyle": "round,pad=0.45",
+            "facecolor": "#fafafa",
+            "edgecolor": "#d0d0d0",
+        },
     )
     plt.subplots_adjust(right=0.8)
-    fig.savefig(destination, dpi=220, bbox_inches="tight")
+    fig.savefig(destination, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
-def plot_recommended_long_only_weights(destination: Path, long_record: dict, asset_statistics: pd.DataFrame) -> None:
+def plot_recommended_long_only_weights(
+    destination: Path,
+    long_record: dict,
+    asset_statistics: pd.DataFrame,
+) -> None:
+    """Bar chart of recommended long-only portfolio weights.
+
+    Parameters
+    ----------
+    destination : Path
+        Output PNG path.
+    long_record : dict
+        Long-only optimal portfolio record.
+    asset_statistics : pd.DataFrame
+        Fund statistics for ordering and labelling.
+    """
     frame = weights_to_frame(long_record["weights"], asset_statistics)
     fig, ax = plt.subplots(figsize=(11.5, 6.2))
-    bars = ax.bar(frame["fund_index"].astype(str), frame["weight"], color="#8f6846")
+    bars = ax.bar(
+        frame["fund_index"].astype(str),
+        frame["weight"], color="#8f6846",
+    )
     ax.set_xlabel("Fund Number")
     ax.set_ylabel("Portfolio Weight")
     ax.yaxis.set_major_formatter(PercentFormatter(1.0))
-    ax.set_title("Recommended Long-Only Portfolio Weights", fontsize=14, weight="bold")
+    ax.set_title(
+        "Recommended Long-Only Portfolio Weights",
+        fontsize=14, weight="bold",
+    )
     ax.grid(axis="y", alpha=0.25)
 
     for bar, weight in zip(bars, frame["weight"]):
@@ -493,9 +978,7 @@ def plot_recommended_long_only_weights(destination: Path, long_record: dict, ass
                 bar.get_x() + bar.get_width() / 2,
                 bar.get_height() + 0.01,
                 f"{weight * 100:.1f}%",
-                ha="center",
-                va="bottom",
-                fontsize=9,
+                ha="center", va="bottom", fontsize=9,
             )
 
     mapping_text = "\n".join(
@@ -503,49 +986,88 @@ def plot_recommended_long_only_weights(destination: Path, long_record: dict, ass
         for _, row in frame.iterrows()
     )
     fig.text(
-        0.82,
-        0.5,
-        mapping_text,
-        va="center",
-        ha="left",
-        fontsize=8.5,
-        bbox={"boxstyle": "round,pad=0.45", "facecolor": "#fafafa", "edgecolor": "#d0d0d0"},
+        0.82, 0.5, mapping_text,
+        va="center", ha="left", fontsize=8.5,
+        bbox={
+            "boxstyle": "round,pad=0.45",
+            "facecolor": "#fafafa",
+            "edgecolor": "#d0d0d0",
+        },
     )
     plt.subplots_adjust(right=0.78)
-    fig.savefig(destination, dpi=220, bbox_inches="tight")
+    fig.savefig(destination, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
 def nearest_record(records: list[dict], a_value: float) -> dict:
-    return min(records, key=lambda record: abs(record["risk_aversion_a"] - a_value))
+    """Find the record with risk aversion closest to a_value.
+
+    Parameters
+    ----------
+    records : list[dict]
+        List of portfolio records.
+    a_value : float
+        Target risk aversion coefficient.
+
+    Returns
+    -------
+    dict
+        The closest matching record.
+    """
+    return min(
+        records,
+        key=lambda record: abs(record["risk_aversion_a"] - a_value),
+    )
 
 
 def main() -> None:
+    """Entry point: profile investor, optimise portfolios, write outputs."""
+    np.random.seed(42)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     ensure_part1_outputs()
-    annual_mean, annual_covariance, frontier_data, asset_statistics = load_part1_inputs()
+    annual_mean, annual_covariance, frontier_data, asset_statistics = (
+        load_part1_inputs()
+    )
 
-    scoring = score_questionnaire(EXAMPLE_INVESTOR_SCORES, QUESTIONNAIRE)
+    scoring = score_questionnaire(
+        EXAMPLE_INVESTOR_SCORES, QUESTIONNAIRE
+    )
     example_a = scoring["risk_aversion_a"]
 
     a_grid = np.round(np.linspace(A_MIN, A_MAX, 181), 2)
     long_records = []
     short_records = []
     for a_value in a_grid:
-        long_weights = optimize_utility(annual_mean, annual_covariance, float(a_value), allow_short=False)
-        short_weights = optimize_utility(annual_mean, annual_covariance, float(a_value), allow_short=True)
-        long_records.append(build_portfolio_record(float(a_value), long_weights, annual_mean, annual_covariance))
-        short_records.append(build_portfolio_record(float(a_value), short_weights, annual_mean, annual_covariance))
+        long_w = optimize_utility(
+            annual_mean, annual_covariance,
+            float(a_value), allow_short=False,
+        )
+        short_w = optimize_utility(
+            annual_mean, annual_covariance,
+            float(a_value), allow_short=True,
+        )
+        long_records.append(build_portfolio_record(
+            float(a_value), long_w, annual_mean, annual_covariance,
+        ))
+        short_records.append(build_portfolio_record(
+            float(a_value), short_w, annual_mean, annual_covariance,
+        ))
 
     long_example = build_portfolio_record(
         example_a,
-        optimize_utility(annual_mean, annual_covariance, example_a, allow_short=False),
+        optimize_utility(
+            annual_mean, annual_covariance,
+            example_a, allow_short=False,
+        ),
         annual_mean,
         annual_covariance,
     )
     short_example = build_portfolio_record(
         example_a,
-        optimize_utility(annual_mean, annual_covariance, example_a, allow_short=True),
+        optimize_utility(
+            annual_mean, annual_covariance,
+            example_a, allow_short=True,
+        ),
         annual_mean,
         annual_covariance,
     )
@@ -553,7 +1075,11 @@ def main() -> None:
     recommended_portfolio = {
         "constraint_set": "long_only",
         "rationale": (
-            "The long-only solution is recommended for a retail robo-adviser because it avoids leverage and short-sale implementation complexity, while still maximizing the investor's quadratic utility under realistic retail constraints."
+            "The long-only solution is recommended for a retail "
+            "robo-adviser because it avoids leverage and short-sale "
+            "implementation complexity, while still maximizing the "
+            "investor's quadratic utility under realistic retail "
+            "constraints."
         ),
         "portfolio": long_example,
     }
@@ -564,7 +1090,10 @@ def main() -> None:
         "mappingFormula": {
             "weightedScoreMin": questionnaire_bounds(QUESTIONNAIRE)[0],
             "weightedScoreMax": questionnaire_bounds(QUESTIONNAIRE)[1],
-            "riskToleranceIndex": "(weighted_score - min_score) / (max_score - min_score)",
+            "riskToleranceIndex": (
+                "(weighted_score - min_score) "
+                "/ (max_score - min_score)"
+            ),
             "riskAversionA": "A = 10 - 9 * risk_tolerance_index",
         },
         "exampleInvestorScores": EXAMPLE_INVESTOR_SCORES,
@@ -574,42 +1103,56 @@ def main() -> None:
     long_summary = to_summary_frame(long_records)
     short_summary = to_summary_frame(short_records)
 
-    long_summary.to_csv(OUTPUT_DIR / "optimal_portfolios_long_only_summary.csv", index=False)
-    short_summary.to_csv(OUTPUT_DIR / "optimal_portfolios_short_sales_summary.csv", index=False)
-    weights_to_frame(long_example["weights"], asset_statistics).to_csv(
-        OUTPUT_DIR / "example_investor_weights_long_only.csv", index=False
+    # Returns are stored in decimal form, not percentage
+    long_summary.to_csv(
+        OUTPUT_DIR / "optimal_portfolios_long_only_summary.csv",
+        index=False, float_format="%.6f",
     )
-    weights_to_frame(short_example["weights"], asset_statistics).to_csv(
-        OUTPUT_DIR / "example_investor_weights_short_sales.csv", index=False
+    short_summary.to_csv(
+        OUTPUT_DIR / "optimal_portfolios_short_sales_summary.csv",
+        index=False, float_format="%.6f",
     )
-    pd.DataFrame(scoring["details"]).to_csv(OUTPUT_DIR / "example_investor_questionnaire_breakdown.csv", index=False)
-    save_questionnaire_csv(QUESTIONNAIRE, OUTPUT_DIR / "questionnaire_definition.csv")
+    weights_to_frame(
+        long_example["weights"], asset_statistics
+    ).to_csv(
+        OUTPUT_DIR / "example_investor_weights_long_only.csv",
+        index=False, float_format="%.6f",
+    )
+    weights_to_frame(
+        short_example["weights"], asset_statistics
+    ).to_csv(
+        OUTPUT_DIR / "example_investor_weights_short_sales.csv",
+        index=False, float_format="%.6f",
+    )
+    pd.DataFrame(scoring["details"]).to_csv(
+        OUTPUT_DIR / "example_investor_questionnaire_breakdown.csv",
+        index=False,
+    )
+    save_questionnaire_csv(
+        QUESTIONNAIRE, OUTPUT_DIR / "questionnaire_definition.csv"
+    )
 
     plot_frontier_with_utility(
         OUTPUT_DIR / "utility_frontier_example.png",
-        frontier_data,
-        asset_statistics,
-        long_example,
-        short_example,
-        example_a,
+        frontier_data, asset_statistics,
+        long_example, short_example, example_a,
     )
     plot_portfolios_vs_risk_aversion(
         OUTPUT_DIR / "optimal_portfolio_vs_risk_aversion.png",
-        long_summary,
-        short_summary,
+        long_summary, short_summary,
     )
     plot_weight_comparison(
         OUTPUT_DIR / "example_investor_weight_comparison.png",
-        long_example,
-        short_example,
-        asset_statistics,
+        long_example, short_example, asset_statistics,
     )
     plot_recommended_long_only_weights(
         OUTPUT_DIR / "recommended_long_only_weights.png",
-        long_example,
-        asset_statistics,
+        long_example, asset_statistics,
     )
 
+    # NOTE: JSON keys use camelCase (e.g. displayName, shortName) to
+    # match the frontend convention. Do not rename without updating
+    # the frontend consumers.
     comprehensive_payload = {
         "metadata": frontier_data["metadata"],
         "questionnaire": questionnaire_json,
@@ -628,13 +1171,25 @@ def main() -> None:
         "recommendedPortfolio": recommended_portfolio,
     }
 
-    with open(OUTPUT_DIR / "questionnaire_definition.json", "w", encoding="utf-8") as handle:
+    with open(
+        OUTPUT_DIR / "questionnaire_definition.json",
+        "w", encoding="utf-8",
+    ) as handle:
         json.dump(questionnaire_json, handle, indent=2)
-    with open(OUTPUT_DIR / "optimal_portfolios_long_only_full.json", "w", encoding="utf-8") as handle:
+    with open(
+        OUTPUT_DIR / "optimal_portfolios_long_only_full.json",
+        "w", encoding="utf-8",
+    ) as handle:
         json.dump(long_records, handle, indent=2)
-    with open(OUTPUT_DIR / "optimal_portfolios_short_sales_full.json", "w", encoding="utf-8") as handle:
+    with open(
+        OUTPUT_DIR / "optimal_portfolios_short_sales_full.json",
+        "w", encoding="utf-8",
+    ) as handle:
         json.dump(short_records, handle, indent=2)
-    with open(OUTPUT_DIR / "part2_risk_profile_data.json", "w", encoding="utf-8") as handle:
+    with open(
+        OUTPUT_DIR / "part2_risk_profile_data.json",
+        "w", encoding="utf-8",
+    ) as handle:
         json.dump(comprehensive_payload, handle, indent=2)
 
 

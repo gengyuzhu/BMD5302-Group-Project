@@ -52,8 +52,12 @@ export function displayRiskTone(aValue) {
 
 export function scoreAnswers(answers, questionnaire) {
   const bounds = questionnaireBounds(questionnaire);
+  const validAnswers = questionnaire.every(q => answers[q.id] != null);
+  if (!validAnswers) {
+    console.warn("scoreAnswers: Some answers are missing, defaulting to 0");
+  }
   const weightedScore = questionnaire.reduce(
-    (sum, question) => sum + question.weight * Number(answers[question.id]),
+    (sum, question) => sum + question.weight * Number(answers[question.id] ?? 0),
     0,
   );
   const riskToleranceIndex = (weightedScore - bounds.min) / (bounds.max - bounds.min);
